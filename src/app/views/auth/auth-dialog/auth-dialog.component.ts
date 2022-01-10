@@ -10,7 +10,7 @@ import { AuthDialogUserDecision } from '../../../core/models/auth/auth-dialog-us
  * Authentication dialog component that is displayed to the user when they are inactive or session has expired.
  */
 @Component({
-	selector: 'odm-auth-dialog',
+	selector: 'ldsly-auth-dialog',
 	templateUrl: './auth-dialog.component.html',
 	styleUrls: ['./auth-dialog.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

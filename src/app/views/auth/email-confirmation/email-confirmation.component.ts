@@ -1,15 +1,15 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { ODM_BIG_SPINNER_DIAMETER, ODM_BIG_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { downUpFadeInAnimation } from 'app/core/core.module';
 import { LogService } from 'app/core/logger/log.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_BIG_SPINNER_DIAMETER, LDSLY_BIG_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
  * Email confirmation component.
  */
 @Component({
-	selector: 'odm-email-confirmation',
+	selector: 'ldsly-email-confirmation',
 	templateUrl: './email-confirmation.component.html',
 	styleUrls: ['./email-confirmation.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -57,17 +57,17 @@ export class EmailConfirmationComponent {
 	/**
 	 * Email confirmation in progres spinner diameter.
 	 */
-	_emailConfirmationInProgresSpinnerDiameter = ODM_BIG_SPINNER_DIAMETER;
+	_emailConfirmationInProgresSpinnerDiameter = LDSLY_BIG_SPINNER_DIAMETER;
 
 	/**
 	 * Email confirmation in progres stroke width.
 	 */
-	_emailConfirmationInProgresStrokeWidth = ODM_BIG_SPINNER_STROKE_WIDTH;
+	_emailConfirmationInProgresStrokeWidth = LDSLY_BIG_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Width of the div that the spinner is displayed in.
 	 */
-	_spinnerWidthCss = `${ODM_BIG_SPINNER_DIAMETER}px`;
+	_spinnerWidthCss = `${LDSLY_BIG_SPINNER_DIAMETER}px`;
 
 	/**
 	 * Creates an instance of email confirmation component.

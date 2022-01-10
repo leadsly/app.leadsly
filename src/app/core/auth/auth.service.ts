@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { AuthAsyncService } from 'app/core/auth/auth-async.service';
-import { tap, map, switchMap, takeUntil, take, catchError, startWith } from 'rxjs/operators';
-import * as Auth from './auth.store.actions';
-import { LogService } from 'app/core/logger/log.service';
-import { Store, Actions, ofActionCompleted } from '@ngxs/store';
-import { JsonWebTokenService } from 'app/core/auth/json-web-token.service';
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
-import { AuthDialogComponent } from '../../views/auth/auth-dialog/auth-dialog.component';
-import { AuthState } from 'app/core/auth/auth.store.state';
-import { Observable, of, timer, race, interval } from 'rxjs';
-import { AuthDialogUserDecision } from '../models/auth/auth-dialog-user-decision.enum';
-import { fromUnixTime } from 'date-fns';
-import { UserSessionActivityService } from '../user-session-activity/user-session-activity.service';
-import { AuthDialogData } from '../models/auth/auth-dialog-data.model';
-import { AccessToken } from '../models/auth/access-token.model';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { Actions, ofActionCompleted, Store } from '@ngxs/store';
+import { AuthAsyncService } from 'app/core/auth/auth-async.service';
+import { AuthState } from 'app/core/auth/auth.store.state';
+import { JsonWebTokenService } from 'app/core/auth/json-web-token.service';
+import { LogService } from 'app/core/logger/log.service';
+import { LDSLY_SNACKBAR_DURATION_DEFAULT, LDSLY_SNACKBAR_DURATION_ERROR } from 'app/shared/global-settings/mat-snackbar-settings';
+import { TranslateHelperService } from 'app/shared/services/translate-helper.service';
+import { fromUnixTime } from 'date-fns';
+import { interval, Observable, of, race, timer } from 'rxjs';
+import { catchError, map, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import AppConfiguration from '../../../assets/app.config.json';
+import { AuthDialogComponent } from '../../views/auth/auth-dialog/auth-dialog.component';
 import { NotificationService } from '../core.module';
 import { AppConfig } from '../models/app-config.model';
-import { ODM_SNACKBAR_DURATION_DEFAULT, ODM_SNACKBAR_DURATION_ERROR } from 'app/shared/global-settings/mat-snackbar-settings';
+import { AccessToken } from '../models/auth/access-token.model';
+import { AuthDialogData } from '../models/auth/auth-dialog-data.model';
+import { AuthDialogUserDecision } from '../models/auth/auth-dialog-user-decision.enum';
 import { InitSessionResult } from '../models/auth/init-session-result.model';
-import { TranslateHelperService } from 'app/shared/services/translate-helper.service';
 import { InternalServerErrorDetails } from '../models/internal-server-error-details.model';
+import { UserSessionActivityService } from '../user-session-activity/user-session-activity.service';
+import * as Auth from './auth.store.actions';
 
 /**
  * Authentication service, responsible for handling user session.
@@ -330,7 +330,7 @@ export class AuthService {
 	 */
 	private _handleSessionInactivity$(): Observable<any> {
 		this._log.trace('_handleSessionInactivity$ executed.', this);
-		return this._translationService.get('odm.auth.session.inactive').pipe(
+		return this._translationService.get('ldsly.auth.session.inactive').pipe(
 			switchMap((message: string) => {
 				this._log.trace('[_handleSessionInactivity$]: Auth dialog message translated. Proceeding to display dialog prompt.', this);
 				(this._authDialogConfig.data as AuthDialogData).message = message;
@@ -345,7 +345,7 @@ export class AuthService {
 	 */
 	private _handleSessionHasEnded$(): Observable<any> {
 		this._log.trace('_handleSessionHasEnded$ executed.', this);
-		return this._translationService.get('odm.auth.session.expired').pipe(
+		return this._translationService.get('ldsly.auth.session.expired').pipe(
 			switchMap((message: string) => {
 				this._log.trace('[_handleSessionHasEnded$]: Auth dialog message translated. Proceeding to display dialog prompt.', this);
 				(this._authDialogConfig.data as AuthDialogData).message = message;
@@ -368,7 +368,7 @@ export class AuthService {
 			// if renewing of the access token fails.
 			catchError((err) => {
 				this._log.error('[_tryRenewAccessToken$]: Failed to refresh access token. Signing user out.', this);
-				return this._errorToastMessage$('odm.auth.session.failed-to-renew').pipe(
+				return this._errorToastMessage$('ldsly.auth.session.failed-to-renew').pipe(
 					switchMap(() => {
 						if ((err as InternalServerErrorDetails)?.status !== 504) {
 							this._log.debug('[_tryRenewAccessToken$]: Error status code !== 504. It is:', this, (err as InternalServerErrorDetails)?.status);
@@ -376,7 +376,9 @@ export class AuthService {
 								// if signing user out fails on the server, sign them out of the app anyway.
 								catchError(() => {
 									this._log.error('[_tryRenewAccessToken$]: Error occured signing user out.', this);
-									return this._store.dispatch(new Auth.Signout()).pipe(switchMap(() => this._errorToastMessage$('odm.auth.session.failed-to-renew')));
+									return this._store
+										.dispatch(new Auth.Signout())
+										.pipe(switchMap(() => this._errorToastMessage$('ldsly.auth.session.failed-to-renew')));
 								})
 							);
 						}
@@ -404,11 +406,11 @@ export class AuthService {
 			userTookNoActions$.pipe(
 				switchMap(() => {
 					this._log.debug('[_getDialogTimeoutStream$]: Notifying user about inactive session.', this);
-					return this._infoToastMessage$('odm.auth.session.inactive-toast-message');
+					return this._infoToastMessage$('ldsly.auth.session.inactive-toast-message');
 				}),
 				catchError(() => {
 					this._log.error('`User took no actions` stream encountered an error. Closing auth dialog and notifying user.', this);
-					return this._infoToastMessage$('odm.auth.session.inactive-toast-message', true);
+					return this._infoToastMessage$('ldsly.auth.session.inactive-toast-message', true);
 				})
 			)
 		);
@@ -580,10 +582,10 @@ export class AuthService {
 			this._log.debug(
 				'[_infoToastMessage$] Delay is configured. Timeout until toast message is displayed is set to:',
 				this,
-				ODM_SNACKBAR_DURATION_DEFAULT
+				LDSLY_SNACKBAR_DURATION_DEFAULT
 			);
 
-			return interval(ODM_SNACKBAR_DURATION_DEFAULT).pipe(
+			return interval(LDSLY_SNACKBAR_DURATION_DEFAULT).pipe(
 				take(1),
 				switchMap(() => this._notificationService.infoWithBtn$(key))
 			);
@@ -599,12 +601,12 @@ export class AuthService {
 	 */
 	private _errorToastMessage$(key: string): Observable<any> {
 		this._log.trace('_errorToastMessage$ executed.', this);
-		this._log.debug('[_errorToastMessage$] Timeout until toast message is displayed is set to:', this, ODM_SNACKBAR_DURATION_ERROR);
+		this._log.debug('[_errorToastMessage$] Timeout until toast message is displayed is set to:', this, LDSLY_SNACKBAR_DURATION_ERROR);
 		if (this._translationHelperService.hasTranslation(key) === false) {
 			this._log.warn('[_errorToastMessage$] Provided translation key could not be found.');
 		}
 
-		return interval(ODM_SNACKBAR_DURATION_ERROR).pipe(
+		return interval(LDSLY_SNACKBAR_DURATION_ERROR).pipe(
 			take(1),
 			switchMap(() => this._notificationService.errorWithBtn$(key))
 		);

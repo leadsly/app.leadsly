@@ -1,6 +1,6 @@
 <div class="setup-wizard-overlay"></div>
 <div>
-	<odm-two-factor-authentication-setup-wizard
+	<ldsly-two-factor-authentication-setup-wizard
 		[verificationCodeForm]="_verificationCodeForm"
 		[twoFactorAuthenticationSetupResult]="_authenticatorSetupResult$ | async"
 		[twoFactorAuthenticationSetup]="_authenticatorSetup$ | async"
@@ -11,5 +11,5 @@
 		(cancelSetupWizardClicked)="_onCancelSetupWizardClicked()"
 		(finish2faSetupClicked)="_onFinish2faSetupClicked($event)"
 	>
-	</odm-two-factor-authentication-setup-wizard>
+	</ldsly-two-factor-authentication-setup-wizard>
 </div>

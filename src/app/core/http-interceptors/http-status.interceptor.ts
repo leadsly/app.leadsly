@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, NEVER, throwError } from 'rxjs';
+import { NEVER, Observable, throwError } from 'rxjs';
 import { ServerErrorService } from '../error-handler/server-error.service';
-import { catchError } from 'rxjs/operators';
-import { ProblemDetails } from '../models/problem-details.model';
-import { InternalServerErrorDetails } from '../models/internal-server-error-details.model';
-import { implementsOdmWebApiException } from '../utilities/implements-odm-web-api-exception';
 import { LogService } from '../logger/log.service';
+import { InternalServerErrorDetails } from '../models/internal-server-error-details.model';
+import { ProblemDetails } from '../models/problem-details.model';
+import { implementsLdslyWebApiException } from '../utilities/implements-ldsly-web-api-exception';
 
 /**
  * Http status interceptor. Controls if ProblemDetails or InternalServerErrorDetails emit errors.
@@ -59,8 +58,8 @@ export class HttpStatusInterceptor implements HttpInterceptor {
 			case 500: {
 				this._log.debug('[_handleError$]: `500` case executed.', this);
 				const internalServerError = e.error as InternalServerErrorDetails;
-				// if this is OdmApiException it implements same interface as problem details
-				if (implementsOdmWebApiException(internalServerError)) {
+				// if this is LdslyApiException it implements same interface as problem details
+				if (implementsLdslyWebApiException(internalServerError)) {
 					this._serverErrorService.internalServerErrorDetails = e.error as InternalServerErrorDetails;
 
 					// internal server error cannot return NEVER because of issues getting reference to

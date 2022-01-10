@@ -5,7 +5,7 @@ import { routeAnimations } from 'app/core/core.module';
  * User's account component. Houses all user specific settings.
  */
 @Component({
-	selector: 'odm-account',
+	selector: 'ldsly-account',
 	templateUrl: './account.component.html',
 	styleUrls: ['./account.component.scss'],
 	animations: [routeAnimations],

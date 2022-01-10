@@ -6,7 +6,7 @@ import { Feature, features } from '../feature-list.data';
  * Feature list component.
  */
 @Component({
-	selector: 'odm-feature-list',
+	selector: 'ldsly-feature-list',
 	templateUrl: './feature-list.component.html',
 	styleUrls: ['./feature-list.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

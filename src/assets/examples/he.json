@@ -1,9 +1,9 @@
 {
-	"odm.examples.menu.auth": "אימות",
-	"odm.examples.menu.crud": "קראד",
-	"odm.examples.menu.form": "טופס",
-	"odm.examples.menu.notifications": "התראות",
-	"odm.examples.menu.stocks": "מניות",
-	"odm.examples.menu.theming": "ערכות נושא",
-	"odm.examples.menu.todos": "רשימות"
+	"ldsly.examples.menu.auth": "אימות",
+	"ldsly.examples.menu.crud": "קראד",
+	"ldsly.examples.menu.form": "טופס",
+	"ldsly.examples.menu.notifications": "התראות",
+	"ldsly.examples.menu.stocks": "מניות",
+	"ldsly.examples.menu.theming": "ערכות נושא",
+	"ldsly.examples.menu.todos": "רשימות"
 }

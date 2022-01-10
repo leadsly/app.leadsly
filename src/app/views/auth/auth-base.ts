@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { LogService } from '../../core/logger/log.service';
 import { InternalServerErrorDetails } from '../../core/models/internal-server-error-details.model';
 import { ProblemDetails } from '../../core/models/problem-details.model';
-import { implementsOdmWebApiException } from '../../core/utilities/implements-odm-web-api-exception';
+import { implementsLdslyWebApiException } from '../../core/utilities/implements-ldsly-web-api-exception';
 import { TranslateValidationErrorsService } from '../../shared/services/translate-validation-errors.service';
 
 /**
@@ -54,8 +54,8 @@ export class AuthBase {
 	/**
 	 * Checks if internal server error implements problem details
 	 */
-	private get _doesInternalServerErrorImplementOdmWebApiException(): boolean {
-		return implementsOdmWebApiException(this._internalServerErrorDetails);
+	private get _doesInternalServerErrorImplementLdslyWebApiException(): boolean {
+		return implementsLdslyWebApiException(this._internalServerErrorDetails);
 	}
 
 	/**
@@ -245,7 +245,7 @@ export class AuthBase {
 	 */
 	private _getInternalServerErrorMessage(): string {
 		let errorDescription = '';
-		if (this._doesInternalServerErrorImplementOdmWebApiException) {
+		if (this._doesInternalServerErrorImplementLdslyWebApiException) {
 			errorDescription = this._internalServerErrorDetails.detail;
 		} else {
 			errorDescription = this._internalServerErrorDetails.message;

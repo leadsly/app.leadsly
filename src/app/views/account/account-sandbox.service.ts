@@ -54,9 +54,8 @@ export class AccountSandboxService {
 	/**
 	 * Selects authenticator setup result model.
 	 */
-	@Select(TwoFactorAuthenticationState.selectAuthenticatorSetupResult) twoFactorAuthenticationSetupResult$: Observable<
-		TwoFactorAuthenticationSetupResult
-	>;
+	@Select(TwoFactorAuthenticationState.selectAuthenticatorSetupResult)
+	twoFactorAuthenticationSetupResult$: Observable<TwoFactorAuthenticationSetupResult>;
 
 	/**
 	 * Select users general details.
@@ -207,7 +206,7 @@ export class AccountSandboxService {
 		this._userAsyncService
 			.resendEmailVerification$(id)
 			.pipe(
-				switchMap(() => this._translationService.get('odm.account.general.resend-verification-toast')),
+				switchMap(() => this._translationService.get('ldsly.account.general.resend-verification-toast')),
 				tap((message: string) => {
 					this._notificationService.info(message);
 				})
@@ -224,7 +223,7 @@ export class AccountSandboxService {
 		this._userAsyncService
 			.changePassword$(id, model)
 			.pipe(
-				switchMap(() => this._translationService.get('odm.account.security.change-password.success')),
+				switchMap(() => this._translationService.get('ldsly.account.security.change-password.success')),
 				tap((message: string) => {
 					this.passwordChangeCompleted({ passwordChangeCompleted: true });
 					this._notificationService.success(message);
@@ -250,7 +249,7 @@ export class AccountSandboxService {
 		this._userAsyncService
 			.requestToChangeEmail$(id, model)
 			.pipe(
-				switchMap(() => this._translationService.get('odm.account.general.email.change.request-sent')),
+				switchMap(() => this._translationService.get('ldsly.account.general.email.change.request-sent')),
 				tap((message: string) => {
 					this.changeEmailRequestSent({ changeEmailRequestSent: true });
 					this._notificationService.infoWithBtn(message);

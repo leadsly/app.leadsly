@@ -1,9 +1,9 @@
 {
-	"odm.examples.menu.auth": "Autenticación",
-	"odm.examples.menu.crud": "CRUD",
-	"odm.examples.menu.form": "Formar",
-	"odm.examples.menu.notifications": "Notificaciones",
-	"odm.examples.menu.stocks": "Acciones",
-	"odm.examples.menu.theming": "Tematización",
-	"odm.examples.menu.todos": "Recordatorios"
+	"ldsly.examples.menu.auth": "Autenticación",
+	"ldsly.examples.menu.crud": "CRUD",
+	"ldsly.examples.menu.form": "Formar",
+	"ldsly.examples.menu.notifications": "Notificaciones",
+	"ldsly.examples.menu.stocks": "Acciones",
+	"ldsly.examples.menu.theming": "Tematización",
+	"ldsly.examples.menu.todos": "Recordatorios"
 }

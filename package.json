@@ -1,5 +1,5 @@
 {
-  "name": "odiam-ngxs-material-starter",
+  "name": "leadsly-ngxs-material-starter",
   "version": "13.1.11",
   "license": "MIT",
   "browser": {
@@ -18,14 +18,14 @@
     "e2e": "ng e2e",
     "format:write": "prettier **/*.{ts,json,md,scss} --write",
     "format:test": "prettier **/*.{ts,json,md,scss} --list-different",
-    "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/odiam-ngxs-material-starter/stats.json",
+    "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/leadsly-ngxs-material-starter/stats.json",
     "eslint": "eslint src/**/*.ts --fix",
-    "dev:ssr": "ng run odiam-ngxs-material-starter:serve-ssr",
-    "build:ssr": "npm run hash:i18n && ng build && ng run odiam-ngxs-material-starter:server",
-    "serve:ssr": "node dist/odiam-ngxs-material-starter/server/main.js",
+    "dev:ssr": "ng run leadsly-ngxs-material-starter:serve-ssr",
+    "build:ssr": "npm run hash:i18n && ng build && ng run leadsly-ngxs-material-starter:server",
+    "serve:ssr": "node dist/leadsly-ngxs-material-starter/server/main.js",
     "start:ssr": "npm build:ssr && npm serve:ssr",
-    "build:ssr:prod": "npm run hash:i18n && npm run build:prod && ng run odiam-ngxs-material-starter:server",
-    "prerender": "ng run odiam-ngxs-material-starter:prerender",
+    "build:ssr:prod": "npm run hash:i18n && npm run build:prod && ng run leadsly-ngxs-material-starter:server",
+    "prerender": "ng run leadsly-ngxs-material-starter:prerender",
     "hash:i18n": "node scripts/hash-translations.js"
   },
   "husky": {

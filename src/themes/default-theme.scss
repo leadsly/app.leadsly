@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-$odm-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
-$odm-accent: mat.define-palette(mat.$light-blue-palette);
-$odm-warn: mat.define-palette(mat.$pink-palette, 600);
+$ldsly-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
+$ldsly-accent: mat.define-palette(mat.$light-blue-palette);
+$ldsly-warn: mat.define-palette(mat.$pink-palette, 600);
 
-$odm-theme: mat.define-light-theme($odm-primary, $odm-accent, $odm-warn);
+$ldsly-theme: mat.define-light-theme($ldsly-primary, $ldsly-accent, $ldsly-warn);

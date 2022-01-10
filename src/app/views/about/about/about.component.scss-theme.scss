@@ -1,13 +1,13 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-about-component-theme($theme) {
+@mixin ldsly-about-component-theme($theme) {
 	$primary: map-get($theme, primary);
 	$accent: map-get($theme, accent);
 	$foreground: map-get($theme, foreground);
 	$background: map-get($theme, background);
 
-	odm-about {
+	ldsly-about {
 		.background {
 			color: mat.get-color-from-palette($foreground, text);
 			background-color: mat.get-color-from-palette($background, background);

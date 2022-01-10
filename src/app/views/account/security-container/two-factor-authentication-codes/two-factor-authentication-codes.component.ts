@@ -1,18 +1,17 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { TooltipTouchGestures } from '@angular/material/tooltip';
-import { ODM_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
-
 import { downUpFadeInAnimation } from 'app/core/core.module';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { LogService } from 'app/core/logger/log.service';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { LDSLY_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
 
 /**
  * Two factor authentication codes component.
  */
 @Component({
-	selector: 'odm-two-factor-authentication-codes',
+	selector: 'ldsly-two-factor-authentication-codes',
 	templateUrl: './two-factor-authentication-codes.component.html',
 	styleUrls: ['./two-factor-authentication-codes.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -64,17 +63,17 @@ export class TwoFactorAuthenticationCodesComponent {
 	/**
 	 * Delay in ms for toolip.
 	 */
-	readonly _showDelayInMs = ODM_TOOLTIP_SHOW_DELAY_IN_MS;
+	readonly _showDelayInMs = LDSLY_TOOLTIP_SHOW_DELAY_IN_MS;
 
 	/**
 	 * Generating recovery codes spinner diameter.
 	 */
-	readonly _generatingCodesSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _generatingCodesSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Generating recovery codes spinner stroke width.
 	 */
-	readonly _generatingCodesSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _generatingCodesSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of two factor authentication codes component.

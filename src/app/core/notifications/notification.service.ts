@@ -1,11 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import {
-	ODM_SNACKBAR_DURATION_DEFAULT,
-	ODM_SNACKBAR_DURATION_WARN,
-	ODM_SNACKBAR_DURATION_ERROR
-} from 'app/shared/global-settings/mat-snackbar-settings';
 import { TranslateService } from '@ngx-translate/core';
+import {
+	LDSLY_SNACKBAR_DURATION_DEFAULT,
+	LDSLY_SNACKBAR_DURATION_ERROR,
+	LDSLY_SNACKBAR_DURATION_WARN
+} from 'app/shared/global-settings/mat-snackbar-settings';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -19,17 +19,17 @@ export class NotificationService {
 	/**
 	 * Default duration of notification service.
 	 */
-	private readonly _defaultDuration = ODM_SNACKBAR_DURATION_DEFAULT;
+	private readonly _defaultDuration = LDSLY_SNACKBAR_DURATION_DEFAULT;
 
 	/**
 	 * Warn duration of notification service.
 	 */
-	private readonly _warnDuration = ODM_SNACKBAR_DURATION_WARN;
+	private readonly _warnDuration = LDSLY_SNACKBAR_DURATION_WARN;
 
 	/**
 	 * Error duration of notification service.
 	 */
-	private readonly _errorDuration = ODM_SNACKBAR_DURATION_ERROR;
+	private readonly _errorDuration = LDSLY_SNACKBAR_DURATION_ERROR;
 
 	/**
 	 * Creates an instance of notification service.

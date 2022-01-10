@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-auth-container-component-theme($theme) {
+@mixin ldsly-auth-container-component-theme($theme) {
 	$primary: map-get($theme, primary);
 	$accent: map-get($theme, accent);
 	$warn: map-get($theme, warn);
@@ -9,10 +9,10 @@
 	$foreground: map-get($theme, foreground);
 	$is-dark-theme: map-get($theme, is-dark);
 
-	odm-sign-in-container odm-sign-in,
-	odm-sign-up-container odm-sign-up,
-	odm-two-step-verification,
-	odm-reset-password {
+	ldsly-sign-in-container ldsly-sign-in,
+	ldsly-sign-up-container ldsly-sign-up,
+	ldsly-two-step-verification,
+	ldsly-reset-password {
 		h3 {
 			background-image: linear-gradient(to right, mat.get-color-from-palette($accent, A400), mat.get-color-from-palette($primary, 700));
 		}

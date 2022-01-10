@@ -14,7 +14,7 @@
 
 @import 'styles-reset.scss-theme';
 @import './app/app/app.component.scss-theme';
-@import './app/shared/components/odm-ghost-block/odm-ghost.scss-theme';
+@import './app/shared/components/ldsly-ghost-block/ldsly-ghost.scss-theme';
 @import './app/shared/components/password-help/password-help.component.scss-theme.scss';
 @import './app/views/about/about/about.component.scss-theme';
 @import './app/views/examples/examples/examples.component.scss-theme';
@@ -29,41 +29,41 @@
 @import './app/views/account/general-container/general-container.scss-theme.scss';
 
 @mixin custom-components-theme($theme) {
-	@include odm-styles-reset-theme($theme);
-	@include odm-app-component-theme($theme);
-	@include odm-about-component-theme($theme);
-	@include odm-examples-component-theme($theme);
-	@include odm-ghost-theme;
-	@include odm-auth-container-component-theme($theme);
-	@include odm-password-help-component-theme($theme);
-	@include odm-password-settings-component-theme($theme);
-	@include odm-change-password-component-theme($theme);
-	@include odm-change-email-component-theme($theme);
-	@include odm-two-factor-authentication-component-theme($theme);
-	@include odm-personal-email-verification-component-theme($theme);
-	@include odm-general-container-component-theme($theme);
-	@include odm-email-settings-component-theme($theme);
-	@include odm-security-container-component-theme($theme);
+	@include ldsly-styles-reset-theme($theme);
+	@include ldsly-app-component-theme($theme);
+	@include ldsly-about-component-theme($theme);
+	@include ldsly-examples-component-theme($theme);
+	@include ldsly-ghost-theme;
+	@include ldsly-auth-container-component-theme($theme);
+	@include ldsly-password-help-component-theme($theme);
+	@include ldsly-password-settings-component-theme($theme);
+	@include ldsly-change-password-component-theme($theme);
+	@include ldsly-change-email-component-theme($theme);
+	@include ldsly-two-factor-authentication-component-theme($theme);
+	@include ldsly-personal-email-verification-component-theme($theme);
+	@include ldsly-general-container-component-theme($theme);
+	@include ldsly-email-settings-component-theme($theme);
+	@include ldsly-security-container-component-theme($theme);
 }
 
 .default-theme {
-	@include mat.all-component-themes($odm-theme);
-	@include custom-components-theme($odm-theme);
+	@include mat.all-component-themes($ldsly-theme);
+	@include custom-components-theme($ldsly-theme);
 }
 
 .light-theme {
-	@include mat.all-component-themes($odm-light-theme);
-	@include custom-components-theme($odm-light-theme);
+	@include mat.all-component-themes($ldsly-light-theme);
+	@include custom-components-theme($ldsly-light-theme);
 }
 
 .black-theme {
-	@include mat.all-component-themes($odm-black-theme);
-	@include custom-components-theme($odm-black-theme);
+	@include mat.all-component-themes($ldsly-black-theme);
+	@include custom-components-theme($ldsly-black-theme);
 }
 
 .nature-theme {
-	@include mat.all-component-themes($odm-nature-theme);
-	@include custom-components-theme($odm-nature-theme);
+	@include mat.all-component-themes($ldsly-nature-theme);
+	@include custom-components-theme($ldsly-nature-theme);
 }
 
 // GLOBAL STYLES

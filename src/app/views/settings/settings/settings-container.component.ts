@@ -11,7 +11,7 @@ import { SettingsSandboxService } from '../settings-sandbox.service';
  * Component that contains the settings view.
  */
 @Component({
-	selector: 'odm-settings',
+	selector: 'ldsly-settings',
 	templateUrl: './settings-container.component.html',
 	styleUrls: ['./settings-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

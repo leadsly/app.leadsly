@@ -1,17 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { OdmGhostAnimationService } from 'app/shared/services/odm-ghost-animation.service';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
+import { LdslyGhostAnimationService } from 'app/shared/services/ldsly-ghost-animation.service';
 
 /**
  * Ghosting component.
  */
 @Component({
-	selector: 'odm-ghost-block',
-	templateUrl: './odm-ghost-block.component.html',
-	styleUrls: ['./odm-ghost-block.component.scss'],
+	selector: 'ldsly-ghost-block',
+	templateUrl: './ldsly-ghost-block.component.html',
+	styleUrls: ['./ldsly-ghost-block.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OdmGhostBlockComponent implements OnInit {
+export class LdslyGhostBlockComponent implements OnInit {
 	/**
 	 * Host binding of ghost block component indicating busy state.
 	 */
@@ -22,7 +22,7 @@ export class OdmGhostBlockComponent implements OnInit {
 	 * @param _ghostAnimationService
 	 * @param _log
 	 */
-	constructor(private _ghostAnimationService: OdmGhostAnimationService, private _log: LogService) {}
+	constructor(private _ghostAnimationService: LdslyGhostAnimationService, private _log: LogService) {}
 
 	/**
 	 * NgOnInit life cycle.

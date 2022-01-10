@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-general-container-component-theme($theme) {
+@mixin ldsly-general-container-component-theme($theme) {
 	$warn: map-get($theme, warn);
 
 	.account-general__req-not-met {

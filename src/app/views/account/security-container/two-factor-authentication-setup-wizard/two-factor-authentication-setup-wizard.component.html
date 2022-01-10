@@ -2,19 +2,19 @@
 	<div class="setup-wizard">
 		<mat-vertical-stepper [linear]="_stepperIsLinear" #stepper>
 			<mat-step [editable]="_stepper2faSetupEditable" [completed]="_is2faSetupCompleted">
-				<ng-template matStepLabel>{{ 'odm.account.security.two-step.setup-wizard.first-step.title' | translate }}</ng-template>
+				<ng-template matStepLabel>{{ 'ldsly.account.security.two-step.setup-wizard.first-step.title' | translate }}</ng-template>
 				<p>
-					{{ 'odm.account.security.two-step.setup-wizard.first-step.instructions.qr-code' | translate }}
+					{{ 'ldsly.account.security.two-step.setup-wizard.first-step.instructions.qr-code' | translate }}
 				</p>
 				<h3>{{ _twoFactorAuthenticationSetup?.sharedKey }}</h3>
 				<div>
 					<qr-code [value]="_twoFactorAuthenticationSetup?.authenticatorUri" [size]="_qrBarCodeWidth" [errorCorrectionLevel]="'M'"></qr-code>
 				</div>
 				<p>
-					{{ 'odm.account.security.two-step.setup-wizard.first-step.instructions.verification-code' | translate }}
+					{{ 'ldsly.account.security.two-step.setup-wizard.first-step.instructions.verification-code' | translate }}
 				</p>
 				<div class="setup-wizard__verification-form">
-					<odm-verification-code
+					<ldsly-verification-code
 						[form]="verificationCodeForm"
 						[codeVerificationInProgress]="codeVerificationInProgress"
 						[codeVerificationSucceeded]="_codeVerificationSucceeded"
@@ -23,15 +23,15 @@
 						(verificationCodeSubmitted)="_onVerificationCodeSubmitted($event)"
 						(cancelSetupWizardClicked)="_onCancelClicked()"
 					>
-					</odm-verification-code>
+					</ldsly-verification-code>
 				</div>
 			</mat-step>
 			<mat-step>
 				<div class="setup-wizard__final-step">
-					<ng-template matStepLabel>{{ 'odm.account.security.two-step.setup-wizard.last-step.title' | translate }}</ng-template>
-					<h3>{{ 'odm.account.security.two-step.setup-wizard.last-step.header' | translate }}</h3>
-					<p>{{ 'odm.account.security.two-step.setup-wizard.last-step.information' | translate }}</p>
-					<p>{{ 'odm.account.security.two-step.setup-wizard.last-step.save-codes' | translate }}</p>
+					<ng-template matStepLabel>{{ 'ldsly.account.security.two-step.setup-wizard.last-step.title' | translate }}</ng-template>
+					<h3>{{ 'ldsly.account.security.two-step.setup-wizard.last-step.header' | translate }}</h3>
+					<p>{{ 'ldsly.account.security.two-step.setup-wizard.last-step.information' | translate }}</p>
+					<p>{{ 'ldsly.account.security.two-step.setup-wizard.last-step.save-codes' | translate }}</p>
 					<div>
 						<ol class="setup-wizard__format-codes">
 							<li *ngFor="let code of _twoFactorAuthenticationSetupResult?.recoveryCodes?.items">{{ code }}</li>
@@ -39,7 +39,7 @@
 					</div>
 					<div>
 						<button mat-button mat-stroked-button (click)="_onFinishSetup()" color="accent">
-							{{ 'odm.buttons.finish' | translate }}
+							{{ 'ldsly.buttons.finish' | translate }}
 						</button>
 					</div>
 				</div>

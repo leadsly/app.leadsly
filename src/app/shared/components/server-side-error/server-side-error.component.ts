@@ -1,16 +1,16 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { LogService } from 'app/core/logger/log.service';
-import { Observable, of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { upDownFadeInAnimation } from 'app/core/core.module';
-import { ODM_GLOBAL_ERROR_FONT_SIZE } from 'app/shared/global-settings/global-settings';
+import { LogService } from 'app/core/logger/log.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_GLOBAL_ERROR_FONT_SIZE } from 'app/shared/global-settings/global-settings';
+import { Observable, of } from 'rxjs';
 
 /**
  * Server side error component that handles displaying server side errors.
  */
 @Component({
-	selector: 'odm-server-side-error',
+	selector: 'ldsly-server-side-error',
 	templateUrl: './server-side-error.component.html',
 	styleUrls: ['./server-side-error.component.scss'],
 	animations: [upDownFadeInAnimation],
@@ -45,10 +45,10 @@ export class ServerSideErrorComponent implements OnInit {
 	/**
 	 * Error font size for server errors.
 	 */
-	readonly _errorFontSize = ODM_GLOBAL_ERROR_FONT_SIZE;
+	readonly _errorFontSize = LDSLY_GLOBAL_ERROR_FONT_SIZE;
 
 	/**
-	 * Creates an instance of odm server side error component.
+	 * Creates an instance of ldsly server side error component.
 	 * @param _log
 	 */
 	constructor(private _log: LogService) {}

@@ -1,5 +1,5 @@
 <div @leftRightFadeIn>
-	<odm-sign-in
+	<ldsly-sign-in
 		[problemDetails]="_problemDetails$ | async"
 		[internalServerErrorDetails]="_internalServerErrorDetails$ | async"
 		[activeAuthType]="_activeAuthType$ | async"
@@ -13,5 +13,5 @@
 		(forgotPasswordClicked)="_onForgotPasswordClicked()"
 		(switchToSignupClicked)="_onSwitchToSignupClicked($event)"
 	>
-	</odm-sign-in>
+	</ldsly-sign-in>
 </div>

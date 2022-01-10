@@ -1,11 +1,11 @@
 <div class="recovery-code-verification" @downUpFadeIn>
 	<div>
 		<div class="recovery-code-verification__header">
-			<h2>{{ 'odm.auth.recovery-code.header' | translate }}</h2>
-			<p>{{ 'odm.auth.recovery-code.subheader' | translate }}</p>
+			<h2>{{ 'ldsly.auth.recovery-code.header' | translate }}</h2>
+			<p>{{ 'ldsly.auth.recovery-code.subheader' | translate }}</p>
 		</div>
 		<div class="recovery-code-verification__code">
-			<odm-verification-code
+			<ldsly-verification-code
 				[verificationCodeInputLength]="_recoveryCodeInputLength"
 				[codeVerificationInProgress]="_recoveryCodeVerificationInProgress"
 				[codeVerificationSucceeded]="_recoveryCodeVerificationSucceeded$ | async"
@@ -14,7 +14,7 @@
 				(verificationCodeSubmitted)="_onRecoveryCodeSubmitted($event)"
 				(cancelSetupWizardClicked)="_onCancelClicked()"
 			>
-			</odm-verification-code>
+			</ldsly-verification-code>
 		</div>
 	</div>
 </div>

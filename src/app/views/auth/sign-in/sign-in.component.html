@@ -1,15 +1,15 @@
 <div [ngClass]="activeAuthType" class="auth__container">
 	<div class="auth__form-container auth__sign-in-container">
 		<form [ngClass]="_routeAnimationsElements" [formGroup]="signinForm" (ngSubmit)="_onSignin()" role="form" novalidate>
-			<h3 class="auth__sign-in-header">{{ 'odm.auth.sign-in.title' | translate }}</h3>
+			<h3 class="auth__sign-in-header">{{ 'ldsly.auth.sign-in.title' | translate }}</h3>
 			<div *ngIf="!matcher?.matches" class="auth__form-container-switch-sign-up">
-				<span class="auth__text--link">{{ 'odm.buttons.sign-up' | translate }}</span>
+				<span class="auth__text--link">{{ 'ldsly.buttons.sign-up' | translate }}</span>
 				<mat-icon class="auth__text--link auth__text-link" (click)="_switchToSignup()" matSuffix>arrow_forward</mat-icon>
 			</div>
 
 			<div class="auth__email-field">
 				<mat-form-field appearance="standard">
-					<mat-label>{{ 'odm.auth.form.label.email' | translate }}</mat-label>
+					<mat-label>{{ 'ldsly.auth.form.label.email' | translate }}</mat-label>
 					<input matInput formControlName="email" type="email" autocomplete="email" required />
 					<mat-icon matSuffix>email</mat-icon>
 					<mat-error *ngIf="_ifControlFieldIsInvalid(signinForm?.get('email'))">{{ _getErrorMessage$(signinForm?.get('email')) | async }}</mat-error>
@@ -18,7 +18,7 @@
 
 			<div class="auth__password-field">
 				<mat-form-field appearance="standard">
-					<mat-label>{{ 'odm.auth.form.label.password' | translate }}</mat-label>
+					<mat-label>{{ 'ldsly.auth.form.label.password' | translate }}</mat-label>
 					<input matInput formControlName="password" [type]="_hide ? 'password' : 'text'" type="password" autocomplete="current-password" required />
 					<mat-icon class="auth__view-password" matSuffix (click)="_hide = !_hide">{{ _hide ? 'visibility_off' : 'visibility' }}</mat-icon>
 					<mat-error *ngIf="signinForm?.get('password').invalid">{{ _getErrorMessage$(signinForm?.get('password')) | async }}</mat-error>
@@ -27,22 +27,22 @@
 
 			<div>
 				<button mat-raised-button type="submit" class="auth__form-btn auth--btn" [disabled]="_disableSignin() || signingIn">
-					{{ 'odm.buttons.sign-in' | translate }}
+					{{ 'ldsly.buttons.sign-in' | translate }}
 					<ng-container *ngIf="signingIn">
-						<odm-spinner [type]="'button'" [diameter]="_signingInSpinnerDiameter" [strokeWidth]="_signingInSpinnerStrokeWidth"></odm-spinner>
+						<ldsly-spinner [type]="'button'" [diameter]="_signingInSpinnerDiameter" [strokeWidth]="_signingInSpinnerStrokeWidth"></ldsly-spinner>
 					</ng-container>
 				</button>
 			</div>
 
 			<div>
 				<span class="auth__text-link auth__text-link--size auth__text--link" (click)="_onForgotPassword()"
-					>{{ 'odm.auth.sign-in.forgot-password' | translate }}
+					>{{ 'ldsly.auth.sign-in.forgot-password' | translate }}
 				</span>
 			</div>
 			<div class="auth__remember-me">
 				<mat-slide-toggle [checked]="signinForm.get('rememberMe').value" (change)="_onRememberMeChange($event)" formControlName="rememberMe"
 					><span class="auth__text-link auth__text-link--size auth__text--link">{{
-						'odm.auth.sign-in.remember-me' | translate
+						'ldsly.auth.sign-in.remember-me' | translate
 					}}</span></mat-slide-toggle
 				>
 			</div>

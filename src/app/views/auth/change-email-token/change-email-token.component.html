@@ -1,11 +1,15 @@
 <div>
 	<ng-container *ngIf="inProgress; else emailChanged">
-		<odm-spinner color="accent" [diameter]="_changeEmailRequestSpinnerDiameter" [strokeWidth]="_changeEmailRequestSpinnerStrokeWidth"></odm-spinner>
+		<ldsly-spinner
+			color="accent"
+			[diameter]="_changeEmailRequestSpinnerDiameter"
+			[strokeWidth]="_changeEmailRequestSpinnerStrokeWidth"
+		></ldsly-spinner>
 	</ng-container>
 </div>
 
 <ng-template #emailChanged>
 	<div>
-		<p>{{ 'odm.auth.verification.email' | translate }}</p>
+		<p>{{ 'ldsly.auth.verification.email' | translate }}</p>
 	</div>
 </ng-template>

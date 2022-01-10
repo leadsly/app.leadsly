@@ -14,7 +14,7 @@ import { routeAnimations } from '../core/core.module';
  * AppComponent displays navbar, footer and named router-outlet '#o=outlet'.
  */
 @Component({
-	selector: 'odm-root',
+	selector: 'ldsly-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	animations: [routeAnimations]
@@ -55,15 +55,15 @@ export class AppComponent implements OnInit, OnDestroy {
 	 * Navigation options.
 	 */
 	readonly _navigation = [
-		{ link: 'about', label: 'odm.menu.about' },
-		{ link: 'feature-list', label: 'odm.menu.features' },
-		{ link: 'examples', label: 'odm.menu.examples' }
+		{ link: 'about', label: 'ldsly.menu.about' },
+		{ link: 'feature-list', label: 'ldsly.menu.features' },
+		{ link: 'examples', label: 'ldsly.menu.examples' }
 	];
 
 	/**
 	 * Navigation options for side drawer.
 	 */
-	readonly _navigationSideMenu = [...this._navigation, { link: 'settings', label: 'odm.menu.settings' }];
+	readonly _navigationSideMenu = [...this._navigation, { link: 'settings', label: 'ldsly.menu.settings' }];
 
 	/**
 	 * Stream indicating if user is authenticated.

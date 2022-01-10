@@ -7,7 +7,7 @@ const routes: Routes = [
 	{
 		path: '',
 		component: AboutComponent,
-		data: { title: 'odm.menu.about' }
+		data: { title: 'ldsly.menu.about' }
 	}
 ];
 

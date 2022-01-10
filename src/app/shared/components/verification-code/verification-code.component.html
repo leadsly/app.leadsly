@@ -8,26 +8,26 @@
 	</mat-form-field>
 	<div class="verification-code__action-buttons">
 		<button mat-button type="button" (click)="_onCancelClicked()" color="warn">
-			{{ 'odm.buttons.cancel' | translate }}
+			{{ 'ldsly.buttons.cancel' | translate }}
 		</button>
 		<button mat-button mat-stroked-button color="accent" type="submit" [disabled]="!_form.valid || codeVerificationInProgress">
 			<!-- If code verification is not in progress and code verification succeeded display green check mark and display spinner inside the button -->
 			<ng-container *ngIf="!codeVerificationInProgress && codeVerificationSucceeded">
-				{{ 'odm.buttons.verified' | translate }}
+				{{ 'ldsly.buttons.verified' | translate }}
 				<mat-icon color="accent" matSuffix>{{ 'check' }}</mat-icon>
-				<odm-spinner
+				<ldsly-spinner
 					[type]="'button'"
 					color="accent"
 					[diameter]="_verifiedNextStepSpinnerDiameter"
 					[strokeWidth]="_verifiedNextStepSpinnerStrokeWidth"
-				></odm-spinner>
+				></ldsly-spinner>
 			</ng-container>
 			<!-- If code verification is in progress animate three dots -->
 			<span *ngIf="codeVerificationInProgress" class="loading-dots-animation"
-				>{{ 'odm.buttons.verifing' | translate }}<span>.</span><span>.</span><span>.</span>
+				>{{ 'ldsly.buttons.verifing' | translate }}<span>.</span><span>.</span><span>.</span>
 			</span>
 			<ng-container *ngIf="!codeVerificationInProgress && !codeVerificationSucceeded">
-				{{ 'odm.buttons.verify' | translate }}
+				{{ 'ldsly.buttons.verify' | translate }}
 			</ng-container>
 		</button>
 	</div>

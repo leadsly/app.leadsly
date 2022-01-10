@@ -10,7 +10,7 @@ import { PasswordRequirement } from 'app/core/models/auth/password-requirement.m
 import { SignupUser } from 'app/core/models/auth/signup-user.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { Subscription } from 'rxjs';
 import { AuthBase } from '../auth-base';
@@ -19,7 +19,7 @@ import { AuthBase } from '../auth-base';
  * Sign up component.
  */
 @Component({
-	selector: 'odm-sign-up',
+	selector: 'ldsly-sign-up',
 	templateUrl: './sign-up.component.html',
 	styleUrls: ['./sign-up.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -125,12 +125,12 @@ export class SignUpComponent extends AuthBase implements OnInit, OnDestroy {
 	/**
 	 * Signing up spinner diameter.
 	 */
-	readonly _signingUpSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _signingUpSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Signing up spinner stroke width.
 	 */
-	readonly _signingUpSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _signingUpSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Rxjs subscriptions for this component.

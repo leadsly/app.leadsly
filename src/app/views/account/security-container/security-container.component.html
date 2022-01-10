@@ -1,7 +1,7 @@
 <ng-container *ngIf="_accountSecurityDetails$ | async as accountSecurityDetails">
 	<div class="account-security">
 		<div [ngClass]="_routeAnimationsElements">
-			<odm-two-factor-authentication
+			<ldsly-two-factor-authentication
 				[userRecoveryCodes]="accountSecurityDetails?.recoveryCodes?.items"
 				[twoFactorEnabled]="accountSecurityDetails?.twoFactorEnabled"
 				[authenticatorSetup]="_authenticatorSetup$ | async"
@@ -13,11 +13,11 @@
 				(generateNew2faRecoveryCodesClicked)="_onGenerateNew2faRecoveryCodesClicked()"
 				(twoFactorAuthToggleChanged)="_onTwoFactorAuthToggle($event)"
 				(navigateToSetup)="_onNavigateToSetup()"
-			></odm-two-factor-authentication>
+			></ldsly-two-factor-authentication>
 		</div>
 		<mat-divider></mat-divider>
 		<div [ngClass]="_routeAnimationsElements">
-			<odm-password-settings></odm-password-settings>
+			<ldsly-password-settings></ldsly-password-settings>
 		</div>
 		<mat-divider></mat-divider>
 	</div>

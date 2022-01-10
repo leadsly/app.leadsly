@@ -1,26 +1,26 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { ROUTE_ANIMATIONS_ELEMENTS, downUpFadeInAnimation } from 'app/core/core.module';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { Observable, Subscription, merge, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { OdmValidators, MinPasswordLength } from 'app/core/form-validators/odm-validators';
-import { AuthBase } from '../auth-base';
-import { AuthSandboxService } from '../auth-sandbox.service';
-import { PasswordReset } from 'app/core/models/auth/password-reset.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
+import { LdslyValidators, MinPasswordLength } from 'app/core/form-validators/ldsly-validators';
 import { PasswordHelpToggleClass } from 'app/core/models/auth/password-help-toggle-class.model';
 import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
-import { getPasswordRequirements } from 'app/core/utilities/password-requirements.utility';
-import { ActivatedRoute } from '@angular/router';
+import { PasswordReset } from 'app/core/models/auth/password-reset.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { PasswordResetMatTreeState } from 'app/core/models/password-reset-mat-tree-state.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { getPasswordRequirements } from 'app/core/utilities/password-requirements.utility';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthBase } from '../auth-base';
+import { AuthSandboxService } from '../auth-sandbox.service';
 
 /**
  * Reset password component.
  */
 @Component({
-	selector: 'odm-reset-password',
+	selector: 'ldsly-reset-password',
 	templateUrl: './reset-password.component.html',
 	styleUrls: ['./reset-password.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -96,12 +96,12 @@ export class ResetPasswordComponent extends AuthBase implements OnInit, OnDestro
 	/**
 	 * Generating recovery codes spinner diameter.
 	 */
-	readonly _resettingPasswordSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _resettingPasswordSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Generating recovery codes spinner stroke width.
 	 */
-	readonly _resettingPasswordSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _resettingPasswordSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Whether password help dialog is expanded or collapsed.
@@ -242,20 +242,20 @@ export class ResetPasswordComponent extends AuthBase implements OnInit, OnDestro
 			{
 				password: this._sb.fb.control('', {
 					validators: [
-						OdmValidators.required,
-						OdmValidators.minLength(MinPasswordLength),
-						OdmValidators.requireDigit,
-						OdmValidators.requireLowercase,
-						OdmValidators.requireUppercase,
-						OdmValidators.requireNonAlphanumeric,
-						OdmValidators.requireThreeUniqueCharacters
+						LdslyValidators.required,
+						LdslyValidators.minLength(MinPasswordLength),
+						LdslyValidators.requireDigit,
+						LdslyValidators.requireLowercase,
+						LdslyValidators.requireUppercase,
+						LdslyValidators.requireNonAlphanumeric,
+						LdslyValidators.requireThreeUniqueCharacters
 					],
 					updateOn: 'change'
 				}),
-				confirmPassword: this._sb.fb.control('', OdmValidators.required)
+				confirmPassword: this._sb.fb.control('', LdslyValidators.required)
 			},
 			{
-				validators: OdmValidators.requireConfirmPassword,
+				validators: LdslyValidators.requireConfirmPassword,
 				updateOn: 'change'
 			}
 		);

@@ -1,15 +1,15 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { ROUTE_ANIMATIONS_ELEMENTS, downUpFadeInAnimation } from 'app/core/core.module';
-import { ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE, ODM_GLOBAL_ACCOUNT_HEADER_SIZE } from 'app/shared/global-settings/global-settings';
-import { AccountSandboxService } from '../../account-sandbox.service';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
+import { LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE, LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE } from 'app/shared/global-settings/global-settings';
 import { BehaviorSubject } from 'rxjs';
+import { AccountSandboxService } from '../../account-sandbox.service';
 
 /**
  * Email settings component displayed in the general view.
  */
 @Component({
-	selector: 'odm-email-settings',
+	selector: 'ldsly-email-settings',
 	templateUrl: './email-settings.component.html',
 	styleUrls: ['./email-settings.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -24,12 +24,12 @@ export class EmailSettingsComponent {
 	/**
 	 * Short description font size.
 	 */
-	readonly _shortDescription = ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
+	readonly _shortDescription = LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
 
 	/**
 	 * Account header font size.
 	 */
-	readonly _accountHeader = ODM_GLOBAL_ACCOUNT_HEADER_SIZE;
+	readonly _accountHeader = LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE;
 
 	/**
 	 * User's email.

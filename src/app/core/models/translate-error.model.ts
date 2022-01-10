@@ -5,7 +5,7 @@ import { ValidationErrorType } from './validation-error.enum';
  */
 export interface TranslateError {
 	/**
-	 * Translation key that matches what is inside i18n .json files, example odm.account.header
+	 * Translation key that matches what is inside i18n .json files, example ldsly.account.header
 	 */
 	translationKey?: string;
 

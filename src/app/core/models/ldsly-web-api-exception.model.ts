@@ -1,7 +1,7 @@
 /**
- * Odm web api exception model.
+ * Ldsly web api exception model.
  */
-export interface OdmWebApiException {
+export interface LdslyWebApiException {
 	/**
 	 * Type of error (i.e BadRequest, InternalServerError, NotAcceptable etc.).
 	 */

@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
  * Email confirmation container component.
  */
 @Component({
-	selector: 'odm-email-confirmation-container',
+	selector: 'ldsly-email-confirmation-container',
 	templateUrl: './email-confirmation-container.component.html',
 	styleUrls: ['./email-confirmation-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

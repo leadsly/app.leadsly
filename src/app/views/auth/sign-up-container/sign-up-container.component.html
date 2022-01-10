@@ -1,5 +1,5 @@
 <div @rightLeftFadeIn>
-	<odm-sign-up
+	<ldsly-sign-up
 		[problemDetails]="_problemDetails$ | async"
 		[internalServerErrorDetails]="_internalServerErrorDetails$ | async"
 		[matcher]="_breakpointStateScreenMatcher$ | async"
@@ -11,5 +11,5 @@
 		(signupFormSubmitted)="_onSignupSubmitted($event)"
 		(switchToSigninClicked)="_onSwitchToSigninClicked($event)"
 		(passwordHelpToggled)="_onPasswordHelpToggled()"
-	></odm-sign-up>
+	></ldsly-sign-up>
 </div>

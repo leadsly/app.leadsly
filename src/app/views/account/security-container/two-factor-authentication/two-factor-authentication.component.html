@@ -1,25 +1,25 @@
 <div class="two-factor-settings">
 	<h3 [style.--account-header]="_accountHeader" class="two-factor-settings--header" @downUpFadeIn>
-		{{ 'odm.account.security.two-step.title' | translate }}
+		{{ 'ldsly.account.security.two-step.title' | translate }}
 	</h3>
 	<ng-container *ngIf="!loading; else loadingState">
 		<div [ngClass]="twoFactorEnabled ? 'two-factor-settings__extra-margin' : null" class="two-factor-settings__state" @downUpFadeIn>
 			<div class="two-factor-settings__short-description">
 				<span [style.--short-description]="_shortDescriptionFontSize" class="two-factor-settings__description">{{
-					'odm.account.security.two-step.description' | translate
+					'ldsly.account.security.two-step.description' | translate
 				}}</span>
 			</div>
 			<div @downUpFadeIn>
 				<div class="two-factor-settings__toggle-state">
 					<div class="two-factor-settings__toggle-state-spinner-container">
 						<ng-container *ngIf="_twoFactorAuthToggleLoading">
-							<odm-spinner
+							<ldsly-spinner
 								[spinnerColor]="'accent'"
 								[type]="'button'"
 								[diameter]="_twoFactorAuthToggleSpinnerDiameter"
 								[strokeWidth]="_twoFactorAuthToggleSpinnerStrokeWidth"
 							>
-							</odm-spinner>
+							</ldsly-spinner>
 						</ng-container>
 					</div>
 					<mat-slide-toggle
@@ -35,25 +35,25 @@
 		<ng-container *ngIf="twoFactorEnabled">
 			<div @downUpFadeIn>
 				<div class="two-factor-settings__user-recovery-codes">
-					<odm-two-factor-authentication-codes
+					<ldsly-two-factor-authentication-codes
 						[codes]="userRecoveryCodes"
 						[disabled]="_twoFactorAuthToggleLoading"
 						[generatingCodes]="generatingNewRecoveryCodes"
 						(generateNewRecoveryCodesClicked)="_onGenerateNew2FaRecoveryCodesClicked()"
 					>
-					</odm-two-factor-authentication-codes>
+					</ldsly-two-factor-authentication-codes>
 				</div>
 			</div>
 		</ng-container>
 	</ng-container>
 </div>
-<odm-server-side-error [internalServerErrorDetails]="_internalServerErrorDetails" [problemDetails]="_problemDetails"></odm-server-side-error>
+<ldsly-server-side-error [internalServerErrorDetails]="_internalServerErrorDetails" [problemDetails]="_problemDetails"></ldsly-server-side-error>
 
 <ng-template #loadingState>
 	<div class="two-factor-settings__ghost-loading-state">
-		<odm-ghost-block></odm-ghost-block>
+		<ldsly-ghost-block></ldsly-ghost-block>
 	</div>
 	<div class="two-factor-settings__ghost-loading-codes">
-		<odm-ghost-block></odm-ghost-block>
+		<ldsly-ghost-block></ldsly-ghost-block>
 	</div>
 </ng-template>

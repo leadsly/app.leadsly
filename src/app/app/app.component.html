@@ -2,15 +2,13 @@
 	<mat-sidenav-container>
 		<mat-sidenav #sidenav mode="push">
 			<div class="branding">
-				<img width="48" height="48" [src]="_logo" [alt]="_logo" /> <span>{{ 'odm.title.short' | translate }}</span>
+				<img width="48" height="48" [src]="_logo" [alt]="_logo" /> <span>{{ 'ldsly.title.short' | translate }}</span>
 			</div>
 			<mat-nav-list>
 				<a mat-list-item *ngFor="let item of _navigationSideMenu" (click)="sidenav.close()" [routerLink]="[item.link]" routerLinkActive="active">
 					{{ item.label | translate }}
 				</a>
-				<a mat-list-item href="https://github.com/omikolaj" target="_blank" rel="noopener noreferrer">
-					Github
-				</a>
+				<a mat-list-item href="https://github.com/omikolaj" target="_blank" rel="noopener noreferrer"> Github </a>
 			</mat-nav-list>
 		</mat-sidenav>
 
@@ -23,10 +21,10 @@
 
 					<span routerLink="" class="branding spacer center display-inline display-sm-none"> <img [src]="_logo" [alt]="_logo" /></span>
 					<span routerLink="" class="branding spacer center display-none display-sm-inline display-md-none"
-						><img [src]="_logo" [alt]="_logo" /> {{ 'odm.title.short' | translate }}</span
+						><img [src]="_logo" [alt]="_logo" /> {{ 'ldsly.title.short' | translate }}</span
 					>
 					<span routerLink="" class="branding spacer display-none display-md-inline"
-						><img [src]="_logo" [alt]="_logo" /> {{ 'odm.title.long' | translate }}</span
+						><img [src]="_logo" [alt]="_logo" /> {{ 'ldsly.title.long' | translate }}</span
 					>
 
 					<span class="display-none display-md-inline">
@@ -35,7 +33,7 @@
 						</button>
 					</span>
 					<button mat-button mat-stroked-button color="accent" *ngIf="!(_isAuthenticated$ | async)" (click)="_onSigninClicked()">
-						{{ 'odm.menu.signin' | translate }}
+						{{ 'ldsly.menu.signin' | translate }}
 					</button>
 
 					<button *ngIf="_isAuthenticated$ | async" mat-icon-button [matMenuTriggerFor]="toolbarUserMenu">
@@ -46,13 +44,13 @@
 							<mat-icon>
 								<fa-icon icon="tachometer-alt"></fa-icon>
 							</mat-icon>
-							<span>{{ 'odm.menu.account' | translate }}</span>
+							<span>{{ 'ldsly.menu.account' | translate }}</span>
 						</button>
 						<button mat-menu-item (click)="_onSignoutClicked()">
 							<mat-icon>
 								<fa-icon icon="power-off"></fa-icon>
 							</mat-icon>
-							<span>{{ 'odm.menu.signout' | translate }}</span>
+							<span>{{ 'ldsly.menu.signout' | translate }}</span>
 						</button>
 					</mat-menu>
 
@@ -61,7 +59,7 @@
 					</button>
 
 					<a
-						[matTooltip]="'odm.header.github' | translate"
+						[matTooltip]="'ldsly.header.github' | translate"
 						matTooltipPosition="below"
 						mat-icon-button
 						class="link display-none display-sm-inline"

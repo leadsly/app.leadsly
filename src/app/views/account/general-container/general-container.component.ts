@@ -1,21 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription, Observable, merge } from 'rxjs';
-import { AccountGeneralDetails } from 'app/core/models/account/general/account-general-details.model';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { skip, filter, tap } from 'rxjs/operators';
-import { implementsOdmWebApiException } from 'app/core/utilities/implements-odm-web-api-exception';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
 import { LogService } from 'app/core/logger/log.service';
+import { AccountGeneralDetails } from 'app/core/models/account/general/account-general-details.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { implementsLdslyWebApiException } from 'app/core/utilities/implements-ldsly-web-api-exception';
+import { LDSLY_FALLBACK_EMAIL_ADDRESS } from 'app/shared/global-settings/fallback-email-address';
+import { LDSLY_GLOBAL_ERROR_FONT_SIZE } from 'app/shared/global-settings/global-settings';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
+import { filter, skip, tap } from 'rxjs/operators';
 import { AccountSandboxService } from '../account-sandbox.service';
-import { ODM_GLOBAL_ERROR_FONT_SIZE } from 'app/shared/global-settings/global-settings';
-import { ODM_FALLBACK_EMAIL_ADDRESS } from 'app/shared/global-settings/fallback-email-address';
 
 /**
  * General component container that houses user's general settings functionality.
  */
 @Component({
-	selector: 'odm-general-container',
+	selector: 'ldsly-general-container',
 	templateUrl: './general-container.component.html',
 	styleUrls: ['./general-container.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -30,7 +30,7 @@ export class GeneralContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Error font size for server errors.
 	 */
-	readonly _errorFontSize = ODM_GLOBAL_ERROR_FONT_SIZE;
+	readonly _errorFontSize = LDSLY_GLOBAL_ERROR_FONT_SIZE;
 
 	/**
 	 * Account general details for the given user.
@@ -60,7 +60,7 @@ export class GeneralContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Fallback email address if one cannot be fetched from the server.
 	 */
-	_fallbackEmail = ODM_FALLBACK_EMAIL_ADDRESS;
+	_fallbackEmail = LDSLY_FALLBACK_EMAIL_ADDRESS;
 
 	/**
 	 * Loading subject. Required for angular OnPush change detection to be triggered.
@@ -147,7 +147,7 @@ export class GeneralContainerComponent implements OnInit, OnDestroy {
 	 */
 	_getInternalServerErrorMessage(internalServerErrorDetails: InternalServerErrorDetails): string {
 		let errorDescription = '';
-		if (this._doesInternalServerErrorImplementOdmWebApiException(internalServerErrorDetails)) {
+		if (this._doesInternalServerErrorImplementLdslyWebApiException(internalServerErrorDetails)) {
 			errorDescription = internalServerErrorDetails.detail;
 		} else {
 			errorDescription = internalServerErrorDetails.message;
@@ -156,9 +156,9 @@ export class GeneralContainerComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Checks if internal server error implements OdmWebAPiException.
+	 * Checks if internal server error implements LdslyWebAPiException.
 	 */
-	private _doesInternalServerErrorImplementOdmWebApiException(internalServerErrorDetails: InternalServerErrorDetails): boolean {
-		return implementsOdmWebApiException(internalServerErrorDetails);
+	private _doesInternalServerErrorImplementLdslyWebApiException(internalServerErrorDetails: InternalServerErrorDetails): boolean {
+		return implementsLdslyWebApiException(internalServerErrorDetails);
 	}
 }

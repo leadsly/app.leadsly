@@ -1,21 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { LdslyValidators, VerificationCodeLength } from 'app/core/form-validators/ldsly-validators';
 import { TwoFactorAuthenticationSetupResult } from 'app/core/models/account/security/two-factor-authentication-setup-result.model';
 import { TwoFactorAuthenticationSetup } from 'app/core/models/account/security/two-factor-authentication-setup.model';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { OdmValidators, VerificationCodeLength } from 'app/core/form-validators/odm-validators';
-import { Observable, Subscription, merge } from 'rxjs';
 import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
-import { ActivatedRoute } from '@angular/router';
-import { tap, skip } from 'rxjs/operators';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { merge, Observable, Subscription } from 'rxjs';
+import { skip, tap } from 'rxjs/operators';
 import { AccountSandboxService } from '../../account-sandbox.service';
 
 /**
  * Two factor authentication setup wizard container component.
  */
 @Component({
-	selector: 'odm-two-factor-authentication-setup-wizard-container',
+	selector: 'ldsly-two-factor-authentication-setup-wizard-container',
 	templateUrl: './two-factor-authentication-setup-wizard-container.component.html',
 	styleUrls: ['./two-factor-authentication-setup-wizard-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -132,7 +132,11 @@ export class TwoFactorAuthenticationSetupWizardContainerComponent implements OnI
 			code: this._sb.fb.control(
 				{ value: '', disabled: true },
 				{
-					validators: [OdmValidators.required, OdmValidators.minLength(VerificationCodeLength), OdmValidators.maxLength(VerificationCodeLength)],
+					validators: [
+						LdslyValidators.required,
+						LdslyValidators.minLength(VerificationCodeLength),
+						LdslyValidators.maxLength(VerificationCodeLength)
+					],
 					updateOn: 'change'
 				}
 			)

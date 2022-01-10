@@ -1,11 +1,11 @@
 <div class="two-step-verification auth__container">
 	<div>
 		<div [ngClass]="_routeAnimationsElements" class="two-step-verification__header">
-			<h2 [ngClass]="_routeAnimationsElements">{{ 'odm.auth.two-step-verification.header' | translate }}</h2>
-			<p [ngClass]="_routeAnimationsElements">{{ 'odm.auth.two-step-verification.subheader' | translate }}</p>
+			<h2 [ngClass]="_routeAnimationsElements">{{ 'ldsly.auth.two-step-verification.header' | translate }}</h2>
+			<p [ngClass]="_routeAnimationsElements">{{ 'ldsly.auth.two-step-verification.subheader' | translate }}</p>
 		</div>
 		<div [ngClass]="_routeAnimationsElements" class="two-step-verification__verification-code">
-			<odm-verification-code
+			<ldsly-verification-code
 				[codeVerificationInProgress]="_codeVerificationInProgress"
 				[codeVerificationSucceeded]="_codeVerificationSucceeded$ | async"
 				[problemDetails]="_problemDetails$ | async"
@@ -13,15 +13,15 @@
 				(verificationCodeSubmitted)="_onVerificationCodeSubmitted($event)"
 				(cancelSetupWizardClicked)="_onCancelClicked()"
 			>
-			</odm-verification-code>
+			</ldsly-verification-code>
 		</div>
 		<div [ngClass]="_routeAnimationsElements" class="auth__form-container">
 			<span
 				class="auth__text--link auth__text-link--size auth__text"
 				[matTooltipShowDelay]="_showDelayInMs"
-				[matTooltip]="'odm.auth.two-step-verification.use-recovery-codes-tooltip' | translate"
+				[matTooltip]="'ldsly.auth.two-step-verification.use-recovery-codes-tooltip' | translate"
 				(click)="_onUseRecoveryCode()"
-				>{{ 'odm.auth.two-step-verification.use-recovery-code' | translate }}</span
+				>{{ 'ldsly.auth.two-step-verification.use-recovery-code' | translate }}</span
 			>
 		</div>
 	</div>

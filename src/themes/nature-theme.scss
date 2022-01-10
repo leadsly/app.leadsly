@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-$odm-nature-primary: mat.define-palette(mat.$brown-palette, 700, 300, 900);
-$odm-nature-accent: mat.define-palette(mat.$deep-purple-palette, 300);
-$odm-nature-warn: mat.define-palette(mat.$red-palette, 600);
+$ldsly-nature-primary: mat.define-palette(mat.$brown-palette, 700, 300, 900);
+$ldsly-nature-accent: mat.define-palette(mat.$deep-purple-palette, 300);
+$ldsly-nature-warn: mat.define-palette(mat.$red-palette, 600);
 
-$odm-nature-theme: mat.define-light-theme($odm-nature-primary, $odm-nature-accent, $odm-nature-warn);
+$ldsly-nature-theme: mat.define-light-theme($ldsly-nature-primary, $ldsly-nature-accent, $ldsly-nature-warn);

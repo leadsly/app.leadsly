@@ -13,7 +13,7 @@ const routes: Routes = [
 		path: '',
 		component: AccountComponent,
 		canActivate: [AuthGuardService],
-		data: { title: 'odm.account' },
+		data: { title: 'ldsly.account' },
 		children: [
 			{
 				path: '',

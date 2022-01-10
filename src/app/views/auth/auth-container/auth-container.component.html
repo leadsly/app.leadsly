@@ -19,10 +19,10 @@
 		>
 			<div *ngIf="!matcher?.matches" class="auth-container__header">
 				<h1 class="auth-container__heading" [ngClass]="_routeAnimationsElements">
-					{{ _signInIsDisplayed ? ('odm.auth.sign-in.header' | translate) : ('odm.auth.sign-up.header' | translate) }}
+					{{ _signInIsDisplayed ? ('ldsly.auth.sign-in.header' | translate) : ('ldsly.auth.sign-up.header' | translate) }}
 				</h1>
 				<p class="auth-container__welcome-text" [ngClass]="_routeAnimationsElements">
-					{{ _signInIsDisplayed ? ('odm.auth.sign-in.subheader' | translate) : ('odm.auth.sign-up.subheader' | translate) }}
+					{{ _signInIsDisplayed ? ('ldsly.auth.sign-in.subheader' | translate) : ('ldsly.auth.sign-up.subheader' | translate) }}
 				</p>
 			</div>
 		</div>
@@ -35,19 +35,19 @@
 				<div class="auth__overlay-container">
 					<div class="auth__overlay">
 						<div class="auth__overlay-panel auth__overlay-sign-in">
-							<h1>{{ 'odm.auth.sign-in.header' | translate }}</h1>
-							<p>{{ 'odm.auth.sign-in.subheader' | translate }}</p>
+							<h1>{{ 'ldsly.auth.sign-in.header' | translate }}</h1>
+							<p>{{ 'ldsly.auth.sign-in.subheader' | translate }}</p>
 							<button mat-raised-button (click)="_switchToSignin()" class="auth__form-btn-ghost auth--btn">
-								{{ 'odm.buttons.sign-in' | translate }}
+								{{ 'ldsly.buttons.sign-in' | translate }}
 							</button>
 						</div>
 						<div class="auth__overlay-panel auth__overlay-sign-up">
-							<h1>{{ 'odm.auth.sign-up.header' | translate }}</h1>
+							<h1>{{ 'ldsly.auth.sign-up.header' | translate }}</h1>
 							<p>
-								{{ 'odm.auth.sign-up.subheader' | translate }}
+								{{ 'ldsly.auth.sign-up.subheader' | translate }}
 							</p>
 							<button mat-raised-button (click)="_switchToSignup()" class="auth__form-btn-ghost auth--btn">
-								{{ 'odm.buttons.create-account' | translate }}
+								{{ 'ldsly.buttons.create-account' | translate }}
 							</button>
 						</div>
 					</div>

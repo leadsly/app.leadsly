@@ -1,17 +1,17 @@
-import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
 import { LogService } from 'app/core/logger/log.service';
-import { ROUTE_ANIMATIONS_ELEMENTS, downUpFadeInAnimation } from 'app/core/core.module';
-import { AuthBase } from '../auth-base';
-import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
+import { AuthBase } from '../auth-base';
 
 /**
  * Forgot password component.
  */
 @Component({
-	selector: 'odm-forgot-password',
+	selector: 'ldsly-forgot-password',
 	templateUrl: './forgot-password.component.html',
 	styleUrls: ['./forgot-password.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -64,12 +64,12 @@ export class ForgotPasswordComponent extends AuthBase {
 	/**
 	 * Forgot password spinner diameter.
 	 */
-	readonly _forgotPasswordSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _forgotPasswordSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Forgot password spinner stroke width.
 	 */
-	readonly _forgotPasswordSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _forgotPasswordSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of forgot password component.

@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
  * Security component container that houses user security functionality.
  */
 @Component({
-	selector: 'odm-security-container',
+	selector: 'ldsly-security-container',
 	templateUrl: './security-container.component.html',
 	styleUrls: ['./security-container.component.scss'],
 	animations: [routeAnimations],

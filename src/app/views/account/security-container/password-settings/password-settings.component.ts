@@ -1,15 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE, ODM_GLOBAL_ACCOUNT_HEADER_SIZE } from 'app/shared/global-settings/global-settings';
 import { downUpFadeInAnimation } from 'app/core/core.module';
-
 import { LogService } from 'app/core/logger/log.service';
+import { LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE, LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE } from 'app/shared/global-settings/global-settings';
 
 /**
  * Password settings security container component.
  */
 @Component({
-	selector: 'odm-password-settings',
+	selector: 'ldsly-password-settings',
 	templateUrl: './password-settings.component.html',
 	styleUrls: ['./password-settings.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -19,12 +18,12 @@ export class PasswordSettingsComponent {
 	/**
 	 * Short description font size.
 	 */
-	readonly _shortDescription = ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
+	readonly _shortDescription = LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
 
 	/**
 	 * Account header font size.
 	 */
-	readonly _accountHeader = ODM_GLOBAL_ACCOUNT_HEADER_SIZE;
+	readonly _accountHeader = LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE;
 
 	/**
 	 * Creates an instance of password settings component.

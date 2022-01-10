@@ -1,20 +1,20 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
-import { AuthBase } from 'app/views/auth/auth-base';
-import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
 import { PasswordHelpToggleClass } from 'app/core/models/auth/password-help-toggle-class.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { PasswordResetMatTreeState } from 'app/core/models/password-reset-mat-tree-state.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
+import { AuthBase } from 'app/views/auth/auth-base';
 
 /**
  * Change user password component.
  */
 @Component({
-	selector: 'odm-change-password',
+	selector: 'ldsly-change-password',
 	templateUrl: './change-password.component.html',
 	styleUrls: ['./change-password.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -113,12 +113,12 @@ export class ChangePasswordComponent extends AuthBase {
 	/**
 	 * Changing password spinner diameter.
 	 */
-	readonly _changingPasswordSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _changingPasswordSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Changing password spinner stroke width.
 	 */
-	readonly _changingPasswordSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _changingPasswordSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of change password component.

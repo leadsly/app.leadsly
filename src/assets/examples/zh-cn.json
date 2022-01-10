@@ -1,9 +1,9 @@
 {
-	"odm.examples.menu.auth": "鉴权",
-	"odm.examples.menu.crud": "增删改查",
-	"odm.examples.menu.form": "表单",
-	"odm.examples.menu.notifications": "通知",
-	"odm.examples.menu.stocks": "股票",
-	"odm.examples.menu.theming": "主题",
-	"odm.examples.menu.todos": "待办事项"
+	"ldsly.examples.menu.auth": "鉴权",
+	"ldsly.examples.menu.crud": "增删改查",
+	"ldsly.examples.menu.form": "表单",
+	"ldsly.examples.menu.notifications": "通知",
+	"ldsly.examples.menu.stocks": "股票",
+	"ldsly.examples.menu.theming": "主题",
+	"ldsly.examples.menu.todos": "待办事项"
 }

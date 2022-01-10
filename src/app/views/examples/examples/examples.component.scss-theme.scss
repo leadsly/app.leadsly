@@ -1,11 +1,11 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-examples-component-theme($theme) {
+@mixin ldsly-examples-component-theme($theme) {
 	$primary: map-get($theme, primary);
 	$accent: map-get($theme, accent);
 
-	odm-examples {
+	ldsly-examples {
 		.nav-responsive {
 			border-bottom: 1px solid mat.get-color-from-palette($primary);
 

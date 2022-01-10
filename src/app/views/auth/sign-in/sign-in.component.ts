@@ -8,7 +8,7 @@ import { ActiveAuthType } from 'app/core/models/auth/active-auth-type.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { AuthBase } from '../auth-base';
 
@@ -16,7 +16,7 @@ import { AuthBase } from '../auth-base';
  * Sign in component.
  */
 @Component({
-	selector: 'odm-sign-in',
+	selector: 'ldsly-sign-in',
 	templateUrl: './sign-in.component.html',
 	styleUrls: ['./sign-in.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -111,12 +111,12 @@ export class SignInComponent extends AuthBase implements OnInit {
 	/**
 	 * Signing in spinner diameter.
 	 */
-	readonly _signingInSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _signingInSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Signing in spinner stroke width.
 	 */
-	readonly _signingInSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _signingInSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of sign in component.

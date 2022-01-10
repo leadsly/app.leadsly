@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-change-email-component-theme($theme) {
+@mixin ldsly-change-email-component-theme($theme) {
 	$accent: map-get($theme, accent);
 
 	.auth--req-met {

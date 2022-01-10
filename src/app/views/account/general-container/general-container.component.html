@@ -1,13 +1,13 @@
 <ng-container *ngIf="_accountGeneralDetails$ | async as accountGeneralDetails">
 	<div class="account-general">
 		<div class="account-general__email-settings" [ngClass]="_routeAnimationsElements">
-			<odm-email-settings
+			<ldsly-email-settings
 				[loading]="_loading$ | async"
 				[disableResendVerification]="_disableResendVerification$ | async"
 				[email]="accountGeneralDetails?.email || _fallbackEmail"
 				[verified]="accountGeneralDetails?.verified"
 				(resendEmailVerificationClicked)="_onResendEmailVerificationClicked()"
-			></odm-email-settings>
+			></ldsly-email-settings>
 		</div>
 		<mat-divider></mat-divider>
 		<div class="account-general__error">

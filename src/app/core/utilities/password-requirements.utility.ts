@@ -8,31 +8,31 @@ import { PasswordRequirementType } from '../models/auth/password-requirement-typ
 export function getPasswordRequirements(): PasswordRequirement[] {
 	return [
 		{
-			name: 'odm.auth.form.requirements.title',
+			name: 'ldsly.auth.form.requirements.title',
 			type: PasswordRequirementType.None,
 			children: [
 				{
-					name: 'odm.auth.form.requirements.min-chars-long',
+					name: 'ldsly.auth.form.requirements.min-chars-long',
 					type: PasswordRequirementType.MinCharsLength
 				},
 				{
-					name: 'odm.auth.form.requirements.one-upper-case',
+					name: 'ldsly.auth.form.requirements.one-upper-case',
 					type: PasswordRequirementType.UpperCase
 				},
 				{
-					name: 'odm.auth.form.requirements.one-lower-case',
+					name: 'ldsly.auth.form.requirements.one-lower-case',
 					type: PasswordRequirementType.LowerCase
 				},
 				{
-					name: 'odm.auth.form.requirements.digit',
+					name: 'ldsly.auth.form.requirements.digit',
 					type: PasswordRequirementType.Digit
 				},
 				{
-					name: 'odm.auth.form.requirements.three-unique-chars',
+					name: 'ldsly.auth.form.requirements.three-unique-chars',
 					type: PasswordRequirementType.ThreeUniqueChar
 				},
 				{
-					name: 'odm.auth.form.requirements.one-special-char',
+					name: 'ldsly.auth.form.requirements.one-special-char',
 					type: PasswordRequirementType.SpecialChar
 				}
 			]

@@ -2,22 +2,22 @@
 	<mat-expansion-panel [disabled]="disabled" (closed)="_onUserCodesClosed()">
 		<mat-expansion-panel-header>
 			<mat-panel-title>
-				{{ 'odm.account.security.two-step.recovery-codes.title' | translate }}
+				{{ 'ldsly.account.security.two-step.recovery-codes.title' | translate }}
 			</mat-panel-title>
 			<mat-panel-description
-				[matTooltip]="'odm.account.security.two-step.recovery-codes.description' | translate"
+				[matTooltip]="'ldsly.account.security.two-step.recovery-codes.description' | translate"
 				[matTooltipShowDelay]="_showDelayInMs"
 				[matTooltipTouchGestures]="_touchGestrues"
 				class="recovery-codes__truncate"
 			>
-				{{ 'odm.account.security.two-step.recovery-codes.description' | translate }}
+				{{ 'ldsly.account.security.two-step.recovery-codes.description' | translate }}
 				<mat-icon class="recovery-codes__user-secret"><fa-icon icon="user-secret"></fa-icon></mat-icon>
 			</mat-panel-description>
 		</mat-expansion-panel-header>
 
 		<div>
-			<h3>{{ 'odm.account.security.two-step.recovery-codes.backup-codes.title' | translate }}</h3>
-			<p>{{ 'odm.account.security.two-step.recovery-codes.backup-codes.description' | translate }}</p>
+			<h3>{{ 'ldsly.account.security.two-step.recovery-codes.backup-codes.title' | translate }}</h3>
+			<p>{{ 'ldsly.account.security.two-step.recovery-codes.backup-codes.description' | translate }}</p>
 			<ng-container *ngIf="!generatingCodes; else generating">
 				<ng-container *ngIf="_codes?.length > 0; else noRecoveryCodes">
 					<ol class="recovery-codes__format-codes blink">
@@ -29,18 +29,18 @@
 			</ng-container>
 			<div>
 				<button mat-raised-button color="accent" (click)="_onGenerateNewRecoveryCodes()" [disabled]="generatingCodes">
-					{{ 'odm.buttons.generate' | translate }}
+					{{ 'ldsly.buttons.generate' | translate }}
 					<ng-container *ngIf="generatingCodes">
-						<odm-spinner
+						<ldsly-spinner
 							[type]="'button'"
 							[spinnerColor]="'accent'"
 							[diameter]="_generatingCodesSpinnerDiameter"
 							[strokeWidth]="_generatingCodesSpinnerStrokeWidth"
 						>
-						</odm-spinner>
+						</ldsly-spinner>
 					</ng-container>
 				</button>
-				<odm-server-side-error [serverError]="_serverError"></odm-server-side-error>
+				<ldsly-server-side-error [serverError]="_serverError"></ldsly-server-side-error>
 			</div>
 		</div>
 	</mat-expansion-panel>
@@ -48,7 +48,7 @@
 
 <ng-template #noRecoveryCodes>
 	<p>
-		<i>{{ 'odm.account.security.two-step.recovery-codes.backup-codes.no-codes' | translate }}</i>
+		<i>{{ 'ldsly.account.security.two-step.recovery-codes.backup-codes.no-codes' | translate }}</i>
 	</p>
 </ng-template>
 
@@ -56,27 +56,27 @@
 	<ol class="recovery-codes__format-codes">
 		<li class="generating-codes">
 			<div class="generating-code-ghost">
-				<odm-ghost-block></odm-ghost-block>
+				<ldsly-ghost-block></ldsly-ghost-block>
 			</div>
 		</li>
 		<li class="generating-codes">
 			<div class="generating-code-ghost">
-				<odm-ghost-block></odm-ghost-block>
+				<ldsly-ghost-block></ldsly-ghost-block>
 			</div>
 		</li>
 		<li class="generating-codes">
 			<div class="generating-code-ghost">
-				<odm-ghost-block></odm-ghost-block>
+				<ldsly-ghost-block></ldsly-ghost-block>
 			</div>
 		</li>
 		<li class="generating-codes">
 			<div class="generating-code-ghost">
-				<odm-ghost-block></odm-ghost-block>
+				<ldsly-ghost-block></ldsly-ghost-block>
 			</div>
 		</li>
 		<li class="generating-codes">
 			<div class="generating-code-ghost">
-				<odm-ghost-block></odm-ghost-block>
+				<ldsly-ghost-block></ldsly-ghost-block>
 			</div>
 		</li>
 	</ol>

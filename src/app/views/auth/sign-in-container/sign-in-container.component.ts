@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActionCompletion } from '@ngxs/store';
 import { leftRightFadeInAnimation } from 'app/core/core.module';
-import { OdmValidators } from 'app/core/form-validators/odm-validators';
+import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { ActiveAuthType } from 'app/core/models/auth/active-auth-type.model';
 import { AuthTypeRouteUrl } from 'app/core/models/auth/auth-type-route-url.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
@@ -19,7 +19,7 @@ import { AuthSandboxService } from '../auth-sandbox.service';
  * Sign in container component.
  */
 @Component({
-	selector: 'odm-sign-in-container',
+	selector: 'ldsly-sign-in-container',
 	templateUrl: './sign-in-container.component.html',
 	styleUrls: ['./sign-in-container.component.scss'],
 	animations: [leftRightFadeInAnimation],
@@ -181,10 +181,10 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	private _initSigninForm(): FormGroup {
 		return this._sb.fb.group({
 			email: this._sb.fb.control('', {
-				validators: [OdmValidators.required, OdmValidators.email],
+				validators: [LdslyValidators.required, LdslyValidators.email],
 				updateOn: 'blur'
 			}),
-			password: this._sb.fb.control('', [OdmValidators.required]),
+			password: this._sb.fb.control('', [LdslyValidators.required]),
 			rememberMe: this._sb.fb.control(false)
 		});
 	}

@@ -1,22 +1,22 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { TooltipTouchGestures } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { ActionCompletion } from '@ngxs/store';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
+import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthSandboxService } from '../auth-sandbox.service';
-import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
-import { TooltipTouchGestures } from '@angular/material/tooltip';
-import { ODM_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
-import { ActionCompletion } from '@ngxs/store';
 
 /**
  * When two step verification is required to sign user in, this component will be displayed.
  */
 @Component({
-	selector: 'odm-two-step-verification',
+	selector: 'ldsly-two-step-verification',
 	templateUrl: './two-step-verification.component.html',
 	styleUrls: ['./two-step-verification.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -56,7 +56,7 @@ export class TwoStepVerificationComponent implements OnInit, OnDestroy {
 	/**
 	 * Delay in ms for toolip.
 	 */
-	readonly _showDelayInMs = ODM_TOOLTIP_SHOW_DELAY_IN_MS;
+	readonly _showDelayInMs = LDSLY_TOOLTIP_SHOW_DELAY_IN_MS;
 
 	/**
 	 * Route animations.

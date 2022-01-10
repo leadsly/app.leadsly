@@ -1,19 +1,19 @@
 /**
- * Application wide setting for big odm-spinner width.
+ * Application wide setting for big ldsly-spinner width.
  */
-export const ODM_BIG_SPINNER_STROKE_WIDTH = 4;
+export const LDSLY_BIG_SPINNER_STROKE_WIDTH = 4;
 
 /**
- * Application wide setting for big odm-spinner diameter.
+ * Application wide setting for big ldsly-spinner diameter.
  */
-export const ODM_BIG_SPINNER_DIAMETER = 225;
+export const LDSLY_BIG_SPINNER_DIAMETER = 225;
 
 /**
- * Application wide setting for small odm-spinner width.
+ * Application wide setting for small ldsly-spinner width.
  */
-export const ODM_SMALL_SPINNER_STROKE_WIDTH = 1;
+export const LDSLY_SMALL_SPINNER_STROKE_WIDTH = 1;
 
 /**
- * Application wide setting for small odm-spinner diameter.
+ * Application wide setting for small ldsly-spinner diameter.
  */
-export const ODM_SMALL_SPINNER_DIAMETER = 15;
+export const LDSLY_SMALL_SPINNER_DIAMETER = 15;

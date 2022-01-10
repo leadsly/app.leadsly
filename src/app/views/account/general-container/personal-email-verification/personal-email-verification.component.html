@@ -8,20 +8,20 @@
 						<mat-icon
 							*ngIf="email !== _fallbackEmail"
 							class="email-verification__not-verified-icon"
-							[matTooltip]="'odm.account.general.pending-verification-tooltip' | translate"
+							[matTooltip]="'ldsly.account.general.pending-verification-tooltip' | translate"
 						>
 							<fa-icon icon="exclamation-triangle"></fa-icon>
 						</mat-icon>
 					</div>
 					<div *ngIf="email !== _fallbackEmail">
 						<button
-							[matTooltip]="_disabled ? ('odm.account.general.resend-verification-disabled-tooltip' | translate) : ''"
+							[matTooltip]="_disabled ? ('ldsly.account.general.resend-verification-disabled-tooltip' | translate) : ''"
 							mat-button
 							type="button"
 							(click)="_onResendEmailVerificationClicked()"
 							[disabled]="_disabled"
 						>
-							{{ 'odm.buttons.resend-verification' | translate }}
+							{{ 'ldsly.buttons.resend-verification' | translate }}
 						</button>
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 			<ng-container *ngIf="verified">
 				<div class="email-verification__verified">
 					<span class="email-verification__email">{{ email }}</span>
-					<mat-icon class="email-verification__verified-icon" [matTooltip]="'odm.account.general.verified-tooltip' | translate">
+					<mat-icon class="email-verification__verified-icon" [matTooltip]="'ldsly.account.general.verified-tooltip' | translate">
 						<fa-icon icon="check"></fa-icon>
 					</mat-icon>
 				</div>
@@ -41,6 +41,6 @@
 
 <ng-template #loadingState>
 	<div class="email-verification__ghost-loading-state">
-		<odm-ghost-block></odm-ghost-block>
+		<ldsly-ghost-block></ldsly-ghost-block>
 	</div>
 </ng-template>

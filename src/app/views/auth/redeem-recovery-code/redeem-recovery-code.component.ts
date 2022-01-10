@@ -14,7 +14,7 @@ import { ActionCompletion } from '@ngxs/store';
  * When user chooses to redeem two factor authentication Recovery code, this compnent will be displayed.
  */
 @Component({
-	selector: 'odm-redeem-recovery-code',
+	selector: 'ldsly-redeem-recovery-code',
 	templateUrl: './redeem-recovery-code.component.html',
 	styleUrls: ['./redeem-recovery-code.component.scss'],
 	animations: [downUpFadeInAnimation],

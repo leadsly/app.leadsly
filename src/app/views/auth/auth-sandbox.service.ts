@@ -351,7 +351,7 @@ export class AuthSandboxService {
 			.confirmEmail$(model)
 			.pipe(
 				tap(() => this.emailConfirmationInProgress({ emailConfirmationInProgress: false })),
-				switchMap(() => this._translationService.get('odm.auth.verification.toast-message')),
+				switchMap(() => this._translationService.get('ldsly.auth.verification.toast-message')),
 				tap((message: string) => this._notificationService.success(message))
 			)
 			.subscribe();

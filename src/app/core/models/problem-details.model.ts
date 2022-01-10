@@ -1,9 +1,9 @@
-import { OdmWebApiException } from './odm-web-api-exception.model';
+import { LdslyWebApiException } from './ldsly-web-api-exception.model';
 
 /**
  * Problem details models for when the api responds with expected error.
  */
-export interface ProblemDetails extends OdmWebApiException {
+export interface ProblemDetails extends LdslyWebApiException {
 	/**
 	 * Type of error (i.e BadRequest, NotAcceptable etc.).
 	 */

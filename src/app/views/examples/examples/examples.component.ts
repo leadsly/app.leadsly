@@ -7,7 +7,7 @@ import { ExamplesSandboxService } from '../examples-sandbox.service';
  * Examples component.
  */
 @Component({
-	selector: 'odm-examples',
+	selector: 'ldsly-examples',
 	templateUrl: './examples.component.html',
 	styleUrls: ['./examples.component.scss'],
 	animations: [routeAnimations],
@@ -17,15 +17,15 @@ export class ExamplesComponent implements OnInit {
 	isAuthenticated$: Observable<boolean>;
 
 	readonly examples = [
-		{ link: './', label: 'odm.examples.menu.todos' },
-		{ link: './', label: 'odm.examples.menu.stocks' },
-		{ link: './', label: 'odm.examples.menu.theming' },
-		{ link: './', label: 'odm.examples.menu.crud' },
-		{ link: './', label: 'odm.examples.menu.something' },
-		{ link: './', label: 'odm.examples.menu.form' },
-		{ link: './', label: 'odm.examples.menu.notifications' },
-		{ link: './', label: 'odm.examples.menu.elements' },
-		{ link: './', label: 'odm.examples.menu.auth', auth: true }
+		{ link: './', label: 'ldsly.examples.menu.todos' },
+		{ link: './', label: 'ldsly.examples.menu.stocks' },
+		{ link: './', label: 'ldsly.examples.menu.theming' },
+		{ link: './', label: 'ldsly.examples.menu.crud' },
+		{ link: './', label: 'ldsly.examples.menu.something' },
+		{ link: './', label: 'ldsly.examples.menu.form' },
+		{ link: './', label: 'ldsly.examples.menu.notifications' },
+		{ link: './', label: 'ldsly.examples.menu.elements' },
+		{ link: './', label: 'ldsly.examples.menu.auth', auth: true }
 	];
 
 	/**

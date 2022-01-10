@@ -1,7 +1,7 @@
 const packageJson = require('../../package.json');
 
 export const environment = {
-	appName: 'Odiam Ngxs Material Starter',
+	appName: 'Leadsly Ngxs Material Starter',
 	envName: 'TEST',
 	production: false,
 	test: true,

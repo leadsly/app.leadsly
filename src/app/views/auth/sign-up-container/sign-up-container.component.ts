@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActionCompletion } from '@ngxs/store';
 import { rightLeftFadeInAnimation } from 'app/core/core.module';
-import { MinPasswordLength, OdmValidators } from 'app/core/form-validators/odm-validators';
+import { LdslyValidators, MinPasswordLength } from 'app/core/form-validators/ldsly-validators';
 import { ActiveAuthType } from 'app/core/models/auth/active-auth-type.model';
 import { AuthTypeRouteUrl } from 'app/core/models/auth/auth-type-route-url.model';
 import { PasswordHelpToggleClass } from 'app/core/models/auth/password-help-toggle-class.model';
@@ -22,7 +22,7 @@ import { AuthSandboxService } from '../auth-sandbox.service';
  * Sign up container component.
  */
 @Component({
-	selector: 'odm-sign-up-container',
+	selector: 'ldsly-sign-up-container',
 	templateUrl: './sign-up-container.component.html',
 	styleUrls: ['./sign-up-container.component.scss'],
 	animations: [rightLeftFadeInAnimation],
@@ -248,26 +248,26 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 		return this._sb.fb.group(
 			{
 				email: this._sb.fb.control('', {
-					validators: [OdmValidators.required, OdmValidators.email],
+					validators: [LdslyValidators.required, LdslyValidators.email],
 					asyncValidators: [this._sb.asyncValidators.checkIfEmailIsUnique()],
 					updateOn: 'blur'
 				}),
 				password: this._sb.fb.control('', {
 					validators: [
-						OdmValidators.required,
-						OdmValidators.minLength(MinPasswordLength),
-						OdmValidators.requireDigit,
-						OdmValidators.requireLowercase,
-						OdmValidators.requireUppercase,
-						OdmValidators.requireNonAlphanumeric,
-						OdmValidators.requireThreeUniqueCharacters
+						LdslyValidators.required,
+						LdslyValidators.minLength(MinPasswordLength),
+						LdslyValidators.requireDigit,
+						LdslyValidators.requireLowercase,
+						LdslyValidators.requireUppercase,
+						LdslyValidators.requireNonAlphanumeric,
+						LdslyValidators.requireThreeUniqueCharacters
 					],
 					updateOn: 'change'
 				}),
-				confirmPassword: this._sb.fb.control('', OdmValidators.required)
+				confirmPassword: this._sb.fb.control('', LdslyValidators.required)
 			},
 			{
-				validators: OdmValidators.requireConfirmPassword,
+				validators: LdslyValidators.requireConfirmPassword,
 				updateOn: 'change'
 			}
 		);

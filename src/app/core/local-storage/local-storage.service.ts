@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 /** Prefix for all local storage values for this application. */
-const APP_PREFIX = 'odm-';
+const APP_PREFIX = 'ldsly-';
 
 /**
  * Handles setting, removing and loading state from local storage.

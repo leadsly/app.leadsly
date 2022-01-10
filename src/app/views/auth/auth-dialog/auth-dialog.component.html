@@ -4,7 +4,7 @@
 			<img [src]="_logo" [alt]="_logo" />
 		</div>
 		<h3>
-			{{ 'odm.title.long' | translate }}
+			{{ 'ldsly.title.long' | translate }}
 		</h3>
 	</div>
 	<mat-divider></mat-divider>
@@ -17,10 +17,10 @@
 		<span>{{ _counter$ | async | toMMSS }}</span>
 	</div>
 	<div>
-		<p>{{ 'odm.auth.sign-in.stay-signed-in' | translate }}</p>
+		<p>{{ 'ldsly.auth.sign-in.stay-signed-in' | translate }}</p>
 	</div>
 	<div class="auth-dialog__action-btns">
-		<button mat-raised-button (click)="_onStaySignedIn()">{{ 'odm.buttons.yes' | translate }}</button>
-		<button mat-raised-button (click)="_onSignOut()">{{ 'odm.buttons.no' | translate }}</button>
+		<button mat-raised-button (click)="_onStaySignedIn()">{{ 'ldsly.buttons.yes' | translate }}</button>
+		<button mat-raised-button (click)="_onSignOut()">{{ 'ldsly.buttons.no' | translate }}</button>
 	</div>
 </div>

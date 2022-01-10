@@ -3,22 +3,22 @@
 		<mat-card class="change-email__card">
 			<mat-card-header>
 				<div mat-card-avatar class="change-email-container__header-image"></div>
-				<mat-card-title>{{ 'odm.account.general.email.change.title' | translate }}</mat-card-title>
+				<mat-card-title>{{ 'ldsly.account.general.email.change.title' | translate }}</mat-card-title>
 			</mat-card-header>
 			<mat-card-content>
 				<form [formGroup]="changeEmailForm">
 					<div class="auth__new-email-field">
 						<mat-form-field appearance="standard">
-							<mat-label>{{ 'odm.auth.form.label.new-email' | translate }}</mat-label>
+							<mat-label>{{ 'ldsly.auth.form.label.new-email' | translate }}</mat-label>
 							<input matInput formControlName="newEmail" type="text" autocomplete="new-email" required />
 							<mat-hint>
 								<ng-container *ngIf="changeEmailForm.get('newEmail').statusChanges | async as status">
 									<span *ngIf="status === 'PENDING'" class="loading-dots-animation"
-										>{{ 'odm.auth.checking-availability' | translate }}<span>.</span><span>.</span><span>.</span>
+										>{{ 'ldsly.auth.checking-availability' | translate }}<span>.</span><span>.</span><span>.</span>
 									</span>
 									<span *ngIf="status === 'VALID'">
 										<mat-icon class="auth--req-met" matPrefix>{{ 'check' }}</mat-icon>
-										{{ 'odm.auth.form.validations.valid-email' | translate }}
+										{{ 'ldsly.auth.form.validations.valid-email' | translate }}
 									</span>
 									<!--
               https://stackoverflow.com/a/63537759/7952244
@@ -46,7 +46,7 @@
 
 					<div class="auth__password-field">
 						<mat-form-field appearance="standard">
-							<mat-label>{{ 'odm.auth.form.label.password' | translate }}</mat-label>
+							<mat-label>{{ 'ldsly.auth.form.label.password' | translate }}</mat-label>
 							<input matInput formControlName="password" [type]="_currentPasswordHide ? 'password' : 'text'" autocomplete="password" required />
 							<mat-icon class="auth__view-password" matSuffix (click)="_currentPasswordHide = !_currentPasswordHide">{{
 								_currentPasswordHide ? 'visibility_off' : 'visibility'
@@ -67,18 +67,18 @@
 					(click)="_onChangeEmail()"
 					[disabled]="!changeEmailForm?.valid || emailChangeInProgress"
 				>
-					{{ 'odm.buttons.change' | translate }}
+					{{ 'ldsly.buttons.change' | translate }}
 					<ng-container *ngIf="emailChangeInProgress">
-						<odm-spinner
+						<ldsly-spinner
 							[type]="'button'"
 							[spinnerColor]="'accent'"
 							[diameter]="_changingEmailSpinnerDiameter"
 							[strokeWidth]="_changingEmailSpinnerStrokeWidth"
 						>
-						</odm-spinner>
+						</ldsly-spinner>
 					</ng-container>
 				</button>
-				<button mat-button type="button" (click)="_cancelClicked()">{{ 'odm.buttons.cancel' | translate }}</button>
+				<button mat-button type="button" (click)="_cancelClicked()">{{ 'ldsly.buttons.cancel' | translate }}</button>
 			</mat-card-actions>
 		</mat-card>
 	</div>

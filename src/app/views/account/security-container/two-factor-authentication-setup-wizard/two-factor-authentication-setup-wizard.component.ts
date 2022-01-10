@@ -1,19 +1,19 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ODM_BIG_SPINNER_DIAMETER, ODM_BIG_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { CdkStepper } from '@angular/cdk/stepper';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { LogService } from 'app/core/logger/log.service';
 import { TwoFactorAuthenticationSetupResult } from 'app/core/models/account/security/two-factor-authentication-setup-result.model';
 import { TwoFactorAuthenticationSetup } from 'app/core/models/account/security/two-factor-authentication-setup.model';
 import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
-import { LogService } from 'app/core/logger/log.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_BIG_SPINNER_DIAMETER, LDSLY_BIG_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
  * Two factor authentication setup wizard component.
  */
 @Component({
-	selector: 'odm-two-factor-authentication-setup-wizard',
+	selector: 'ldsly-two-factor-authentication-setup-wizard',
 	templateUrl: './two-factor-authentication-setup-wizard.component.html',
 	styleUrls: ['./two-factor-authentication-setup-wizard.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -119,12 +119,12 @@ export class TwoFactorAuthenticationSetupWizardComponent implements OnDestroy {
 	/**
 	 * QR bar code spinner width.
 	 */
-	readonly _qrBarCodeSpinnerDiameter = ODM_BIG_SPINNER_DIAMETER;
+	readonly _qrBarCodeSpinnerDiameter = LDSLY_BIG_SPINNER_DIAMETER;
 
 	/**
 	 * QR bar code spinner stroke width.
 	 */
-	readonly _qrBarCodeSpinnerStrokeWidth = ODM_BIG_SPINNER_STROKE_WIDTH;
+	readonly _qrBarCodeSpinnerStrokeWidth = LDSLY_BIG_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Whether the two factor authentication setup is complete.

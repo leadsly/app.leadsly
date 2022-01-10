@@ -1,14 +1,14 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
 import { LogService } from 'app/core/logger/log.service';
-import { ROUTE_ANIMATIONS_ELEMENTS, downUpFadeInAnimation } from 'app/core/core.module';
-import { ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE } from 'app/shared/global-settings/global-settings';
-import { ODM_FALLBACK_EMAIL_ADDRESS } from 'app/shared/global-settings/fallback-email-address';
+import { LDSLY_FALLBACK_EMAIL_ADDRESS } from 'app/shared/global-settings/fallback-email-address';
+import { LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE } from 'app/shared/global-settings/global-settings';
 
 /**
  * User's personal email component.
  */
 @Component({
-	selector: 'odm-personal-email-verification',
+	selector: 'ldsly-personal-email-verification',
 	templateUrl: './personal-email-verification.component.html',
 	styleUrls: ['./personal-email-verification.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -48,7 +48,7 @@ export class PersonalEmailVerificationComponent {
 	/**
 	 * Fallback email address if one cannot be fetched from the server.
 	 */
-	readonly _fallbackEmail = ODM_FALLBACK_EMAIL_ADDRESS;
+	readonly _fallbackEmail = LDSLY_FALLBACK_EMAIL_ADDRESS;
 
 	/**
 	 * Route animations.
@@ -58,7 +58,7 @@ export class PersonalEmailVerificationComponent {
 	/**
 	 * Short description font size.
 	 */
-	readonly _shortDescription = ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
+	readonly _shortDescription = LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
 
 	/**
 	 * Creates an instance of personal email component.

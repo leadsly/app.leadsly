@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
  * Change email token container component.
  */
 @Component({
-	selector: 'odm-change-email-token-container',
+	selector: 'ldsly-change-email-token-container',
 	templateUrl: './change-email-token-container.component.html',
 	styleUrls: ['./change-email-token-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

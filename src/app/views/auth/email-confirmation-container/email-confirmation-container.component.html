@@ -1,9 +1,9 @@
 <div>
-	<odm-email-confirmation
+	<ldsly-email-confirmation
 		(confirmationFinished)="_onEmailConfirmationFinished($event)"
 		[isAuthenticated]="_isAuthenticated$ | async"
 		[inProgress]="_emailConfirmationInProgress$ | async"
 		[problemDetails]="_problemDetails$ | async"
 		[internalServerErrorDetails]="_internalServerErrorDetails$ | async"
-	></odm-email-confirmation>
+	></ldsly-email-confirmation>
 </div>

@@ -1,9 +1,9 @@
 {
-	"odm.examples.menu.auth": "Authentification",
-	"odm.examples.menu.crud": "CRUD",
-	"odm.examples.menu.form": "Forme",
-	"odm.examples.menu.notifications": "Notifications",
-	"odm.examples.menu.stocks": "Stocks",
-	"odm.examples.menu.theming": "Theming",
-	"odm.examples.menu.todos": "Tâches"
+	"ldsly.examples.menu.auth": "Authentification",
+	"ldsly.examples.menu.crud": "CRUD",
+	"ldsly.examples.menu.form": "Forme",
+	"ldsly.examples.menu.notifications": "Notifications",
+	"ldsly.examples.menu.stocks": "Stocks",
+	"ldsly.examples.menu.theming": "Theming",
+	"ldsly.examples.menu.todos": "Tâches"
 }

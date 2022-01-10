@@ -38,8 +38,8 @@ module.exports = {
 				exemptEmptyConstructors: true
 			}
 		],
-		'@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'odm', style: 'camelCase' }],
-		'@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'odm', style: 'kebab-case' }],
+		'@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'ldsly', style: 'camelCase' }],
+		'@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'ldsly', style: 'kebab-case' }],
 		'@typescript-eslint/no-var-requires': 0,
 		'object-curly-spacing': [2, 'always'],
 		'no-unused-vars': 'off',

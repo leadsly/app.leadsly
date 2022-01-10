@@ -15,7 +15,7 @@ import { AuthSandboxService } from '../auth-sandbox.service';
  * Auth container component that houses all functionality responsible for displaying sign-in/sign-up/forgot-password.
  */
 @Component({
-	selector: 'odm-auth-container',
+	selector: 'ldsly-auth-container',
 	templateUrl: './auth-container.component.html',
 	styleUrls: ['./auth-container.component.scss'],
 	animations: [routeAnimations],

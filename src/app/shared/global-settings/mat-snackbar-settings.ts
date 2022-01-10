@@ -1,14 +1,14 @@
 /*
  * Default duration for mat snack bar toast message.
  */
-export const ODM_SNACKBAR_DURATION_DEFAULT = 2000;
+export const LDSLY_SNACKBAR_DURATION_DEFAULT = 2000;
 
 /*
  * Warn duration for mat snack bar toast message.
  */
-export const ODM_SNACKBAR_DURATION_WARN = 2500;
+export const LDSLY_SNACKBAR_DURATION_WARN = 2500;
 
 /*
  * Error duration for mat snack bar toast message.
  */
-export const ODM_SNACKBAR_DURATION_ERROR = 3000;
+export const LDSLY_SNACKBAR_DURATION_ERROR = 3000;

@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@mixin odm-personal-email-verification-component-theme($theme) {
+@mixin ldsly-personal-email-verification-component-theme($theme) {
 	$accent: map-get($theme, accent);
 	$warn: map-get($theme, warn);
 	$foreground: map-get($theme, foreground);

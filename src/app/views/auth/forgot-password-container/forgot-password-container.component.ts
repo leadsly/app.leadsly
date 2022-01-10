@@ -1,17 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OdmValidators } from 'app/core/form-validators/odm-validators';
 import { ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
-import { AuthSandboxService } from '../auth-sandbox.service';
-import { Observable, merge, Subscription } from 'rxjs';
+import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { merge, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AuthSandboxService } from '../auth-sandbox.service';
 
 /**
  * Forgot password container component.
  */
 @Component({
-	selector: 'odm-forgot-password-container',
+	selector: 'ldsly-forgot-password-container',
 	templateUrl: './forgot-password-container.component.html',
 	styleUrls: ['./forgot-password-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -127,7 +127,7 @@ export class ForgotPasswordContainerComponent implements OnInit, OnDestroy {
 	 */
 	private _initForgotPasswordForm(): FormGroup {
 		return this._sb.fb.group({
-			email: this._sb.fb.control('', [OdmValidators.required, OdmValidators.email])
+			email: this._sb.fb.control('', [LdslyValidators.required, LdslyValidators.email])
 		});
 	}
 }

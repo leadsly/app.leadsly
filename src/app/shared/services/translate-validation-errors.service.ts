@@ -41,18 +41,18 @@ export class TranslateValidationErrorsService {
 	private _mapErrorToTranslation(errors: ValidationErrors): TranslateError {
 		if (errors['required']) {
 			return {
-				translationKey: 'odm.auth.form.validations.field-required',
+				translationKey: 'ldsly.auth.form.validations.field-required',
 				validationErrorType: ValidationErrorType.Required
 			};
 		} else if (errors['email']) {
 			return {
-				translationKey: 'odm.auth.form.validations.invalid-email-format',
+				translationKey: 'ldsly.auth.form.validations.invalid-email-format',
 				validationErrorType: ValidationErrorType.InvalidEmailFormat
 			};
 		} else if (errors['nonUnique']) {
 			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			return {
-				translationKey: 'odm.auth.form.validations.non-unique-email',
+				translationKey: 'ldsly.auth.form.validations.non-unique-email',
 				extras: errors['nonUnique'] as string,
 				validationErrorType: ValidationErrorType.NonUniqueEmail
 			};
@@ -60,7 +60,7 @@ export class TranslateValidationErrorsService {
 			// 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			const error = errors['minlength'] as { requiredLength: number };
 			return {
-				translationKey: 'odm.auth.form.validations.min-length',
+				translationKey: 'ldsly.auth.form.validations.min-length',
 				extras: error['requiredLength'],
 				validationErrorType: ValidationErrorType.MinLength
 			};
@@ -84,7 +84,7 @@ export class TranslateValidationErrorsService {
 			};
 		} else {
 			return {
-				translationKey: 'odm.auth.form.validations.input-error',
+				translationKey: 'ldsly.auth.form.validations.input-error',
 				validationErrorType: ValidationErrorType.InputValidationError
 			};
 		}

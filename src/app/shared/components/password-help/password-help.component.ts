@@ -1,23 +1,23 @@
-import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy, EventEmitter, Output, ViewChild } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { PasswordHelp } from 'app/core/models/auth/password-help.model';
-import { MatTreeFlattener, MatTreeFlatDataSource, MatTree } from '@angular/material/tree';
-import { Subscription, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { PasswordRequirementType } from 'app/core/models/auth/password-requirement-type.enum';
-import { LogService } from 'app/core/logger/log.service';
-import { downUpFadeInAnimation } from 'app/core/core.module';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { TooltipTouchGestures } from '@angular/material/tooltip';
-import { ODM_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
+import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { downUpFadeInAnimation } from 'app/core/core.module';
+import { LogService } from 'app/core/logger/log.service';
+import { PasswordHelp } from 'app/core/models/auth/password-help.model';
+import { PasswordRequirementType } from 'app/core/models/auth/password-requirement-type.enum';
+import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
 import { PasswordResetMatTreeState } from 'app/core/models/password-reset-mat-tree-state.model';
+import { LDSLY_TOOLTIP_SHOW_DELAY_IN_MS } from 'app/shared/global-settings/mat-tooltip-settings';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 /**
  * Displays password help and validates users password.
  */
 @Component({
-	selector: 'odm-password-help',
+	selector: 'ldsly-password-help',
 	templateUrl: './password-help.component.html',
 	styleUrls: ['./password-help.component.scss'],
 	// has to be default because nothing changes in the template when requirements go from passed to failed.
@@ -75,7 +75,7 @@ export class PasswordHelpComponent implements OnInit, OnDestroy {
 	/**
 	 * Delay in ms for toolip.
 	 */
-	readonly _showDelayInMs = ODM_TOOLTIP_SHOW_DELAY_IN_MS;
+	readonly _showDelayInMs = LDSLY_TOOLTIP_SHOW_DELAY_IN_MS;
 
 	/**
 	 * Indent of mat-tree-node component.
@@ -123,7 +123,7 @@ export class PasswordHelpComponent implements OnInit, OnDestroy {
 	_confirmPasswordNotMatchReqMet = false;
 
 	private readonly _topLevelPasswordRequirementNode: PasswordRequirement = {
-		name: 'odm.auth.form.requirements.title',
+		name: 'ldsly.auth.form.requirements.title',
 		type: PasswordRequirementType.None,
 		children: []
 	};

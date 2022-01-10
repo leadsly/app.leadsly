@@ -1,17 +1,17 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AuthBase } from 'app/views/auth/auth-base';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
-import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { LogService } from 'app/core/logger/log.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
+import { AuthBase } from 'app/views/auth/auth-base';
 
 /**
  * Change email component.
  */
 @Component({
-	selector: 'odm-change-email',
+	selector: 'ldsly-change-email',
 	templateUrl: './change-email.component.html',
 	styleUrls: ['./change-email.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,12 +61,12 @@ export class ChangeEmailComponent extends AuthBase {
 	/**
 	 * Changing password spinner diameter.
 	 */
-	readonly _changingEmailSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _changingEmailSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Changing password spinner stroke width.
 	 */
-	readonly _changingEmailSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _changingEmailSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of change email component.

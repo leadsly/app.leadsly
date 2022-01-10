@@ -1,19 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AccountSandboxService } from '../../account-sandbox.service';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, merge } from 'rxjs';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OdmValidators } from 'app/core/form-validators/odm-validators';
-import { tap, skip } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { ChangeEmailRequest } from 'app/core/models/auth/change-email-request.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { merge, Observable, Subscription } from 'rxjs';
+import { skip, tap } from 'rxjs/operators';
+import { AccountSandboxService } from '../../account-sandbox.service';
 
 /**
  * Change e-mail container component.
  */
 @Component({
-	selector: 'odm-change-email-container',
+	selector: 'ldsly-change-email-container',
 	templateUrl: './change-email-container.component.html',
 	styleUrls: ['./change-email-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -124,11 +124,11 @@ export class ChangeEmailContainerComponent implements OnInit {
 		this._sb.log.trace('_initChangeEmailForm fired.', this);
 		return this._sb.fb.group({
 			newEmail: this._sb.fb.control('', {
-				validators: [OdmValidators.required, OdmValidators.email],
+				validators: [LdslyValidators.required, LdslyValidators.email],
 				asyncValidators: [this._sb.asyncValidators.checkIfEmailIsUnique()],
 				updateOn: 'blur'
 			}),
-			password: this._sb.fb.control('', OdmValidators.required)
+			password: this._sb.fb.control('', LdslyValidators.required)
 		});
 	}
 }

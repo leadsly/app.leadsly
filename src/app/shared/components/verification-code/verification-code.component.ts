@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OdmValidators } from '../../../core/form-validators/odm-validators';
+import { LdslyValidators } from '../../../core/form-validators/ldsly-validators';
 import { LogService } from '../../../core/logger/log.service';
 import { InternalServerErrorDetails } from '../../../core/models/internal-server-error-details.model';
 import { ProblemDetails } from '../../../core/models/problem-details.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from '../../../shared/global-settings/mat-spinner-settings';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from '../../../shared/global-settings/mat-spinner-settings';
 import { TranslateValidationErrorsService } from '../../../shared/services/translate-validation-errors.service';
 import { AuthBase } from '../../../views/auth/auth-base';
 
@@ -15,7 +15,7 @@ import { AuthBase } from '../../../views/auth/auth-base';
  * Verification code component. Takes verification code form and captures input. Handles displaying validation and server side errors.
  */
 @Component({
-	selector: 'odm-verification-code',
+	selector: 'ldsly-verification-code',
 	templateUrl: './verification-code.component.html',
 	styleUrls: ['./verification-code.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -95,17 +95,17 @@ export class VerificationCodeComponent extends AuthBase implements OnInit {
 	/**
 	 * Verified next step button spinner diameter.
 	 */
-	readonly _verifiedNextStepSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _verifiedNextStepSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Verified next step button spinner stroke width.
 	 */
-	readonly _verifiedNextStepSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _verifiedNextStepSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Translation key of verification code component.
 	 */
-	private readonly _translationKey = 'odm.auth.form.placeholders.verification-code';
+	private readonly _translationKey = 'ldsly.auth.form.placeholders.verification-code';
 
 	/**
 	 * Creates an instance of verification code component.
@@ -133,7 +133,7 @@ export class VerificationCodeComponent extends AuthBase implements OnInit {
 			this._initForm();
 		}
 
-		// 'odm.auth.form.placeholders.verification-code' string contains '{number}' placeholder that has to be replaced at run time.
+		// 'ldsly.auth.form.placeholders.verification-code' string contains '{number}' placeholder that has to be replaced at run time.
 		this._verificationCodeLabel$ = this._translateService
 			.get(this._translationKey)
 			.pipe(map((str: string) => (str = str.replace('{number}', this._verificationCodeInputLength.toString()))));
@@ -177,9 +177,9 @@ export class VerificationCodeComponent extends AuthBase implements OnInit {
 		this._form = this._fb.group({
 			code: this._fb.control('', {
 				validators: [
-					OdmValidators.required,
-					OdmValidators.minLength(this.verificationCodeInputLength),
-					OdmValidators.maxLength(this.verificationCodeInputLength)
+					LdslyValidators.required,
+					LdslyValidators.minLength(this.verificationCodeInputLength),
+					LdslyValidators.maxLength(this.verificationCodeInputLength)
 				],
 				updateOn: 'change'
 			})

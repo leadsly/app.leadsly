@@ -1,19 +1,19 @@
-import { Component, ChangeDetectionStrategy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
-import { ROUTE_ANIMATIONS_ELEMENTS, downUpFadeInAnimation } from 'app/core/core.module';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { ODM_SMALL_SPINNER_DIAMETER, ODM_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
-import { LogService } from 'app/core/logger/log.service';
-import { ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE, ODM_GLOBAL_ACCOUNT_HEADER_SIZE } from 'app/shared/global-settings/global-settings';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
+import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
+import { LogService } from 'app/core/logger/log.service';
 import { TwoFactorAuthenticationSetup } from 'app/core/models/account/security/two-factor-authentication-setup.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE, LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE } from 'app/shared/global-settings/global-settings';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
  * Two factor authentication component responsible for handling user's 2fa settings.
  */
 @Component({
-	selector: 'odm-two-factor-authentication',
+	selector: 'ldsly-two-factor-authentication',
 	templateUrl: './two-factor-authentication.component.html',
 	styleUrls: ['./two-factor-authentication.component.scss'],
 	animations: [downUpFadeInAnimation],
@@ -120,22 +120,22 @@ export class TwoFactorAuthenticationComponent {
 	/**
 	 * Short description font size.
 	 */
-	readonly _shortDescriptionFontSize = ODM_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
+	readonly _shortDescriptionFontSize = LDSLY_GLOBAL_ACCOUNT_SHORT_DESCRIPTION_SIZE;
 
 	/**
 	 * Account header font size.
 	 */
-	readonly _accountHeader = ODM_GLOBAL_ACCOUNT_HEADER_SIZE;
+	readonly _accountHeader = LDSLY_GLOBAL_ACCOUNT_HEADER_SIZE;
 
 	/**
 	 * Two factor auth toggle spinner diameter.
 	 */
-	readonly _twoFactorAuthToggleSpinnerDiameter = ODM_SMALL_SPINNER_DIAMETER;
+	readonly _twoFactorAuthToggleSpinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
 
 	/**
 	 * Two factor auth toggle spinner stroke width.
 	 */
-	readonly _twoFactorAuthToggleSpinnerStrokeWidth = ODM_SMALL_SPINNER_STROKE_WIDTH;
+	readonly _twoFactorAuthToggleSpinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of two factor authentication component.

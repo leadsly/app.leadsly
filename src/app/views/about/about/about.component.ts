@@ -5,7 +5,7 @@ import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
  * About component.
  */
 @Component({
-	selector: 'odm-about',
+	selector: 'ldsly-about',
 	templateUrl: './about.component.html',
 	styleUrls: ['./about.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush

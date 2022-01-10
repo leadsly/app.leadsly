@@ -1,23 +1,23 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
-import { PasswordHelpToggleClass } from 'app/core/models/auth/password-help-toggle-class.model';
-import { getPasswordRequirements } from 'app/core/utilities/password-requirements.utility';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, merge, Subject } from 'rxjs';
-import { OdmValidators, MinPasswordLength } from 'app/core/form-validators/odm-validators';
-import { tap, skip } from 'rxjs/operators';
+import { LdslyValidators, MinPasswordLength } from 'app/core/form-validators/ldsly-validators';
 import { PasswordChange } from 'app/core/models/auth/password-change.model';
+import { PasswordHelpToggleClass } from 'app/core/models/auth/password-help-toggle-class.model';
+import { PasswordRequirement } from 'app/core/models/auth/password-requirement.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { PasswordResetMatTreeState } from 'app/core/models/password-reset-mat-tree-state.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { getPasswordRequirements } from 'app/core/utilities/password-requirements.utility';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
+import { skip, tap } from 'rxjs/operators';
 import { AccountSandboxService } from '../../account-sandbox.service';
 
 /**
  * Change user password container component.
  */
 @Component({
-	selector: 'odm-change-password-container',
+	selector: 'ldsly-change-password-container',
 	templateUrl: './change-password-container.component.html',
 	styleUrls: ['./change-password-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
@@ -204,25 +204,25 @@ export class ChangePasswordContainerComponent implements OnInit, OnDestroy {
 			{
 				email: this._sb.fb.control(''),
 				currentPassword: this._sb.fb.control('', {
-					validators: [OdmValidators.required],
+					validators: [LdslyValidators.required],
 					updateOn: 'change'
 				}),
 				password: this._sb.fb.control('', {
 					validators: [
-						OdmValidators.required,
-						OdmValidators.minLength(MinPasswordLength),
-						OdmValidators.requireDigit,
-						OdmValidators.requireLowercase,
-						OdmValidators.requireUppercase,
-						OdmValidators.requireNonAlphanumeric,
-						OdmValidators.requireThreeUniqueCharacters
+						LdslyValidators.required,
+						LdslyValidators.minLength(MinPasswordLength),
+						LdslyValidators.requireDigit,
+						LdslyValidators.requireLowercase,
+						LdslyValidators.requireUppercase,
+						LdslyValidators.requireNonAlphanumeric,
+						LdslyValidators.requireThreeUniqueCharacters
 					],
 					updateOn: 'change'
 				}),
-				confirmPassword: this._sb.fb.control('', OdmValidators.required)
+				confirmPassword: this._sb.fb.control('', LdslyValidators.required)
 			},
 			{
-				validators: OdmValidators.requireConfirmPassword,
+				validators: LdslyValidators.requireConfirmPassword,
 				updateOn: 'change'
 			}
 		);

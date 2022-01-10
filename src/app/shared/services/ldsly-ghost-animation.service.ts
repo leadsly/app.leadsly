@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Injectable, Inject, PLATFORM_ID, Optional } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 
-const ACTIVE_GHOST = 'odm-ghost-active';
+const ACTIVE_GHOST = 'ldsly-ghost-active';
 
 /**
  * Ghosting animation service.
  */
 @Injectable()
-export class OdmGhostAnimationService {
+export class LdslyGhostAnimationService {
 	/**
 	 * Body HTML of the entire app.
 	 */
