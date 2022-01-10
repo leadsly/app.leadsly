@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+
 # Angular 12, Ngxs and Angular Material Starter
 
 ## Getting started
@@ -70,4 +72,8 @@ npm run build:ssr:prod
 - Hot module reload support
 - Server side rendering support
 - Translations
-- angular-material and custom components in `SharedModule`
+- # angular-material and custom components in `SharedModule`
+
+# Leadsly
+
+> > > > > > > ca754886933d52158bda746f24bf01998d2267f3
