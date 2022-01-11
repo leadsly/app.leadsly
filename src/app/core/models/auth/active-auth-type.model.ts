@@ -8,7 +8,5 @@ export type ActiveAuthType =
 	| 'forgot-password-active'
 	| 'two-step-verification-active'
 	| 'reset-password-active'
-	// [CONFIRMATION-WALL]: Keep code if confirmation wall is required.
-	// | 'successful-registration-active'
 	| 'email-confirmation-active'
 	| 'email-change-confirmation-active';

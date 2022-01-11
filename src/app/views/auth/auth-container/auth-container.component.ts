@@ -66,14 +66,6 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Whether user is on the successful-registration route.
-	 * [CONFIRMATION-WALL]: Keep code if confirmation wall is required.
-	 */
-	// get _successfulRegistration(): boolean {
-	// 	return this._sb.router.url.includes('/auth/successful-registration');
-	// }
-
-	/**
 	 * Whether user is on the email-confirmation route.
 	 */
 	get _emailConfirmation(): boolean {
@@ -249,12 +241,7 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 			this._sb.updateActiveAuthType({ activeAuthType: 'two-step-verification-active' });
 		} else if (url.includes('/auth/reset-password')) {
 			this._sb.updateActiveAuthType({ activeAuthType: 'reset-password-active' });
-		}
-		// [CONFIRMATION-WALL]: Keep code if confirmation wall is required.
-		//   else if (url.includes('/auth/successful-registration')) {
-		// 	this._sb.updateActiveAuthType({ activeAuthType: 'successful-registration-active' });
-		// }
-		else if (url.includes('/email-confirmation')) {
+		} else if (url.includes('/email-confirmation')) {
 			this._sb.updateActiveAuthType({ activeAuthType: 'email-confirmation-active' });
 		} else if (url.includes('/email-change-confirmation')) {
 			this._sb.updateActiveAuthType({ activeAuthType: 'email-change-confirmation-active' });

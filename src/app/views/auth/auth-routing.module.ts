@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthContainerComponent } from './auth-container/auth-container.component';
-import { SignInContainerComponent } from './sign-in-container/sign-in-container.component';
-import { SignUpContainerComponent } from './sign-up-container/sign-up-container.component';
-import { ForgotPasswordContainerComponent } from './forgot-password-container/forgot-password-container.component';
-import { TwoStepVerificationComponent } from './two-step-verification/two-step-verification.component';
-import { RedeemRecoveryCodeComponent } from './redeem-recovery-code/redeem-recovery-code.component';
-
 import { ChangeEmailTokenContainerComponent } from './change-email-token-container/change-email-token-container.component';
 import { EmailConfirmationContainerComponent } from './email-confirmation-container/email-confirmation-container.component';
+import { ForgotPasswordContainerComponent } from './forgot-password-container/forgot-password-container.component';
+import { RedeemRecoveryCodeComponent } from './redeem-recovery-code/redeem-recovery-code.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignInContainerComponent } from './sign-in-container/sign-in-container.component';
+import { SignUpContainerComponent } from './sign-up-container/sign-up-container.component';
+import { TwoStepVerificationComponent } from './two-step-verification/two-step-verification.component';
 
 const routes: Routes = [
 	{
@@ -44,11 +43,6 @@ const routes: Routes = [
 				path: 'redeem-recovery-code',
 				component: RedeemRecoveryCodeComponent
 			},
-			// [CONFIRMATION-WALL]: Keep code if confirmation wall is required.
-			// {
-			// 	path: 'successful-registration',
-			// 	component: SuccessfulRegistrationComponent
-			// },
 			{
 				path: 'email-confirmation',
 				component: EmailConfirmationContainerComponent
