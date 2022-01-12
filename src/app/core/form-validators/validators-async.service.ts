@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AsyncValidatorFn, AbstractControl } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { of } from 'rxjs';
-import { debounceTime, take, switchMap, map } from 'rxjs/operators';
+import { debounceTime, map, switchMap, take } from 'rxjs/operators';
 import { UsersAsyncService } from '../../shared/services/users-async.service';
 
 /**
@@ -47,6 +47,41 @@ export class AsyncValidatorsService {
 						return this._usersAsyncService
 							.checkIfEmailExists$(control.value)
 							.pipe(map((exists) => (exists ? { nonUnique: control.value as string } : null)));
+					})
+				);
+			}
+		};
+	}
+
+	/**
+	 * Checks if email registration was sent.
+	 * @param [initialEmail]
+	 * @returns AccountInvite
+	 */
+	isEmailInvitedToRegister(initialEmail: string = ''): AsyncValidatorFn {
+		return (control: AbstractControl) => {
+			if (this.isEmptyInputValue(control.value)) {
+				return of(null);
+			} else if (control.value === initialEmail) {
+				return of(null);
+			} else {
+				return control.valueChanges.pipe(
+					debounceTime(500),
+					take(1),
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+					switchMap((_) => {
+						return this._usersAsyncService.checkIfEmailWasInvited$(control.value).pipe(
+							map((accountInvite) =>
+								accountInvite.error
+									? {
+											serverError: {
+												email: control.value as string,
+												errorDescription: accountInvite.errorDescription
+											}
+									  }
+									: null
+							)
+						);
 					})
 				);
 			}

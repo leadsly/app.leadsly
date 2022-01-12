@@ -155,6 +155,8 @@ export class SignUpComponent extends AuthBase implements OnInit, OnDestroy {
 	 */
 	ngOnInit(): void {
 		this.log.trace('Initialized.', this);
+
+		this._signupForm.get('email').statusChanges.subscribe((status) => console.log(status));
 	}
 
 	/**

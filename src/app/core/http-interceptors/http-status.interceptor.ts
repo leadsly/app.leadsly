@@ -2,6 +2,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NEVER, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ServerErrorService } from '../error-handler/server-error.service';
 import { LogService } from '../logger/log.service';
 import { InternalServerErrorDetails } from '../models/internal-server-error-details.model';
@@ -29,14 +30,12 @@ export class HttpStatusInterceptor implements HttpInterceptor {
 	 * @returns intercept
 	 */
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		return next
-			.handle(req.clone())
-			.pipe
-			// catchError((e: HttpErrorResponse) => {
-			// 	this._log.error('Error occured in HttpStatusInterceptor. Executing _handleError$ method.', this, e);
-			// 	return this._handleError$(e);
-			// })
-			();
+		return next.handle(req.clone()).pipe(
+			catchError((e: HttpErrorResponse) => {
+				this._log.error('Error occured in HttpStatusInterceptor. Executing _handleError$ method.', this, e);
+				return this._handleError$(e);
+			})
+		);
 	}
 
 	/**

@@ -83,7 +83,7 @@
 				"confirming": "Email confirmation in progress",
 				"toast-message": "Email has been confirmed"
 			},
-			"checking-availability": "Checking availability",
+			"checking-status": "Checking account status",
 			"password-help": "Verifies your password meets requirements.",
 			"forgot-password": {
 				"header": "Forgot your password?",
@@ -144,6 +144,7 @@
 				},
 				"validations": {
 					"non-unique-email": "{email} is already registered.",
+					"account-invited": "Welcome to Leadsly!",
 					"invalid-email-format": "Invalid e-mail format.",
 					"input-error": "Input validation error.",
 					"field-required": "This field is required.",

@@ -226,7 +226,7 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 			{
 				email: this._sb.fb.control('', {
 					validators: [LdslyValidators.required, LdslyValidators.email],
-					asyncValidators: [this._sb.asyncValidators.checkIfEmailIsUnique()],
+					asyncValidators: [this._sb.asyncValidators.isEmailInvitedToRegister()],
 					updateOn: 'blur'
 				}),
 				password: this._sb.fb.control('', {

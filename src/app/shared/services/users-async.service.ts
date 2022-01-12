@@ -1,14 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { BACKEND_API_URL } from '../../core/api-url-injection-token';
-import { Observable } from 'rxjs';
-import { AccountSecurityDetails } from '../../core/models/account/security/account-security-details.model';
-import { AccountGeneralDetails } from '../../core/models/account/general/account-general-details.model';
-import { PasswordReset } from '../../core/models/auth/password-reset.model';
-import { PasswordChange } from 'app/core/models/auth/password-change.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { AccountInvite } from 'app/core/models/auth/account-invite.model';
 import { ChangeEmailRequest } from 'app/core/models/auth/change-email-request.model';
 import { ChangeEmail } from 'app/core/models/auth/change-email.model';
 import { ConfirmEmail } from 'app/core/models/auth/confirm-email.model';
+import { PasswordChange } from 'app/core/models/auth/password-change.model';
+import { Observable } from 'rxjs';
+import { BACKEND_API_URL } from '../../core/api-url-injection-token';
+import { AccountGeneralDetails } from '../../core/models/account/general/account-general-details.model';
+import { AccountSecurityDetails } from '../../core/models/account/security/account-security-details.model';
+import { PasswordReset } from '../../core/models/auth/password-reset.model';
 
 /**
  * User async service.
@@ -65,6 +66,15 @@ export class UsersAsyncService {
 	 */
 	checkIfEmailExists$(email: string): Observable<boolean> {
 		return this._http.get<boolean>(`${this._apiUrl}/users/email`, { params: { email: email }, headers: this._headers });
+	}
+
+	/**
+	 * Checks if email was invited to reigster.
+	 * @param email
+	 * @returns if email to register was sent out.
+	 */
+	checkIfEmailWasInvited$(email: string): Observable<AccountInvite> {
+		return this._http.get<AccountInvite>(`${this._apiUrl}/users/emails/invited`, { params: { email: email }, headers: this._headers });
 	}
 
 	/**
