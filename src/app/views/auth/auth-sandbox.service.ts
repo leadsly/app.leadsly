@@ -242,9 +242,9 @@ export class AuthSandboxService {
 	 * Signs user up.
 	 * @param model
 	 */
-	signupUser(model: SignupUser): void {
+	signupUser(model: SignupUser, registrationToken: string): void {
 		this._authAsyncService
-			.signup$(model)
+			.signup$(model, registrationToken)
 			.pipe(
 				tap((resp) => {
 					this.userRegistrationCompleted({ registrationCompleted: true });

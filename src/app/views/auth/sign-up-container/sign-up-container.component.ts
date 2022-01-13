@@ -130,7 +130,8 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 	 */
 	_onSignupSubmitted(model: SignupUser): void {
 		this._sb.log.trace('_onSignupSubmitted event handler fired.', this);
-		this._sb.signupUser(model);
+		const registrationToken = this._route.snapshot.queryParams['registrationToken'] as string;
+		this._sb.signupUser(model, registrationToken);
 	}
 
 	/**

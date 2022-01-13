@@ -109,7 +109,7 @@ export class UsersAsyncService {
 	 * @param id
 	 */
 	changePassword$(id: string, model: PasswordChange): Observable<void> {
-		return this._http.put<void>(`${this._apiUrl}/users/${id}/password`, JSON.stringify(model), { headers: this._headers });
+		return this._http.patch<void>(`${this._apiUrl}/users/${id}/password`, JSON.stringify(model), { headers: this._headers });
 	}
 
 	/**

@@ -30,8 +30,13 @@ export class AuthAsyncService {
 	 * @param model
 	 * @returns access token
 	 */
-	signup$(model: SignupUser): Observable<AccessToken> {
-		return this._http.post<AccessToken>(`${this._apiUrl}/auth/signup`, JSON.stringify(model), { headers: this._headers });
+	signup$(model: SignupUser, registrationToken: string): Observable<AccessToken> {
+		return this._http.post<AccessToken>(`${this._apiUrl}/auth/signup`, JSON.stringify(model), {
+			headers: this._headers,
+			params: {
+				registrationToken
+			}
+		});
 	}
 
 	/**
