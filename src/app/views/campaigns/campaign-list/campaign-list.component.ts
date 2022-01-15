@@ -1,0 +1,51 @@
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { LogService } from 'app/core/logger/log.service';
+import { Campaign } from 'app/core/models/campaigns/campaign.model';
+import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
+import { Observable } from 'rxjs';
+import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import { CampaignsSandboxService } from '../campaigns-sandbox.service';
+import { ToggleCampaignStatus } from './../../../core/models/campaigns/toggle-campaign-status.model';
+
+/**
+ * Feature list component.
+ */
+@Component({
+	selector: 'ldsly-campaign-list',
+	templateUrl: './campaign-list.component.html',
+	styleUrls: ['./campaign-list.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CampaignListComponent implements OnInit {
+	/**
+	 * Route animations.
+	 */
+	readonly routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+
+	_campaigns$: Observable<Campaign[]>;
+
+	constructor(private _log: LogService, private _sb: CampaignsSandboxService) {
+		this._campaigns$ = _sb.campaigns$;
+	}
+
+	ngOnInit(): void {
+		this._log.trace('[CampaignListComponent] Initialized.', this);
+
+		this._sb.getUserCampaigns();
+	}
+
+	_onToggleCampaign(event: ToggleCampaignStatus): void {
+		this._log.trace('[CampaignListComponent] _onToggleCampaign event handler fired.', this);
+		this._sb.toggleCampaign(event);
+	}
+
+	_onDeleteCampaign(event: DeleteCampaign): void {
+		this._log.trace('[CampaignListComponent] _onDeleteCampaign event handler fired.', this);
+		this._sb.deleteCampaign(event);
+	}
+
+	_onUpdateCampaign(event: Campaign): void {
+		this._log.trace('[CampaignListComponent] _onUpdateCampaign event handler fired.', this);
+		this._sb.updateCampaign(event);
+	}
+}

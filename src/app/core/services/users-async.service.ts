@@ -6,10 +6,11 @@ import { ChangeEmail } from 'app/core/models/auth/change-email.model';
 import { ConfirmEmail } from 'app/core/models/auth/confirm-email.model';
 import { PasswordChange } from 'app/core/models/auth/password-change.model';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../../core/api-url-injection-token';
-import { AccountGeneralDetails } from '../../core/models/account/general/account-general-details.model';
-import { AccountSecurityDetails } from '../../core/models/account/security/account-security-details.model';
-import { PasswordReset } from '../../core/models/auth/password-reset.model';
+import { BACKEND_API_URL } from '../api-url-injection-token';
+import { AccountGeneralDetails } from '../models/account/general/account-general-details.model';
+import { AccountSecurityDetails } from '../models/account/security/account-security-details.model';
+import { PasswordReset } from '../models/auth/password-reset.model';
+import { Campaigns } from '../models/campaigns/campaigns.model';
 
 /**
  * User async service.
@@ -31,6 +32,15 @@ export class UsersAsyncService {
 	 * @param _http
 	 */
 	constructor(@Inject(BACKEND_API_URL) private _apiUrl: string, private _http: HttpClient) {}
+
+	/**
+	 * @description Gets user's campaigns
+	 * @param userId
+	 * @returns campaigns
+	 */
+	getCampaigns$(userId: string): Observable<Campaigns> {
+		return this._http.get<Campaigns>(`${this._apiUrl}/users/${userId}/campaigns`);
+	}
 
 	/**
 	 * Gets user account security details.
@@ -65,7 +75,7 @@ export class UsersAsyncService {
 	 * @returns if email exists
 	 */
 	checkIfEmailExists$(email: string): Observable<boolean> {
-		return this._http.get<boolean>(`${this._apiUrl}/users/email`, { params: { email: email }, headers: this._headers });
+		return this._http.get<boolean>(`${this._apiUrl}/users/emails/exists`, { params: { email: email }, headers: this._headers });
 	}
 
 	/**

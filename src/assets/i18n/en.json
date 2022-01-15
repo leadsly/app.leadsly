@@ -196,13 +196,13 @@
 		"menu": {
 			"about": "About",
 			"examples": "Examples",
-			"features": "Features",
+			"campaigns": "Campaigns",
 			"signin": "Sign in",
 			"signout": "Sign out",
 			"account": "Account",
 			"settings": "Settings"
 		},
-		"features": {
+		"campaigns": {
 			"angular": "Modern powerful framework",
 			"angular-cli": "A command line interface for Angular",
 			"angular-material": "Material design component library",
@@ -220,7 +220,7 @@
 			"rxjs": "Reactive programming with async collections using Observables",
 			"description": "Flexible theming support for provided and custom components",
 			"themes.title": "Themes",
-			"title": "Features",
+			"title": "campaigns",
 			"typescript": "Superior developer experience, code completion, refactoring and less bugs"
 		},
 		"buttons": {

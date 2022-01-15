@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, NoPreloading } from '@angular/router';
+import { NoPreloading, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 	{
@@ -20,8 +20,8 @@ const routes: Routes = [
 		loadChildren: () => import('./views/about/about.module').then((m) => m.AboutModule)
 	},
 	{
-		path: 'feature-list',
-		loadChildren: () => import('./views/feature-list/feature-list.module').then((m) => m.FeatureListModule)
+		path: 'campaigns',
+		loadChildren: () => import('./views/campaigns/campaigns.module').then((m) => m.CampaignsModule)
 	},
 	{
 		path: 'settings',

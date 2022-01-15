@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { of } from 'rxjs';
 import { debounceTime, map, switchMap, take } from 'rxjs/operators';
-import { UsersAsyncService } from '../../shared/services/users-async.service';
+import { UsersAsyncService } from '../services/users-async.service';
 
 /**
  * Async validation service, responsible for performing validations against the server.

@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
 	 */
 	readonly _navigation = [
 		{ link: 'about', label: 'ldsly.menu.about' },
-		{ link: 'feature-list', label: 'ldsly.menu.features' },
+		{ link: 'campaigns', label: 'ldsly.menu.campaigns' },
 		{ link: 'examples', label: 'ldsly.menu.examples' }
 	];
 

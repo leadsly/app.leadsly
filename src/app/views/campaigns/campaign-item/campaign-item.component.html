@@ -1,0 +1,33 @@
+<div>
+	<mat-card>
+		<div>
+			<mat-slide-toggle></mat-slide-toggle>
+		</div>
+		<div>
+			<h3>{{ campaign?.name }}</h3>
+		</div>
+		<div>
+			<span>Connections sent per day</span>
+			<p>{{ campaign?.connectionsSentDaily }}</p>
+		</div>
+		<mat-divider></mat-divider>
+		<div>
+			<span>Connections Sent</span>
+			<p>{{ campaign?.totalConnectionsSent }}</p>
+		</div>
+		<mat-divider></mat-divider>
+		<div>
+			<span>Connections Accepted</span>
+			<p>{{ campaign?.connectionsAccepted }}</p>
+		</div>
+		<mat-divider></mat-divider>
+		<div>
+			<span>Replies</span>
+			<p>{{ campaign?.replies }}</p>
+		</div>
+		<mat-divider></mat-divider>
+		<div>
+			<span>X</span>
+		</div>
+	</mat-card>
+</div>
