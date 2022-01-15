@@ -177,7 +177,7 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 	_isNotSignInOrSignUp(url: UrlSegment[]): boolean {
 		const urlString = url[0]?.path;
 		if (urlString) {
-			if (urlString === 'sign-in' || urlString === 'sign-up') {
+			if (urlString.includes('sign-in') || urlString.includes('sign-up')) {
 				return false;
 			}
 		}
@@ -190,7 +190,7 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 	_switchToSignin(): void {
 		this._sb.updateActiveAuthType({ activeAuthType: 'sign-in-active' });
 		setTimeout(() => {
-			void this._sb.router.navigate(['sign-in'], { relativeTo: this._route.parent });
+			void this._sb.router.navigate(['sign-in'], { relativeTo: this._route.parent, queryParamsHandling: 'preserve' });
 		}, 300);
 	}
 
@@ -200,7 +200,7 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 	_switchToSignup(): void {
 		this._sb.updateActiveAuthType({ activeAuthType: 'sign-up-active' });
 		setTimeout(() => {
-			void this._sb.router.navigate(['sign-up'], { relativeTo: this._route.parent });
+			void this._sb.router.navigate(['sign-up'], { relativeTo: this._route.parent, queryParamsHandling: 'preserve' });
 		}, 300);
 	}
 
@@ -228,12 +228,12 @@ export class AuthContainerComponent implements OnInit, OnDestroy {
 		if (url === '/auth/sign-in' || url === '/auth') {
 			this._sb.updateActiveAuthType({ activeAuthType: 'sign-in-active' });
 			setTimeout(() => {
-				void this._sb.router.navigate(['sign-in'], { relativeTo: this._route.parent });
+				void this._sb.router.navigate(['sign-in'], { relativeTo: this._route.parent, queryParamsHandling: 'merge' });
 			}, 300);
-		} else if (url === '/auth/sign-up') {
+		} else if (url.includes('/auth/sign-up')) {
 			this._sb.updateActiveAuthType({ activeAuthType: 'sign-up-active' });
 			setTimeout(() => {
-				void this._sb.router.navigate(['sign-up'], { relativeTo: this._route.parent });
+				void this._sb.router.navigate(['sign-up'], { relativeTo: this._route.parent, queryParamsHandling: 'merge' });
 			}, 300);
 		} else if (url === '/auth/forgot-password') {
 			this._sb.updateActiveAuthType({ activeAuthType: 'forgot-password-active' });

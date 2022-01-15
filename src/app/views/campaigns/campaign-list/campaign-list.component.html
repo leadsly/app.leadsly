@@ -4,10 +4,11 @@
 			<h1 class="main-heading">{{ 'ldsly.campaigns.title' | translate }}</h1>
 		</div>
 	</div>
-	<div class="_row _align-items-end">
-		<div *ngFor="let campaign of _campaigns$ | async" class="column-md-6 column-lg-4" [ngClass]="routeAnimationsElements">
+	<div class="campaigns__container">
+		<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item" [ngClass]="routeAnimationsElements">
 			<ldsly-campaign-item
 				[campaign]="campaign"
+				[breakpointState]="_breakpointStateScreenMatcher$ | async"
 				(toggleCampaign)="_onToggleCampaign($event)"
 				(deleteCampaign)="_onDeleteCampaign($event)"
 				(updateCampaign)="_onUpdateCampaign($event)"

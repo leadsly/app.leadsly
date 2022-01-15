@@ -1,7 +1,9 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
+import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable } from 'rxjs';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { CampaignsSandboxService } from '../campaigns-sandbox.service';
@@ -24,8 +26,14 @@ export class CampaignListComponent implements OnInit {
 
 	_campaigns$: Observable<Campaign[]>;
 
-	constructor(private _log: LogService, private _sb: CampaignsSandboxService) {
+	/**
+	 * Whether specified screen width was matched.
+	 */
+	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
+
+	constructor(private _log: LogService, private _sb: CampaignsSandboxService, breakpointObserver: BreakpointObserver) {
 		this._campaigns$ = _sb.campaigns$;
+		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
 	}
 
 	ngOnInit(): void {

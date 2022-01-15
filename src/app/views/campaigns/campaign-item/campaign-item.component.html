@@ -1,33 +1,43 @@
-<div>
+<div class="campaign__container">
 	<mat-card>
-		<div>
+		<div class="campaign__item">
 			<mat-slide-toggle></mat-slide-toggle>
 		</div>
-		<div>
-			<h3>{{ campaign?.name }}</h3>
+		<div class="campaign-item__container">
+			<span>{{ campaign?.name }}</span>
+			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Created 6 days ago</span>
 		</div>
-		<div>
-			<span>Connections sent per day</span>
-			<p>{{ campaign?.connectionsSentDaily }}</p>
+		<div class="campaign-item__container">
+			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections sent per day</span>
+			<span>{{ campaign?.connectionsSentDaily }}</span>
 		</div>
-		<mat-divider></mat-divider>
-		<div>
-			<span>Connections Sent</span>
-			<p>{{ campaign?.totalConnectionsSent }}</p>
+		<mat-divider [vertical]="_verticalDivider"></mat-divider>
+		<div class="campaign-item__container">
+			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Sent</span>
+			<span>{{ campaign?.totalConnectionsSent }}</span>
 		</div>
-		<mat-divider></mat-divider>
-		<div>
-			<span>Connections Accepted</span>
-			<p>{{ campaign?.connectionsAccepted }}</p>
+		<mat-divider [vertical]="_verticalDivider"></mat-divider>
+		<div class="campaign-item__container">
+			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Accepted</span>
+			<span>{{ campaign?.connectionsAccepted }}</span>
 		</div>
-		<mat-divider></mat-divider>
-		<div>
-			<span>Replies</span>
-			<p>{{ campaign?.replies }}</p>
+		<mat-divider [vertical]="_verticalDivider"></mat-divider>
+		<div class="campaign-item__container">
+			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Replies</span>
+			<span>{{ campaign?.replies }}</span>
 		</div>
-		<mat-divider></mat-divider>
-		<div>
-			<span>X</span>
+		<mat-divider [vertical]="_verticalDivider"></mat-divider>
+		<div class="campaign-item__container">
+			<span>
+				<mat-icon>remove_circle_outline</mat-icon>
+			</span>
+		</div>
+		<div class="campaign-item__container">
+			<span>
+				<mat-icon>control_point_duplicate</mat-icon>
+			</span>
 		</div>
 	</mat-card>
 </div>
+
+<ng-template #campaignsDesktop> </ng-template>

@@ -155,7 +155,7 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 		const routeUrl: AuthTypeRouteUrl = event === 'sign-in-active' ? 'sign-in' : 'sign-up';
 		this._sb.updateActiveAuthType(activeAuthType);
 		setTimeout(() => {
-			void this._sb.router.navigate([routeUrl], { relativeTo: this._route.parent });
+			void this._sb.router.navigate([routeUrl], { relativeTo: this._route.parent, queryParamsHandling: 'merge' });
 		}, 300);
 	}
 

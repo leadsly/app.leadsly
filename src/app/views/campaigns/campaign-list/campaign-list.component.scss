@@ -1,5 +1,15 @@
 @import '../../../../styles-variables';
 
+.campaigns__container {
+	display: flex;
+	flex-direction: column;
+
+	.campaigns__item {
+		margin: 10px 0;
+	}
+}
+
+// consider removing?
 ._container {
 	margin-top: 20px;
 }

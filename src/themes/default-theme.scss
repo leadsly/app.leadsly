@@ -1,6 +1,47 @@
 @use '@angular/material' as mat;
-$ldsly-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
-$ldsly-accent: mat.define-palette(mat.$light-blue-palette);
-$ldsly-warn: mat.define-palette(mat.$pink-palette, 600);
+// $ldsly-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
+// $ldsly-accent: mat.define-palette(mat.$light-blue-palette);
+// $ldsly-warn: mat.define-palette(mat.$pink-palette, 600);
+
+// $ldsly-theme: mat.define-light-theme($ldsly-primary, $ldsly-accent, $ldsly-warn);
+
+$leadsly-blue: (
+	50: #3eaaff,
+	100: #249fff,
+	200: #0b94ff,
+	300: #0087f0,
+	400: #0079d6,
+	500: #006abd,
+	600: #005ca3,
+	700: #004e8a,
+	800: #003f70,
+	900: #003157,
+	A100: #aae7ff,
+	A200: #5dd1ff,
+	A400: #10bcff,
+	A700: #008cc3,
+	contrast: (
+		50: #ffffff,
+		100: #ffffff,
+		200: #ffffff,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #000000,
+		A400: #ffffff,
+		A700: #ffffff
+	)
+);
+
+$leadsly-primary: mat-palette($leadsly-blue, 600, A400, 800);
+
+$ldsly-primary: mat.define-palette($leadsly-primary, 600, A400, 800);
+$ldsly-accent: mat.define-palette($leadsly-primary, A400);
+$ldsly-warn: mat.define-palette(mat.$pink-palette, 700);
 
 $ldsly-theme: mat.define-light-theme($ldsly-primary, $ldsly-accent, $ldsly-warn);
