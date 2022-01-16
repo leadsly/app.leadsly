@@ -1,98 +1,158 @@
 <div class="campaign__container">
-	<mat-accordion hideToggle="true">
-		<mat-expansion-panel disabled [expanded]="_expanded">
-			<mat-expansion-panel-header>
-				<mat-panel-description>
-					<mat-card>
-						<div class="campaign__item">
-							<mat-slide-toggle></mat-slide-toggle>
+	<mat-accordion [hideToggle]="_verticalDivider">
+		<ng-container *ngIf="!_verticalDivider; else campaignsDesktop">
+			<mat-expansion-panel [disabled]="_verticalDivider" [expanded]="_expanded">
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<div [style.--campaign-name-mobile-font]="_campaignNameMobileFont" class="campaign__title-mobile">
+							<span>{{ _campaign?.name }}</span>
 						</div>
-						<div class="campaign-item__container">
-							<span [style.--campaign-name-font]="_campaignNameFont" class="campaign-item__name">{{ _campaign?.name }}</span>
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Created 6 days ago</span>
-							<mat-icon [matTooltip]="'ldsly.campaigns.view-notes-tooltip' | translate" (click)="_onToggleNotesSection()">description</mat-icon>
+					</mat-panel-title>
+					<mat-panel-description>
+						<div [style.--campaign-description-mobile-font]="_campaignDescriptionMobileFont" class="campaign__description-mobile">
+							<span>Created 6 days ago</span>
 						</div>
-						<div class="campaign-item__container">
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections sent per day</span>
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<mat-card>
+					<div>
+						<mat-slide-toggle></mat-slide-toggle>
+					</div>
+
+					<div class="campaign__container-mobile">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.daily-connections-sent' | translate
+						}}</span>
+						<div>
 							<span>{{ _campaign?.connectionsSentDaily }}</span>
 						</div>
-						<mat-divider [vertical]="_verticalDivider"></mat-divider>
-						<div class="campaign-item__container">
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Sent</span>
+					</div>
+
+					<div class="campaign__container-mobile">
+						<div>
+							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+								'ldsly.campaigns.total-connections-sent' | translate
+							}}</span>
+						</div>
+						<div>
 							<span>{{ _campaign?.totalConnectionsSent }}</span>
 						</div>
-						<mat-divider [vertical]="_verticalDivider"></mat-divider>
-						<div class="campaign-item__container">
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Accepted</span>
+					</div>
+
+					<div class="campaign__container-mobile">
+						<div>
+							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+								'ldsly.campaigns.connections-accepted' | translate
+							}}</span>
+						</div>
+						<div>
 							<span>{{ _campaign?.connectionsAccepted }}</span>
 						</div>
-						<mat-divider [vertical]="_verticalDivider"></mat-divider>
-						<div class="campaign-item__container">
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Replies</span>
+					</div>
+
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+
+					<div>
+						<div>
+							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+								'ldsly.campaigns.replies' | translate
+							}}</span>
 							<span>{{ _campaign?.replies }}</span>
 						</div>
-						<mat-divider [vertical]="_verticalDivider"></mat-divider>
-						<div class="campaign-item__container">
+
+						<div>
+							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+								'ldsly.campaigns.profile-views' | translate
+							}}</span>
+							<span>{{ _campaign?.profileViews }}</span>
+						</div>
+					</div>
+
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+
+					<div>
+						<div>
 							<span>
 								<mat-icon>remove_circle_outline</mat-icon>
 							</span>
 						</div>
-						<div class="campaign-item__container">
+						<div>
 							<span>
 								<mat-icon>control_point_duplicate</mat-icon>
 							</span>
 						</div>
-					</mat-card>
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-			<ldsly-notes
-				[campaignForm]="_campaignForm"
-				(notesUpdated)="_onUpdateCampaignClicked()"
-				(notesClosedAutoSave)="_onNotesClosedAutoSave()"
-			></ldsly-notes>
-		</mat-expansion-panel>
+					</div>
+				</mat-card>
+			</mat-expansion-panel>
+		</ng-container>
 	</mat-accordion>
-
-	<!-- <mat-card>
-		<div class="campaign__item">
-			<mat-slide-toggle></mat-slide-toggle>
-		</div>
-		<div class="campaign-item__container">
-			<span [style.--campaign-name-font]="_campaignNameFont" class="campaign-item__name">{{ _campaign?.name }}</span>
-			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Created 6 days ago</span>
-			<mat-icon></mat-icon>
-		</div>
-		<div class="campaign-item__container">
-			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections sent per day</span>
-			<span>{{ _campaign?.connectionsSentDaily }}</span>
-		</div>
-		<mat-divider [vertical]="_verticalDivider"></mat-divider>
-		<div class="campaign-item__container">
-			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Sent</span>
-			<span>{{ _campaign?.totalConnectionsSent }}</span>
-		</div>
-		<mat-divider [vertical]="_verticalDivider"></mat-divider>
-		<div class="campaign-item__container">
-			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Connections Accepted</span>
-			<span>{{ _campaign?.connectionsAccepted }}</span>
-		</div>
-		<mat-divider [vertical]="_verticalDivider"></mat-divider>
-		<div class="campaign-item__container">
-			<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Replies</span>
-			<span>{{ _campaign?.replies }}</span>
-		</div>
-		<mat-divider [vertical]="_verticalDivider"></mat-divider>
-		<div class="campaign-item__container">
-			<span>
-				<mat-icon>remove_circle_outline</mat-icon>
-			</span>
-		</div>
-		<div class="campaign-item__container">
-			<span>
-				<mat-icon>control_point_duplicate</mat-icon>
-			</span>
-		</div>
-	</mat-card> -->
 </div>
 
-<ng-template #campaignsDesktop> </ng-template>
+<ng-template #campaignsDesktop>
+	<mat-expansion-panel disabled [expanded]="_expanded">
+		<mat-expansion-panel-header>
+			<mat-panel-description>
+				<mat-card>
+					<div class="campaign__item">
+						<mat-slide-toggle></mat-slide-toggle>
+					</div>
+					<div class="campaign-item__container">
+						<span [style.--campaign-name-font]="_campaignNameFont" class="campaign-item__name">{{ _campaign?.name }}</span>
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Created 6 days ago</span>
+						<mat-icon [matTooltip]="'ldsly.campaigns.view-notes-tooltip' | translate" (click)="_onToggleNotesSection()">description</mat-icon>
+					</div>
+					<div class="campaign-item__container">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.daily-connections-sent' | translate
+						}}</span>
+						<span>{{ _campaign?.connectionsSentDaily }}</span>
+					</div>
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+					<div class="campaign-item__container">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.total-connections-sent' | translate
+						}}</span>
+						<span>{{ _campaign?.totalConnectionsSent }}</span>
+					</div>
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+					<div class="campaign-item__container">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.connections-accepted' | translate
+						}}</span>
+						<span>{{ _campaign?.connectionsAccepted }}</span>
+					</div>
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+					<div class="campaign-item__container">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.replies' | translate
+						}}</span>
+						<span>{{ _campaign?.replies }}</span>
+					</div>
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+					<div class="campaign-item__container">
+						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+							'ldsly.campaigns.profile-views' | translate
+						}}</span>
+						<span>{{ _campaign?.profileViews }}</span>
+					</div>
+					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+					<div class="campaign-item__container">
+						<span>
+							<mat-icon>remove_circle_outline</mat-icon>
+						</span>
+					</div>
+					<div class="campaign-item__container">
+						<span>
+							<mat-icon>control_point_duplicate</mat-icon>
+						</span>
+					</div>
+				</mat-card>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<ldsly-notes
+			[campaignForm]="_campaignForm"
+			(notesUpdated)="_onUpdateCampaignClicked()"
+			(notesClosedAutoSave)="_onNotesClosedAutoSave()"
+		></ldsly-notes>
+	</mat-expansion-panel>
+</ng-template>

@@ -204,6 +204,11 @@
 		},
 		"campaigns": {
 			"view-notes-tooltip": "View, add or edit notes",
+			"daily-connections-sent": "Connections sent per day",
+			"total-connections-sent": "Connections sent",
+			"connections-accepted": "Connections accepted",
+			"replies": "Replies",
+			"profile-views": "Profile views",
 			"angular": "Modern powerful framework",
 			"angular-cli": "A command line interface for Angular",
 			"angular-material": "Material design component library",

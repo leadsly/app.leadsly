@@ -5,7 +5,12 @@ import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
-import { CAMPAIGN_NAME_FONT, CAMPAIGN_SMALL_GREY_FONT } from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
+import {
+	CAMPAIGN_DESCRIPTION_FONT,
+	CAMPAIGN_DESCRIPTION_MOBILE_FONT,
+	CAMPAIGN_NAME_FONT,
+	CAMPAIGN_NAME_MOBILE_FONT
+} from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
 
 /**
  * Campaign item component.
@@ -61,12 +66,16 @@ export class CampaignItemComponent implements OnInit {
 	/**
 	 * Campaign's small grey font.
 	 */
-	readonly _campaignSmallGreyFont = CAMPAIGN_SMALL_GREY_FONT;
+	readonly _campaignSmallGreyFont = CAMPAIGN_DESCRIPTION_FONT;
 
 	/**
 	 * Campaign's name font size.
 	 */
 	readonly _campaignNameFont = CAMPAIGN_NAME_FONT;
+
+	readonly _campaignNameMobileFont = CAMPAIGN_NAME_MOBILE_FONT;
+
+	readonly _campaignDescriptionMobileFont = CAMPAIGN_DESCRIPTION_MOBILE_FONT;
 
 	/**
 	 * The direction of the mat divider.
