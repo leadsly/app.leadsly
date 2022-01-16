@@ -38,10 +38,10 @@ $leadsly-blue: (
 	)
 );
 
-$leadsly-primary: mat-palette($leadsly-blue, 600, A400, 800);
+$leadsly-primary: mat-palette($leadsly-blue, 600, 300, 700);
 
-$ldsly-primary: mat.define-palette($leadsly-primary, 600, A400, 800);
+$ldsly-primary: mat.define-palette($leadsly-primary, 600, 300, 700);
 $ldsly-accent: mat.define-palette($leadsly-primary, A400);
-$ldsly-warn: mat.define-palette(mat.$pink-palette, 700);
+$ldsly-warn: mat.define-palette(mat.$pink-palette, 600);
 
 $ldsly-theme: mat.define-light-theme($ldsly-primary, $ldsly-accent, $ldsly-warn);

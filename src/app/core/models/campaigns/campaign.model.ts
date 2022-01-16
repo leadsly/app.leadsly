@@ -9,4 +9,6 @@ export interface Campaign {
 	connectionsAccepted: number;
 	totalConnectionsSent: number;
 	replies: number;
+	profileViews: number;
+	notes: string;
 }

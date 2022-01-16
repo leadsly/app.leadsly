@@ -49,6 +49,25 @@
 .default-theme {
 	@include mat.all-component-themes($ldsly-theme);
 	@include custom-components-theme($ldsly-theme);
+
+	// When defining custom light theme, foreground color is automatically set to black by angular. Not sure exactly how this works with the .default-theme from odiam-template but inspecting css it gets overridden in styles.scss but I dont know how. This is the closest way I can override foreground color
+	.mat-toolbar.mat-primary {
+		color: #fff;
+	}
+	.mat-flat-button.mat-primary,
+	.mat-raised-button.mat-primary,
+	.mat-fab.mat-primary,
+	.mat-mini-fab.mat-primary,
+	.mat-flat-button.mat-accent,
+	.mat-raised-button.mat-accent,
+	.mat-fab.mat-accent,
+	.mat-mini-fab.mat-accent,
+	.mat-flat-button.mat-warn,
+	.mat-raised-button.mat-warn,
+	.mat-fab.mat-warn,
+	.mat-mini-fab.mat-warn {
+		color: #fff;
+	}
 }
 
 .light-theme {

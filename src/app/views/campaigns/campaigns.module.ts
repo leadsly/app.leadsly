@@ -7,12 +7,13 @@ import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { CampaignsRoutingModule } from './campaigns-routing.module';
 import { CampaignsSandboxService } from './campaigns-sandbox.service';
 import { CampaignsState } from './campaigns.store.state';
+import { NotesComponent } from './notes/notes.component';
 
 /**
  * Campaigns module.
  */
 @NgModule({
-	declarations: [CampaignListComponent, CampaignItemComponent],
+	declarations: [CampaignListComponent, CampaignItemComponent, NotesComponent],
 	imports: [CommonModule, SharedModule, CampaignsRoutingModule, NgxsModule.forFeature([CampaignsState])],
 	providers: [CampaignsSandboxService]
 })

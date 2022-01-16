@@ -203,6 +203,7 @@
 			"settings": "Settings"
 		},
 		"campaigns": {
+			"view-notes-tooltip": "View, add or edit notes",
 			"angular": "Modern powerful framework",
 			"angular-cli": "A command line interface for Angular",
 			"angular-material": "Material design component library",
@@ -240,7 +241,10 @@
 			"cancel": "Cancel",
 			"yes": "Yes",
 			"no": "No",
-			"change-theme": "Change Theme"
+			"change-theme": "Change Theme",
+			"edit": "Edit",
+			"add": "Add",
+			"close": "Close (AutoSaves)"
 		}
 	}
 }

@@ -1,6 +1,20 @@
 @import '../../../../styles-variables.scss';
 
 .campaign__container {
+	.mat-expansion-panel-header {
+		padding: 0;
+		height: 100%;
+	}
+
+	.mat-expansion-panel-header-description {
+		display: block;
+		margin-right: 0;
+	}
+
+	.mat-expansion-panel-header {
+		cursor: inherit;
+	}
+
 	mat-card {
 		display: flex;
 		flex-direction: column;
@@ -15,6 +29,14 @@
 		.campaign-item__container {
 			display: inline-block;
 			padding: 10px;
+
+			mat-icon {
+				cursor: pointer;
+			}
+
+			.campaign-item__name {
+				font-size: var(--campaign-name-font);
+			}
 
 			.campaign-item__span {
 				display: block;

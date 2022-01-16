@@ -1,0 +1,16 @@
+<div class="notes__container">
+	<form (ngSubmit)="_onFormSubmitted()" [formGroup]="campaignForm">
+		<mat-form-field appearance="fill">
+			<mat-label>Campaign Notes</mat-label>
+			<textarea formControlName="notes" matInput [readonly]="_readonly" [value]="campaignForm?.get('notes')"></textarea>
+		</mat-form-field>
+		<div class="notes__action-buttons">
+			<button class="notes__add-edit-button" *ngIf="_readonly" mat-raised-button (click)="_onAddOrEditClicked()" type="button" color="accent">
+				{{ !campaignForm?.get('notes').value ? ('ldsly.buttons.add' | translate) : ('ldsly.buttons.edit' | translate) }}
+			</button>
+			<button mat-raised-button type="submit" color="warn">
+				{{ 'ldsly.buttons.close' | translate }}
+			</button>
+		</div>
+	</form>
+</div>

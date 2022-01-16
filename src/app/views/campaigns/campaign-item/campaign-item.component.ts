@@ -1,11 +1,15 @@
 import { BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
-import { CAMPAIGN_SMALL_GREY_FONT } from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
+import { CAMPAIGN_NAME_FONT, CAMPAIGN_SMALL_GREY_FONT } from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
 
+/**
+ * Campaign item component.
+ */
 @Component({
 	selector: 'ldsly-campaign-item',
 	templateUrl: './campaign-item.component.html',
@@ -13,11 +17,24 @@ import { CAMPAIGN_SMALL_GREY_FONT } from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampaignItemComponent implements OnInit {
-	_verticalDivider = true;
+	/**
+	 * Currently displaying campaign.
+	 */
+	@Input() set campaign(value: Campaign) {
+		if (value) {
+			this._initForms(value);
+			this._campaign = value;
+		}
+	}
 
-	readonly _campaignSmallGreyFont = CAMPAIGN_SMALL_GREY_FONT;
+	/**
+	 * Currently displaying campaign.
+	 */
+	_campaign: Campaign;
 
-	@Input() campaign: Campaign;
+	/**
+	 * Breakpoint state responds to screen size changes
+	 */
 	@Input() set breakpointState(value: BreakpointState) {
 		if (value.matches) {
 			this._verticalDivider = true;
@@ -26,14 +43,93 @@ export class CampaignItemComponent implements OnInit {
 		}
 	}
 
+	/**
+	 * Emitted when campaign status changes from active to deactivated.
+	 */
 	@Output() toggleCampaign = new EventEmitter<ToggleCampaignStatus>();
+
+	/**
+	 * Emitted when request is made to delete campaign.
+	 */
 	@Output() deleteCampaign = new EventEmitter<DeleteCampaign>();
+
+	/**
+	 * Emitted when user updates campaign.
+	 */
 	@Output() updateCampaign = new EventEmitter<Campaign>();
 
-	constructor(private _log: LogService) {}
+	/**
+	 * Campaign's small grey font.
+	 */
+	readonly _campaignSmallGreyFont = CAMPAIGN_SMALL_GREY_FONT;
 
-	ngOnInit(): void {}
+	/**
+	 * Campaign's name font size.
+	 */
+	readonly _campaignNameFont = CAMPAIGN_NAME_FONT;
 
+	/**
+	 * The direction of the mat divider.
+	 */
+	_verticalDivider = true;
+
+	/**
+	 * Whether mat-expansion panel is expanded or not.
+	 */
+	_expanded = false;
+
+	/**
+	 * Campaign item notes form.
+	 */
+	_campaignForm: FormGroup;
+
+	/**
+	 * Creates an instance of campaign item component.
+	 * @param _log
+	 * @param _fb
+	 */
+	constructor(private _log: LogService, private _fb: FormBuilder) {}
+
+	/**
+	 * NgOnInit life cycle hook.
+	 */
+	ngOnInit(): void {
+		this._log.trace(`[CampaignItem] Initialized for: ${this._campaign?.id}`);
+	}
+
+	/**
+	 * @description Initializes campaign form.
+	 * @param campaign
+	 * @returns form
+	 */
+	private _initForms(campaign: Campaign): void {
+		this._campaignForm = this._initCampaignForm(campaign);
+	}
+
+	private _initCampaignForm(campaign: Campaign): FormGroup {
+		return this._fb.group({
+			id: this._fb.control(campaign.id),
+			active: this._fb.control(campaign.active),
+			name: this._fb.control(campaign.name),
+			connectionsSentDaily: this._fb.control(campaign.connectionsSentDaily),
+			connectionsAccepted: this._fb.control(campaign.connectionsAccepted),
+			totalConnectionsSent: this._fb.control(campaign.totalConnectionsSent),
+			replies: this._fb.control(campaign.replies),
+			profileViews: this._fb.control(campaign.profileViews),
+			notes: this._fb.control(campaign.notes)
+		});
+	}
+
+	/**
+	 * Toggles note's section from expanded to collapsed.
+	 */
+	_onToggleNotesSection(): void {
+		this._expanded = !this._expanded;
+	}
+
+	/**
+	 * Toggle for activating and deactivating user's campaign
+	 */
 	_onToggleCampaignClicked(): void {
 		this._log.trace('[CampaignItemComponent] _onToggleCampaignClicked event handler fired.');
 		const toggleCampaign: ToggleCampaignStatus = {
@@ -42,6 +138,9 @@ export class CampaignItemComponent implements OnInit {
 		this.toggleCampaign.emit(toggleCampaign);
 	}
 
+	/**
+	 * Event handler fired when user clicks to delete campaign.
+	 */
 	_onDeleteCampaignClicked(): void {
 		this._log.trace('[CampaignItemComponent] _onDeleteCampaignClicked event handler fired.');
 		const deleteCampaign: DeleteCampaign = {
@@ -50,7 +149,24 @@ export class CampaignItemComponent implements OnInit {
 		this.deleteCampaign.emit(deleteCampaign);
 	}
 
+	/**
+	 * Event handler fired when user clicks to update campaign.
+	 */
 	_onUpdateCampaignClicked(): void {
-		this._log.error('[onUpdateCampaignClicked] _onUpdateCampaignClicked event handler fired.');
+		this._log.trace('[CampaignItemComponent] _onUpdateCampaignClicked event handler fired.');
+		const updatedCampaign = this._campaignForm.value as Campaign;
+		this._log.trace('campaign value is', updatedCampaign);
+		this.updateCampaign.emit(updatedCampaign);
+	}
+
+	/**
+	 * Event handler when user clicks cancel on notes.
+	 */
+	_onNotesClosedAutoSave(): void {
+		this._expanded = false;
+		if (this._campaignForm.dirty && !this._campaignForm.pristine && this._campaignForm.touched) {
+			this._log.debug('[CampaignItem] New notes detected. Updating campaign.');
+			this._onUpdateCampaignClicked();
+		}
 	}
 }
