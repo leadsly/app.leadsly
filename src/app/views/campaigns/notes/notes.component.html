@@ -2,7 +2,13 @@
 	<form (ngSubmit)="_onFormSubmitted()" [formGroup]="campaignForm">
 		<mat-form-field appearance="fill">
 			<mat-label>Campaign Notes</mat-label>
-			<textarea formControlName="notes" matInput [readonly]="_readonly" [value]="campaignForm?.get('notes')"></textarea>
+			<textarea
+				[style.height]="textAreaHeight ? textAreaHeight : 'inherit'"
+				formControlName="notes"
+				matInput
+				[readonly]="_readonly"
+				[value]="campaignForm?.get('notes')"
+			></textarea>
 		</mat-form-field>
 		<div class="notes__action-buttons">
 			<button class="notes__add-edit-button" *ngIf="_readonly" mat-raised-button (click)="_onAddOrEditClicked()" type="button" color="accent">

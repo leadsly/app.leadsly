@@ -204,9 +204,10 @@
 		},
 		"campaigns": {
 			"view-notes-tooltip": "View, add or edit notes",
-			"daily-connections-sent": "Connections sent per day",
-			"total-connections-sent": "Connections sent",
-			"connections-accepted": "Connections accepted",
+			"connections": "Connections",
+			"daily-connections-sent": "Sent per day",
+			"total-connections-sent": "Sent",
+			"connections-accepted": "Accepted",
 			"replies": "Replies",
 			"profile-views": "Profile views",
 			"angular": "Modern powerful framework",

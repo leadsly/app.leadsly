@@ -1,10 +1,10 @@
 <div class="campaign__container">
 	<mat-accordion [hideToggle]="_verticalDivider">
 		<ng-container *ngIf="!_verticalDivider; else campaignsDesktop">
-			<mat-expansion-panel [disabled]="_verticalDivider" [expanded]="_expanded">
+			<mat-expansion-panel [disabled]="_verticalDivider" [expanded]="_viewNotes">
 				<mat-expansion-panel-header>
 					<mat-panel-title>
-						<div [style.--campaign-name-mobile-font]="_campaignNameMobileFont" class="campaign__title-mobile">
+						<div [style.--campaign-name-mobile-font]="_campaignNameMobileFont" class="campaign__name-mobile">
 							<span>{{ _campaign?.name }}</span>
 						</div>
 					</mat-panel-title>
@@ -18,69 +18,83 @@
 					<div>
 						<mat-slide-toggle></mat-slide-toggle>
 					</div>
-
-					<div class="campaign__container-mobile">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
-							'ldsly.campaigns.daily-connections-sent' | translate
-						}}</span>
-						<div>
-							<span>{{ _campaign?.connectionsSentDaily }}</span>
-						</div>
+					<div class="campaign__connections-title">
+						<span>{{ 'ldsly.campaigns.connections' | translate }}</span>
 					</div>
+					<mat-grid-list cols="2" rowHeight="85">
+						<mat-grid-tile colspan="2" rowspan="1">
+							<div class="campaign__container-mobile">
+								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
+									'ldsly.campaigns.daily-connections-sent' | translate
+								}}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsSentDaily }}</span>
+							</div>
+						</mat-grid-tile>
+						<mat-grid-tile colspan="1" rowspan="1" class="">
+							<div class="campaign__container-mobile">
+								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
+									'ldsly.campaigns.total-connections-sent' | translate
+								}}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.totalConnectionsSent }}</span>
+							</div>
+						</mat-grid-tile>
 
-					<div class="campaign__container-mobile">
-						<div>
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
-								'ldsly.campaigns.total-connections-sent' | translate
-							}}</span>
-						</div>
-						<div>
-							<span>{{ _campaign?.totalConnectionsSent }}</span>
-						</div>
-					</div>
+						<mat-grid-tile colspan="1" rowspan="1">
+							<div class="campaign__container-mobile">
+								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
+									'ldsly.campaigns.connections-accepted' | translate
+								}}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsAccepted }}</span>
+							</div>
+						</mat-grid-tile>
 
-					<div class="campaign__container-mobile">
-						<div>
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
-								'ldsly.campaigns.connections-accepted' | translate
-							}}</span>
-						</div>
-						<div>
-							<span>{{ _campaign?.connectionsAccepted }}</span>
-						</div>
-					</div>
+						<mat-grid-tile colspan="1" rowspan="1">
+							<div class="campaign__container-mobile">
+								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
+									'ldsly.campaigns.replies' | translate
+								}}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.replies }}</span>
+							</div>
+						</mat-grid-tile>
 
-					<mat-divider [vertical]="_verticalDivider"></mat-divider>
+						<mat-grid-tile colspan="1" rowspan="1">
+							<div class="campaign__container-mobile">
+								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
+									'ldsly.campaigns.profile-views' | translate
+								}}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.profileViews }}</span>
+							</div>
+						</mat-grid-tile>
 
+						<mat-grid-tile colspan="2" rowspan="1">
+							<div class="campaign__action-buttons-mobile">
+								<div>
+									<span>
+										<mat-icon>{{ _duplicateCampaignIcon }}</mat-icon>
+									</span>
+								</div>
+								<div>
+									<mat-icon (click)="_onToggleNotesSectionMobile()">{{ _notesIcon }}</mat-icon>
+								</div>
+								<div>
+									<span>
+										<mat-icon>{{ _removeCampaignIcon }}</mat-icon>
+									</span>
+								</div>
+							</div>
+						</mat-grid-tile>
+					</mat-grid-list>
 					<div>
-						<div>
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
-								'ldsly.campaigns.replies' | translate
-							}}</span>
-							<span>{{ _campaign?.replies }}</span>
-						</div>
-
-						<div>
-							<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
-								'ldsly.campaigns.profile-views' | translate
-							}}</span>
-							<span>{{ _campaign?.profileViews }}</span>
-						</div>
-					</div>
-
-					<mat-divider [vertical]="_verticalDivider"></mat-divider>
-
-					<div>
-						<div>
-							<span>
-								<mat-icon>remove_circle_outline</mat-icon>
-							</span>
-						</div>
-						<div>
-							<span>
-								<mat-icon>control_point_duplicate</mat-icon>
-							</span>
-						</div>
+						<mat-accordion [style.visibility]="_viewNotesMobile ? 'visibile' : 'hidden'" class="campaign-notes-container__mobile" hideToggle>
+							<mat-expansion-panel [expanded]="_viewNotesMobile" disabled>
+								<ldsly-notes
+									[campaignForm]="_campaignForm"
+									[textAreaHeight]="'100px'"
+									(notesUpdated)="_onUpdateCampaignClicked()"
+									(notesClosedAutoSave)="_onNotesClosedAutoSave()"
+								></ldsly-notes>
+							</mat-expansion-panel>
+						</mat-accordion>
 					</div>
 				</mat-card>
 			</mat-expansion-panel>
@@ -89,7 +103,7 @@
 </div>
 
 <ng-template #campaignsDesktop>
-	<mat-expansion-panel disabled [expanded]="_expanded">
+	<mat-expansion-panel disabled [expanded]="_viewNotes">
 		<mat-expansion-panel-header>
 			<mat-panel-description>
 				<mat-card>
@@ -98,42 +112,42 @@
 					</div>
 					<div class="campaign-item__container">
 						<span [style.--campaign-name-font]="_campaignNameFont" class="campaign-item__name">{{ _campaign?.name }}</span>
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">Created 6 days ago</span>
-						<mat-icon [matTooltip]="'ldsly.campaigns.view-notes-tooltip' | translate" (click)="_onToggleNotesSection()">description</mat-icon>
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">Created 6 days ago</span>
+						<mat-icon [matTooltip]="'ldsly.campaigns.view-notes-tooltip' | translate" (click)="_onToggleNotesSection()">{{ _notesIcon }}</mat-icon>
 					</div>
 					<div class="campaign-item__container">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
 							'ldsly.campaigns.daily-connections-sent' | translate
 						}}</span>
-						<span>{{ _campaign?.connectionsSentDaily }}</span>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsSentDaily }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
 							'ldsly.campaigns.total-connections-sent' | translate
 						}}</span>
-						<span>{{ _campaign?.totalConnectionsSent }}</span>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.totalConnectionsSent }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
 							'ldsly.campaigns.connections-accepted' | translate
 						}}</span>
-						<span>{{ _campaign?.connectionsAccepted }}</span>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsAccepted }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
 							'ldsly.campaigns.replies' | translate
 						}}</span>
-						<span>{{ _campaign?.replies }}</span>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.replies }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
-						<span [style.--campaign-small-grey-font]="_campaignSmallGreyFont" class="campaign-item__span">{{
+						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
 							'ldsly.campaigns.profile-views' | translate
 						}}</span>
-						<span>{{ _campaign?.profileViews }}</span>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.profileViews }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">

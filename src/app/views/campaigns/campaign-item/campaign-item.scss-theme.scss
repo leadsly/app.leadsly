@@ -2,4 +2,47 @@
 @import '~@angular/material/theming';
 
 @mixin ldsly-campaign-item-component-theme($theme) {
+	$primary: map-get($theme, primary);
+	$accent: map-get($theme, accent);
+	$foreground: map-get($theme, foreground);
+	$background: map-get($theme, background);
+
+	.campaign__container {
+		.campaign__connections-title {
+			color: mat.get-color-from-palette($primary);
+			border-bottom: 1px solid mat.get-color-from-palette($background, status-bar);
+		}
+
+		mat-grid-tile:nth-child(2) {
+			border-bottom: 1px solid mat.get-color-from-palette($background, status-bar);
+		}
+		mat-grid-tile:nth-child(3) {
+			border-bottom: 1px solid mat.get-color-from-palette($background, status-bar);
+		}
+		mat-grid-tile:nth-child(4) {
+			border-bottom: 1px solid mat.get-color-from-palette($background, status-bar);
+		}
+		mat-grid-tile:nth-child(5) {
+			border-bottom: 1px solid mat.get-color-from-palette($background, app-bar);
+		}
+		.campaign--stats {
+			background: mat.get-color-from-palette($background, app-bar);
+			color: mat.get-color-from-palette($accent);
+		}
+
+		.campaign__stat-title-mobile,
+		.campaign__stat-title {
+			color: mat.get-color-from-palette($foreground, secondary-text);
+		}
+	}
+
+	@media (min-width: map-get($grid-breakpoints, md)) {
+		.campaign__container {
+			.campaign-item__container {
+				.campaign-item__span {
+					color: mat.get-color-from-palette($foreground, secondary-text);
+				}
+			}
+		}
+	}
 }

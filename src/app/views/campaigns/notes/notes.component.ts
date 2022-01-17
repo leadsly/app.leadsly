@@ -10,6 +10,7 @@ import { LogService } from './../../../core/logger/log.service';
 })
 export class NotesComponent implements OnInit {
 	@Input() campaignForm: FormGroup;
+	@Input() textAreaHeight: string;
 	@Output() notesUpdated = new EventEmitter<void>();
 	@Output() notesClosedAutoSave = new EventEmitter<void>();
 

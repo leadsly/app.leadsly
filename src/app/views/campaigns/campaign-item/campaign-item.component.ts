@@ -6,10 +6,11 @@ import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 import {
-	CAMPAIGN_DESCRIPTION_FONT,
 	CAMPAIGN_DESCRIPTION_MOBILE_FONT,
+	CAMPAIGN_ITEM_STAT_TITLE_FONT,
 	CAMPAIGN_NAME_FONT,
-	CAMPAIGN_NAME_MOBILE_FONT
+	CAMPAIGN_NAME_MOBILE_FONT,
+	CAMPAIGN_STAT_FONT_SIZE
 } from '../LDSLY_CAMPAIGNS_GLOBAL_STYLES';
 
 /**
@@ -66,7 +67,7 @@ export class CampaignItemComponent implements OnInit {
 	/**
 	 * Campaign's small grey font.
 	 */
-	readonly _campaignSmallGreyFont = CAMPAIGN_DESCRIPTION_FONT;
+	readonly _campaignItemStatTitleFont = CAMPAIGN_ITEM_STAT_TITLE_FONT;
 
 	/**
 	 * Campaign's name font size.
@@ -77,6 +78,8 @@ export class CampaignItemComponent implements OnInit {
 
 	readonly _campaignDescriptionMobileFont = CAMPAIGN_DESCRIPTION_MOBILE_FONT;
 
+	readonly _campaignStatFontSize = CAMPAIGN_STAT_FONT_SIZE;
+
 	/**
 	 * The direction of the mat divider.
 	 */
@@ -85,7 +88,15 @@ export class CampaignItemComponent implements OnInit {
 	/**
 	 * Whether mat-expansion panel is expanded or not.
 	 */
-	_expanded = false;
+	_viewNotes = false;
+
+	_viewNotesMobile = false;
+
+	_notesIcon = 'description';
+
+	_removeCampaignIcon = 'remove_circle_outline';
+
+	_duplicateCampaignIcon = 'control_point_duplicate';
 
 	/**
 	 * Campaign item notes form.
@@ -133,7 +144,11 @@ export class CampaignItemComponent implements OnInit {
 	 * Toggles note's section from expanded to collapsed.
 	 */
 	_onToggleNotesSection(): void {
-		this._expanded = !this._expanded;
+		this._viewNotes = !this._viewNotes;
+	}
+
+	_onToggleNotesSectionMobile(): void {
+		this._viewNotesMobile = !this._viewNotesMobile;
 	}
 
 	/**
@@ -172,7 +187,8 @@ export class CampaignItemComponent implements OnInit {
 	 * Event handler when user clicks cancel on notes.
 	 */
 	_onNotesClosedAutoSave(): void {
-		this._expanded = false;
+		this._viewNotes = false;
+		this._viewNotesMobile = false;
 		if (this._campaignForm.dirty && !this._campaignForm.pristine && this._campaignForm.touched) {
 			this._log.debug('[CampaignItem] New notes detected. Updating campaign.');
 			this._onUpdateCampaignClicked();
