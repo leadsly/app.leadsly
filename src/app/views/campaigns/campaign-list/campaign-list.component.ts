@@ -80,7 +80,7 @@ export class CampaignListComponent implements OnInit {
 			id: uuidv4(),
 			active: campaign.active,
 			connectionsAccepted: campaign.connectionsAccepted,
-			connectionsSentDaily: campaign.connectionsAccepted,
+			connectionsSentDaily: campaign.connectionsSentDaily,
 			name: campaign.name,
 			notes: campaign.notes,
 			profileViews: campaign.profileViews,

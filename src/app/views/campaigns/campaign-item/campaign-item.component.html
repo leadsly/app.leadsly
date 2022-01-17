@@ -205,19 +205,19 @@
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
 						<span>
+							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.clone' | translate" matTooltipPosition="below" (click)="_onCloneCampaignClicked()">{{
+								_cloneCampaignIcon
+							}}</mat-icon>
+						</span>
+					</div>
+					<div class="campaign-item__container">
+						<span>
 							<mat-icon
 								[matTooltip]="'ldsly.campaigns.tooltips.delete' | translate"
 								matTooltipPosition="below"
 								(click)="_onDeleteCampaignClicked()"
 								>{{ _removeCampaignIcon }}</mat-icon
 							>
-						</span>
-					</div>
-					<div class="campaign-item__container">
-						<span>
-							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.clone' | translate" matTooltipPosition="below" (click)="_onCloneCampaignClicked()">{{
-								_cloneCampaignIcon
-							}}</mat-icon>
 						</span>
 					</div>
 				</mat-card>
