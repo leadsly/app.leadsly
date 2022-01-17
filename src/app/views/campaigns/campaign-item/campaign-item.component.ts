@@ -74,10 +74,19 @@ export class CampaignItemComponent implements OnInit {
 	 */
 	readonly _campaignNameFont = CAMPAIGN_NAME_FONT;
 
+	/**
+	 * Campaign's name mobile font size.
+	 */
 	readonly _campaignNameMobileFont = CAMPAIGN_NAME_MOBILE_FONT;
 
+	/**
+	 * Campaigns description mobile font size.
+	 */
 	readonly _campaignDescriptionMobileFont = CAMPAIGN_DESCRIPTION_MOBILE_FONT;
 
+	/**
+	 * Campaigns statistic font size.
+	 */
 	readonly _campaignStatFontSize = CAMPAIGN_STAT_FONT_SIZE;
 
 	/**
@@ -86,16 +95,28 @@ export class CampaignItemComponent implements OnInit {
 	_verticalDivider = true;
 
 	/**
-	 * Whether mat-expansion panel is expanded or not.
+	 * Whether notes mat-expansion panel is expanded or not.
 	 */
 	_viewNotes = false;
 
+	/**
+	 * Whether notes mobile mat-expansion is expanded or not.
+	 */
 	_viewNotesMobile = false;
 
+	/**
+	 * Name of material icon used to depict notes.
+	 */
 	_notesIcon = 'description';
 
+	/**
+	 * Name of material icon used to depict delete action.
+	 */
 	_removeCampaignIcon = 'remove_circle_outline';
 
+	/**
+	 * Name of material icon used to depict duplicate campaign icon.
+	 */
 	_duplicateCampaignIcon = 'control_point_duplicate';
 
 	/**
@@ -126,6 +147,11 @@ export class CampaignItemComponent implements OnInit {
 		this._campaignForm = this._initCampaignForm(campaign);
 	}
 
+	/**
+	 * @description Initializes campaign form.
+	 * @param campaign
+	 * @returns campaign form
+	 */
 	private _initCampaignForm(campaign: Campaign): FormGroup {
 		return this._fb.group({
 			id: this._fb.control(campaign.id),
@@ -147,6 +173,9 @@ export class CampaignItemComponent implements OnInit {
 		this._viewNotes = !this._viewNotes;
 	}
 
+	/**
+	 * Toggles note's section on mobile from exapnded to collapsed.
+	 */
 	_onToggleNotesSectionMobile(): void {
 		this._viewNotesMobile = !this._viewNotesMobile;
 	}

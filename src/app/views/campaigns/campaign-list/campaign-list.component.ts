@@ -10,7 +10,7 @@ import { CampaignsSandboxService } from '../campaigns-sandbox.service';
 import { ToggleCampaignStatus } from './../../../core/models/campaigns/toggle-campaign-status.model';
 
 /**
- * Feature list component.
+ * Campaigns list component.
  */
 @Component({
 	selector: 'ldsly-campaign-list',
@@ -24,6 +24,9 @@ export class CampaignListComponent implements OnInit {
 	 */
 	readonly routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
+	/**
+	 * User's campaigns.
+	 */
 	_campaigns$: Observable<Campaign[]>;
 
 	/**
@@ -31,27 +34,48 @@ export class CampaignListComponent implements OnInit {
 	 */
 	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
 
+	/**
+	 * Creates an instance of campaign list component.
+	 * @param _log
+	 * @param _sb
+	 * @param breakpointObserver
+	 */
 	constructor(private _log: LogService, private _sb: CampaignsSandboxService, breakpointObserver: BreakpointObserver) {
 		this._campaigns$ = _sb.campaigns$;
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
 	}
 
+	/**
+	 * NgOnInit life cycle
+	 */
 	ngOnInit(): void {
 		this._log.trace('[CampaignListComponent] Initialized.', this);
 
 		this._sb.getUserCampaigns();
 	}
 
+	/**
+	 * Event handler when user toggles campaign from active to deactivated.
+	 * @param event
+	 */
 	_onToggleCampaign(event: ToggleCampaignStatus): void {
 		this._log.trace('[CampaignListComponent] _onToggleCampaign event handler fired.', this);
 		this._sb.toggleCampaign(event);
 	}
 
+	/**
+	 * Event handler when user deletes a campaign.
+	 * @param event
+	 */
 	_onDeleteCampaign(event: DeleteCampaign): void {
 		this._log.trace('[CampaignListComponent] _onDeleteCampaign event handler fired.', this);
 		this._sb.deleteCampaign(event);
 	}
 
+	/**
+	 * Event handler when user wants to updated campaign.
+	 * @param event
+	 */
 	_onUpdateCampaign(event: Campaign): void {
 		this._log.trace('[CampaignListComponent] _onUpdateCampaign event handler fired.', this);
 		this._sb.updateCampaign(event);
