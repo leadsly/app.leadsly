@@ -4,14 +4,15 @@
 			<h1 class="main-heading">{{ 'ldsly.campaigns.title' | translate }}</h1>
 		</div>
 	</div>
-	<div class="campaigns__container">
-		<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item" [ngClass]="routeAnimationsElements">
+	<div class="campaigns__container" [ngClass]="_routeAnimationsElements">
+		<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item">
 			<ldsly-campaign-item
 				[campaign]="campaign"
 				[breakpointState]="_breakpointStateScreenMatcher$ | async"
 				(toggleCampaign)="_onToggleCampaign($event)"
 				(deleteCampaign)="_onDeleteCampaign($event)"
 				(updateCampaign)="_onUpdateCampaign($event)"
+				(cloneCampaign)="_cloneCampaign($event, campaign)"
 			></ldsly-campaign-item>
 		</div>
 	</div>

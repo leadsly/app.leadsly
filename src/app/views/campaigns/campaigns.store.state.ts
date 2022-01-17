@@ -81,6 +81,7 @@ export class CampaignsState {
 	@Action(Campaigns.Delete)
 	delete(ctx: StateContext<CampaignsStateModel>, action: Campaigns.Delete): void {
 		this._log.info(`[CampaignsStore] Deleting campaign with id: ${action.payload.id}.`, this);
+		console.log(ctx.getState());
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
 				delete draft.entities[action.payload.id];
@@ -114,6 +115,22 @@ export class CampaignsState {
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
 				draft.entities[action.payload.id] = updateEntity(action.payload, draft.entities[action.payload.id]);
+			})
+		);
+	}
+
+	/**
+	 * @description Update cloned campaign id.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Campaigns.UpdateClonedCampaignId)
+	updateClonedCampaignId(ctx: StateContext<CampaignsStateModel>, action: Campaigns.UpdateClonedCampaignId): void {
+		this._log.info(`[CampaignsStore] Updating cloned campaign with id: ${action.payload.clonedCampaign.id}.`, this);
+		ctx.setState(
+			produce((draft: CampaignsStateModel) => {
+				delete draft.entities[action.payload.tempId];
+				draft.entities[action.payload.clonedCampaign.id] = action.payload.clonedCampaign;
 			})
 		);
 	}

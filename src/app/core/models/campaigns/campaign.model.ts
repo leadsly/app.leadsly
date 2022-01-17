@@ -8,6 +8,7 @@ export interface Campaign {
 	connectionsSentDaily: number;
 	connectionsAccepted: number;
 	totalConnectionsSent: number;
+	expired: boolean;
 	replies: number;
 	profileViews: number;
 	notes: string;

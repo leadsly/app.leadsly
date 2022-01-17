@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../api-url-injection-token';
+import { CloneCampaign } from '../models/campaigns/clone-campaign.model';
 import { ToggleCampaignStatus } from '../models/campaigns/toggle-campaign-status.model';
 import { Campaign } from './../models/campaigns/campaign.model';
 import { DeleteCampaign } from './../models/campaigns/delete-campaign.model';
@@ -37,6 +38,10 @@ export class CampaignsAsyncService {
 	 */
 	toggleActiveCampaign$(toggleCampaignStatus: ToggleCampaignStatus): Observable<Campaign> {
 		return this._http.patch<Campaign>(`${this._apiUrl}/campaigns`, JSON.stringify(toggleCampaignStatus), { headers: this._headers });
+	}
+
+	cloneCampaign$(campaign: CloneCampaign): Observable<Campaign> {
+		return this._http.post<Campaign>(`${this._apiUrl}/campaigns/${campaign.id}/clone`, JSON.stringify(campaign), { headers: this._headers });
 	}
 
 	/**

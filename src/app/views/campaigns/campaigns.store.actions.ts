@@ -68,6 +68,22 @@ export class Update {
 }
 
 /**
+ * Update cloned campaign id.
+ */
+export class UpdateClonedCampaignId {
+	/**
+	 * Type of action.
+	 */
+	static readonly type = '[Campaigns] Update Cloned Campaign Id';
+
+	/**
+	 * Creates an instance of update campaign.
+	 * @param payload
+	 */
+	constructor(public payload: { clonedCampaign: Campaign; tempId: string }) {}
+}
+
+/**
  * Delete campaign.
  */
 export class Delete {

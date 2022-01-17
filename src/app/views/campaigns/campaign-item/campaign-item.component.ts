@@ -1,8 +1,10 @@
 import { BreakpointState } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
+import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 import {
@@ -22,7 +24,7 @@ import {
 	styleUrls: ['./campaign-item.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CampaignItemComponent implements OnInit {
+export class CampaignItemComponent implements OnInit, AfterViewInit {
 	/**
 	 * Currently displaying campaign.
 	 */
@@ -63,6 +65,8 @@ export class CampaignItemComponent implements OnInit {
 	 * Emitted when user updates campaign.
 	 */
 	@Output() updateCampaign = new EventEmitter<Campaign>();
+
+	@Output() cloneCampaign = new EventEmitter<CloneCampaign>();
 
 	/**
 	 * Campaign's small grey font.
@@ -117,12 +121,17 @@ export class CampaignItemComponent implements OnInit {
 	/**
 	 * Name of material icon used to depict duplicate campaign icon.
 	 */
-	_duplicateCampaignIcon = 'control_point_duplicate';
+	_cloneCampaignIcon = 'control_point_duplicate';
 
 	/**
 	 * Campaign item notes form.
 	 */
 	_campaignForm: FormGroup;
+
+	/**
+	 * Ensures expansion panel is collapsed on first animation load.
+	 */
+	_disableExpansionOnInitLoad = true;
 
 	/**
 	 * Creates an instance of campaign item component.
@@ -136,6 +145,11 @@ export class CampaignItemComponent implements OnInit {
 	 */
 	ngOnInit(): void {
 		this._log.trace(`[CampaignItem] Initialized for: ${this._campaign?.id}`);
+	}
+
+	ngAfterViewInit(): void {
+		// we only care to disable this on initial load after that enable it
+		this._disableExpansionOnInitLoad = false;
 	}
 
 	/**
@@ -162,6 +176,7 @@ export class CampaignItemComponent implements OnInit {
 			totalConnectionsSent: this._fb.control(campaign.totalConnectionsSent),
 			replies: this._fb.control(campaign.replies),
 			profileViews: this._fb.control(campaign.profileViews),
+			expired: this._fb.control(campaign.expired),
 			notes: this._fb.control(campaign.notes)
 		});
 	}
@@ -183,12 +198,21 @@ export class CampaignItemComponent implements OnInit {
 	/**
 	 * Toggle for activating and deactivating user's campaign
 	 */
-	_onToggleCampaignClicked(): void {
+	_onToggleCampaignClicked(event: MatSlideToggleChange): void {
 		this._log.trace('[CampaignItemComponent] _onToggleCampaignClicked event handler fired.');
 		const toggleCampaign: ToggleCampaignStatus = {
-			id: this.campaign.id
+			id: this._campaign.id
 		};
 		this.toggleCampaign.emit(toggleCampaign);
+	}
+
+	_onCloneCampaignClicked(): void {
+		this._log.trace('[CampaignItemComponent] _onCloneCampaignClicked event handler fired.');
+		const cloneCampaign: CloneCampaign = {
+			id: this._campaign.id
+		};
+
+		this.cloneCampaign.emit(cloneCampaign);
 	}
 
 	/**
@@ -197,7 +221,7 @@ export class CampaignItemComponent implements OnInit {
 	_onDeleteCampaignClicked(): void {
 		this._log.trace('[CampaignItemComponent] _onDeleteCampaignClicked event handler fired.');
 		const deleteCampaign: DeleteCampaign = {
-			id: this.campaign.id
+			id: this._campaign.id
 		};
 		this.deleteCampaign.emit(deleteCampaign);
 	}

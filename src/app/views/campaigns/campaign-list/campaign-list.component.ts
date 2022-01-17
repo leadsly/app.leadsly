@@ -2,9 +2,11 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
+import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
 import { CampaignsSandboxService } from '../campaigns-sandbox.service';
 import { ToggleCampaignStatus } from './../../../core/models/campaigns/toggle-campaign-status.model';
@@ -22,7 +24,7 @@ export class CampaignListComponent implements OnInit {
 	/**
 	 * Route animations.
 	 */
-	readonly routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+	readonly _routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
 	/**
 	 * User's campaigns.
@@ -70,6 +72,24 @@ export class CampaignListComponent implements OnInit {
 	_onDeleteCampaign(event: DeleteCampaign): void {
 		this._log.trace('[CampaignListComponent] _onDeleteCampaign event handler fired.', this);
 		this._sb.deleteCampaign(event);
+	}
+
+	_cloneCampaign(event: CloneCampaign, campaign: Campaign): void {
+		this._log.trace('[CampaignListComponent] _cloneCampaign event handler fired.', this);
+		const clonedCampaign: Campaign = {
+			id: uuidv4(),
+			active: campaign.active,
+			connectionsAccepted: campaign.connectionsAccepted,
+			connectionsSentDaily: campaign.connectionsAccepted,
+			name: campaign.name,
+			notes: campaign.notes,
+			profileViews: campaign.profileViews,
+			replies: campaign.replies,
+			expired: campaign?.expired,
+			totalConnectionsSent: campaign.totalConnectionsSent
+		};
+
+		this._sb.cloneCampaign(event, clonedCampaign);
 	}
 
 	/**

@@ -203,6 +203,13 @@
 			"settings": "Settings"
 		},
 		"campaigns": {
+			"tooltips": {
+				"view-notes": "View, add or edit notes",
+				"clone": "Clone this campaign",
+				"delete": "Delete this campaign",
+				"toggle-status": "Activates/Deactives campaign",
+				"edit-daily-connections": "You can edit daily connections"
+			},
 			"view-notes-tooltip": "View, add or edit notes",
 			"connections": "Connections",
 			"daily-connections-sent": "Sent per day",

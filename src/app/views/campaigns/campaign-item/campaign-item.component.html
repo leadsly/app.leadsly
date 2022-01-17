@@ -1,7 +1,7 @@
 <div class="campaign__container">
 	<mat-accordion [hideToggle]="_verticalDivider">
 		<ng-container *ngIf="!_verticalDivider; else campaignsDesktop">
-			<mat-expansion-panel [disabled]="_verticalDivider" [expanded]="_viewNotes">
+			<mat-expansion-panel [@.disabled]="_disableExpansionOnInitLoad" [disabled]="_verticalDivider" [expanded]="_viewNotes">
 				<mat-expansion-panel-header>
 					<mat-panel-title>
 						<div [style.--campaign-name-mobile-font]="_campaignNameMobileFont" class="campaign__name-mobile">
@@ -16,7 +16,12 @@
 				</mat-expansion-panel-header>
 				<mat-card>
 					<div>
-						<mat-slide-toggle></mat-slide-toggle>
+						<mat-slide-toggle
+							[matTooltip]="'ldsly.campaigns.tooltips.toggle-status' | translate"
+							matTooltipPosition="below"
+							[checked]="_campaign?.active"
+							(change)="_onToggleCampaignClicked($event)"
+						></mat-slide-toggle>
 					</div>
 					<div class="campaign__connections-title">
 						<span>{{ 'ldsly.campaigns.connections' | translate }}</span>
@@ -24,10 +29,23 @@
 					<mat-grid-list cols="2" rowHeight="85">
 						<mat-grid-tile colspan="2" rowspan="1">
 							<div class="campaign__container-mobile">
-								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
-									'ldsly.campaigns.daily-connections-sent' | translate
-								}}</span>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsSentDaily }}</span>
+								<span
+									[matTooltip]="'ldsly.campaigns.tooltips.edit-daily-connections' | translate"
+									matTooltipPosition="above"
+									[style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont"
+									class="campaign__stat-title-mobile"
+									>{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</span
+								>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">
+									<ng-container [formGroup]="_campaignForm">
+										<input
+											matInput
+											formControlName="connectionsSentDaily"
+											(blur)="_onUpdateCampaignClicked()"
+											[value]="_campaignForm?.get('connectionsSentDaily')?.value"
+										/>
+									</ng-container>
+								</span>
 							</div>
 						</mat-grid-tile>
 						<mat-grid-tile colspan="1" rowspan="1" class="">
@@ -70,15 +88,30 @@
 							<div class="campaign__action-buttons-mobile">
 								<div>
 									<span>
-										<mat-icon>{{ _duplicateCampaignIcon }}</mat-icon>
+										<mat-icon
+											[matTooltip]="'ldsly.campaigns.tooltips.clone' | translate"
+											matTooltipPosition="below"
+											(click)="_onCloneCampaignClicked()"
+											>{{ _cloneCampaignIcon }}</mat-icon
+										>
 									</span>
 								</div>
 								<div>
-									<mat-icon (click)="_onToggleNotesSectionMobile()">{{ _notesIcon }}</mat-icon>
+									<mat-icon
+										[matTooltip]="'ldsly.campaigns.tooltips.view-notes' | translate"
+										matTooltipPosition="below"
+										(click)="_onToggleNotesSectionMobile()"
+										>{{ _notesIcon }}</mat-icon
+									>
 								</div>
 								<div>
 									<span>
-										<mat-icon>{{ _removeCampaignIcon }}</mat-icon>
+										<mat-icon
+											[matTooltip]="'ldsly.campaigns.tooltips.delete' | translate"
+											matTooltipPosition="below"
+											(click)="_onDeleteCampaignClicked()"
+											>{{ _removeCampaignIcon }}</mat-icon
+										>
 									</span>
 								</div>
 							</div>
@@ -86,7 +119,7 @@
 					</mat-grid-list>
 					<div>
 						<mat-accordion [style.visibility]="_viewNotesMobile ? 'visibile' : 'hidden'" class="campaign-notes-container__mobile" hideToggle>
-							<mat-expansion-panel [expanded]="_viewNotesMobile" disabled>
+							<mat-expansion-panel [@.disabled]="_disableExpansionOnInitLoad" [expanded]="_viewNotesMobile" disabled>
 								<ldsly-notes
 									[campaignForm]="_campaignForm"
 									[textAreaHeight]="'100px'"
@@ -103,23 +136,43 @@
 </div>
 
 <ng-template #campaignsDesktop>
-	<mat-expansion-panel disabled [expanded]="_viewNotes">
+	<mat-expansion-panel [@.disabled]="_disableExpansionOnInitLoad" disabled [expanded]="_viewNotes">
 		<mat-expansion-panel-header>
 			<mat-panel-description>
 				<mat-card>
 					<div class="campaign__item">
-						<mat-slide-toggle></mat-slide-toggle>
+						<mat-slide-toggle
+							[matTooltip]="'ldsly.campaigns.tooltips.toggle-status' | translate"
+							matTooltipPosition="below"
+							[checked]="_campaign?.active"
+							(change)="_onToggleCampaignClicked($event)"
+						></mat-slide-toggle>
 					</div>
 					<div class="campaign-item__container">
 						<span [style.--campaign-name-font]="_campaignNameFont" class="campaign-item__name">{{ _campaign?.name }}</span>
 						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">Created 6 days ago</span>
-						<mat-icon [matTooltip]="'ldsly.campaigns.view-notes-tooltip' | translate" (click)="_onToggleNotesSection()">{{ _notesIcon }}</mat-icon>
+						<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.view-notes' | translate" matTooltipPosition="below" (click)="_onToggleNotesSection()">{{
+							_notesIcon
+						}}</mat-icon>
 					</div>
 					<div class="campaign-item__container">
-						<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title">{{
-							'ldsly.campaigns.daily-connections-sent' | translate
-						}}</span>
-						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsSentDaily }}</span>
+						<span
+							[matTooltip]="'ldsly.campaigns.tooltips.edit-daily-connections' | translate"
+							matTooltipPosition="above"
+							[style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont"
+							class="campaign__stat-title"
+							>{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</span
+						>
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats"
+							><ng-container [formGroup]="_campaignForm">
+								<input
+									matInput
+									formControlName="connectionsSentDaily"
+									(blur)="_onUpdateCampaignClicked()"
+									(keyup.enter)="_onUpdateCampaignClicked()"
+									[value]="_campaignForm?.get('connectionsSentDaily')?.value"
+								/> </ng-container
+						></span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
@@ -152,12 +205,19 @@
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
 						<span>
-							<mat-icon>remove_circle_outline</mat-icon>
+							<mat-icon
+								[matTooltip]="'ldsly.campaigns.tooltips.delete' | translate"
+								matTooltipPosition="below"
+								(click)="_onDeleteCampaignClicked()"
+								>{{ _removeCampaignIcon }}</mat-icon
+							>
 						</span>
 					</div>
 					<div class="campaign-item__container">
 						<span>
-							<mat-icon>control_point_duplicate</mat-icon>
+							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.clone' | translate" matTooltipPosition="below" (click)="_onCloneCampaignClicked()">{{
+								_cloneCampaignIcon
+							}}</mat-icon>
 						</span>
 					</div>
 				</mat-card>

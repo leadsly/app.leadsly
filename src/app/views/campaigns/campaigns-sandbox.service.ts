@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
+import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { Campaign } from './../../core/models/campaigns/campaign.model';
 import { DeleteCampaign } from './../../core/models/campaigns/delete-campaign.model';
 import { CampaignsAsyncService } from './../../core/services/campaigns-async.service';
@@ -63,9 +64,10 @@ export class CampaignsSandboxService {
 	 * @param campaign
 	 */
 	toggleCampaign(campaign: ToggleCampaignStatus): void {
-		this._campaignAsyncService
-			.toggleActiveCampaign$(campaign)
-			.pipe(tap(() => this._store.dispatch(new CampaignsActions.ToggleStatus(campaign))))
+		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
+		this._store
+			.dispatch(new CampaignsActions.ToggleStatus(campaign))
+			.pipe(switchMap(() => this._campaignAsyncService.toggleActiveCampaign$(campaign)))
 			.subscribe();
 	}
 
@@ -74,9 +76,23 @@ export class CampaignsSandboxService {
 	 * @param campaign
 	 */
 	deleteCampaign(campaign: DeleteCampaign): void {
-		this._campaignAsyncService
-			.deleteCampaign$(campaign)
-			.pipe(tap(() => this._store.dispatch(new CampaignsActions.Delete(campaign))))
+		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
+		this._store
+			.dispatch(new CampaignsActions.Delete(campaign))
+			.pipe(switchMap(() => this._campaignAsyncService.deleteCampaign$(campaign)))
+			.subscribe();
+	}
+
+	cloneCampaign(cloneCampaign: CloneCampaign, clonedCampaign: Campaign): void {
+		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
+		this._store
+			.dispatch(new CampaignsActions.Create(clonedCampaign))
+			.pipe(
+				switchMap(() => this._campaignAsyncService.cloneCampaign$(cloneCampaign)),
+				tap((updatedId) =>
+					this._store.dispatch(new CampaignsActions.UpdateClonedCampaignId({ clonedCampaign: updatedId, tempId: clonedCampaign.id }))
+				)
+			)
 			.subscribe();
 	}
 }
