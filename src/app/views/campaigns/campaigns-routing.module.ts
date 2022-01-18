@@ -18,10 +18,6 @@ const routes: Routes = [
 			{
 				path: 'create',
 				component: CreateCampaignContinainerComponent
-			},
-			{
-				path: '**',
-				component: CampaignListComponent
 			}
 		]
 	}

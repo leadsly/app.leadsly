@@ -1,5 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
@@ -40,9 +41,15 @@ export class CampaignListComponent implements OnInit {
 	 * Creates an instance of campaign list component.
 	 * @param _log
 	 * @param _sb
+	 * @param _route
 	 * @param breakpointObserver
 	 */
-	constructor(private _log: LogService, private _sb: CampaignsSandboxService, breakpointObserver: BreakpointObserver) {
+	constructor(
+		private _route: ActivatedRoute,
+		private _log: LogService,
+		private _sb: CampaignsSandboxService,
+		breakpointObserver: BreakpointObserver
+	) {
 		this._campaigns$ = _sb.campaigns$;
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
 	}
@@ -54,6 +61,10 @@ export class CampaignListComponent implements OnInit {
 		this._log.trace('[CampaignListComponent] Initialized.', this);
 
 		this._sb.getUserCampaigns();
+	}
+
+	_onCreateCampaignClicked(): void {
+		void this._sb.router.navigate(['create'], { relativeTo: this._route.parent });
 	}
 
 	/**

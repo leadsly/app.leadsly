@@ -1,12 +1,25 @@
-<div class="campaigns__container" [ngClass]="_routeAnimationsElements">
-	<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item">
-		<ldsly-campaign-item
-			[campaign]="campaign"
-			[breakpointState]="_breakpointStateScreenMatcher$ | async"
-			(toggleCampaign)="_onToggleCampaign($event)"
-			(deleteCampaign)="_onDeleteCampaign($event)"
-			(updateCampaign)="_onUpdateCampaign($event)"
-			(cloneCampaign)="_cloneCampaign($event, campaign)"
-		></ldsly-campaign-item>
+<div class="_container">
+	<div class="campaign-list__heading">
+		<div>
+			<span class="main-heading">{{ 'ldsly.campaigns.title' | translate }}</span>
+		</div>
+		<div class="campaign-list__create">
+			<button mat-flat-button color="accent" (click)="_onCreateCampaignClicked()">
+				{{ 'ldsly.buttons.create' | translate }}
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+	</div>
+	<div class="campaigns__container" [ngClass]="_routeAnimationsElements">
+		<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item">
+			<ldsly-campaign-item
+				[campaign]="campaign"
+				[breakpointState]="_breakpointStateScreenMatcher$ | async"
+				(toggleCampaign)="_onToggleCampaign($event)"
+				(deleteCampaign)="_onDeleteCampaign($event)"
+				(updateCampaign)="_onUpdateCampaign($event)"
+				(cloneCampaign)="_cloneCampaign($event, campaign)"
+			></ldsly-campaign-item>
+		</div>
 	</div>
 </div>
