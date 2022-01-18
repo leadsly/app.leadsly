@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
@@ -29,12 +30,14 @@ export class CampaignsSandboxService {
 	 * @param _store
 	 * @param _campaignAsyncService
 	 * @param _userAsyncService
+	 * @param router
 	 */
 	constructor(
 		private _log: LogService,
 		private _store: Store,
 		private _campaignAsyncService: CampaignsAsyncService,
-		private _userAsyncService: UsersAsyncService
+		private _userAsyncService: UsersAsyncService,
+		public router: Router
 	) {}
 
 	/**

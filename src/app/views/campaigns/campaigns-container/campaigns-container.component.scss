@@ -1,0 +1,32 @@
+@import '../../../../styles-variables';
+
+.campaign-list__heading {
+	display: flex;
+	flex-direction: column;
+
+	.campaign-list__create {
+		align-self: flex-end;
+	}
+}
+
+// consider removing?
+._container {
+	margin-top: 20px;
+}
+
+.main-heading {
+	margin: 0 0 20px 20px;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+	._container {
+		max-width: 855px;
+	}
+}
+
+@media (min-width: map-get($grid-breakpoints, sm)) {
+	.campaign-list__heading {
+		flex-flow: row;
+		justify-content: space-between;
+	}
+}

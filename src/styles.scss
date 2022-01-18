@@ -28,6 +28,7 @@
 @import './app/views/account/general-container/personal-email-verification/personal-email-verification.scss-theme.scss';
 @import './app/views/account/general-container/general-container.scss-theme.scss';
 @import './app/views/campaigns/campaign-item/campaign-item.scss-theme.scss';
+@import './app/views/campaigns/campaigns-container/campaigns-container.scss-theme.scss';
 
 @mixin custom-components-theme($theme) {
 	@include ldsly-styles-reset-theme($theme);
@@ -46,6 +47,7 @@
 	@include ldsly-email-settings-component-theme($theme);
 	@include ldsly-security-container-component-theme($theme);
 	@include ldsly-campaign-item-component-theme($theme);
+	@include ldsly-campaigns-container-component-theme($theme);
 }
 
 .default-theme {

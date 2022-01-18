@@ -234,7 +234,7 @@
 			"rxjs": "Reactive programming with async collections using Observables",
 			"description": "Flexible theming support for provided and custom components",
 			"themes.title": "Themes",
-			"title": "campaigns",
+			"title": "Active Campaigns",
 			"typescript": "Superior developer experience, code completion, refactoring and less bugs"
 		},
 		"buttons": {
@@ -257,7 +257,8 @@
 			"change-theme": "Change Theme",
 			"edit": "Edit",
 			"add": "Add",
-			"close": "Close (AutoSaves)"
+			"close": "Close (AutoSaves)",
+			"create": "Create"
 		}
 	}
 }

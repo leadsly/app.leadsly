@@ -74,11 +74,16 @@ export class CampaignListComponent implements OnInit {
 		this._sb.deleteCampaign(event);
 	}
 
+	/**
+	 * Event handler that clones campaign.
+	 * @param event
+	 * @param campaign
+	 */
 	_cloneCampaign(event: CloneCampaign, campaign: Campaign): void {
 		this._log.trace('[CampaignListComponent] _cloneCampaign event handler fired.', this);
 		const clonedCampaign: Campaign = {
 			id: uuidv4(),
-			active: campaign.active,
+			active: false,
 			connectionsAccepted: campaign.connectionsAccepted,
 			connectionsSentDaily: campaign.connectionsSentDaily,
 			name: campaign.name,
