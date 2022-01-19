@@ -1,10 +1,11 @@
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexStroke, ApexTooltip, ApexXAxis } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexLegend, ApexStroke, ApexTooltip, ApexXAxis } from 'ng-apexcharts';
 
-export interface ChartOptionsApex {
+export type ChartOptionsApex = {
 	series: ApexAxisChartSeries;
 	chart: ApexChart;
 	xaxis: ApexXAxis;
 	stroke: ApexStroke;
 	tooltip: ApexTooltip;
 	dataLabels: ApexDataLabels;
-}
+	legend: ApexLegend;
+};

@@ -11,12 +11,26 @@ import { tap } from 'rxjs/operators';
 import * as Dashboard from './dashboard.store.actions.ts';
 import { DashboardState } from './dashboard.store.state.ts';
 
+/**
+ * @description Dashboard sandbox service.
+ */
 @Injectable({
 	providedIn: 'root'
 })
 export class DashboardSandboxService {
-	@Select(DashboardState.getOverallReportOptions) overallReportOptions$: Observable<ChartOptions>;
+	/**
+	 * @description Gets campaigns effectiveness report.
+	 */
+	@Select(DashboardState.getCampaignsEffectivenessReport) campaignsEffectivenessReport$: Observable<Partial<ChartOptions>>;
 
+	/**
+	 * Creates an instance of dashboard sandbox service.
+	 * @param _log
+	 * @param _store
+	 * @param _dashboardAsyncService
+	 * @param _userAsyncService
+	 * @param router
+	 */
 	constructor(
 		private _log: LogService,
 		private _store: Store,
@@ -25,11 +39,14 @@ export class DashboardSandboxService {
 		public router: Router
 	) {}
 
+	/**
+	 * @description Gets user's campaigns effectiveness report
+	 */
 	getUserOverallReport(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._userAsyncService
 			.getOverallReport$(userId)
-			.pipe(tap((options) => this._store.dispatch(new Dashboard.SetOverallReportOptions(options))))
+			.pipe(tap((options) => this._store.dispatch(new Dashboard.SetCampaignsEffectivenessReport(options))))
 			.subscribe();
 	}
 }

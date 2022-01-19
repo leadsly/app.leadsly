@@ -51,7 +51,7 @@ const routes: Routes = [
 			useHash: false,
 			scrollPositionRestoration: 'enabled',
 			preloadingStrategy: NoPreloading,
-			enableTracing: true,
+			enableTracing: false,
 			relativeLinkResolution: 'legacy'
 		})
 	],

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import ApexCharts from 'apexcharts';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { DashboardSandboxService } from '../dashboard-sandbox.service';
 
+/**
+ * @description Dashboard component.
+ */
 @Component({
 	selector: 'ldsly-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -13,21 +14,26 @@ import { DashboardSandboxService } from '../dashboard-sandbox.service';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-	_overallReportOptions$: Observable<ChartOptions>;
+	/**
+	 * @description Campaigns effectiveness report.
+	 */
+	_campaignsEffectivenessReport$: Observable<Partial<ChartOptions>>;
 
-	_chart: ApexCharts;
-
+	/**
+	 * Creates an instance of dashboard component.
+	 * @param _log
+	 * @param _sb
+	 */
 	constructor(private _log: LogService, private _sb: DashboardSandboxService) {
-		this._overallReportOptions$ = _sb.overallReportOptions$;
+		this._campaignsEffectivenessReport$ = _sb.campaignsEffectivenessReport$;
 	}
 
+	/**
+	 * NgOnInit life cycle hook.
+	 */
 	ngOnInit(): void {
 		this._log.trace('[DashboardComponent] Initialized.');
 
 		this._sb.getUserOverallReport();
-
-		this._overallReportOptions$.pipe(
-			tap((overallReportSchema) => (this._chart = new ApexCharts(document.querySelector('#chart'), overallReportSchema)))
-		);
 	}
 }

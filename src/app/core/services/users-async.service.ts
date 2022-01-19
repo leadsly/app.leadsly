@@ -44,7 +44,7 @@ export class UsersAsyncService {
 	}
 
 	getOverallReport$(userId: string): Observable<ChartOptions> {
-		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/reports/overall`);
+		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/campaigns/reports/overall`);
 	}
 
 	/**

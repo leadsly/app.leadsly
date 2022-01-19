@@ -1,6 +1,6 @@
 {
 	"session": {
-		"sessionIdleTimeout": 300,
+		"sessionIdleTimeout": 30000,
 		"checkIfSessionIdleInterval": 25,
 		"sessionExpiredDialogTimeout": 120
 	}

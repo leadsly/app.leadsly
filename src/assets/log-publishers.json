@@ -1,5 +1,5 @@
 {
-	"level": "Verbose",
+	"level": "Trace",
 	"loggers": [
 		{
 			"loggerName": "console",

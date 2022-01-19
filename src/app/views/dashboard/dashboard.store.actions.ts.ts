@@ -1,17 +1,17 @@
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 
 /**
- * Get overall report.
+ * Get campaigns effectiveness report.
  */
-export class SetOverallReportOptions {
+export class SetCampaignsEffectivenessReport {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Reports] Get Overall Report';
+	static readonly type = '[Reports] Set Campaigns Effectiveness Report';
 
 	/**
 	 * Creates an instance of overall report.
 	 * @param payload
 	 */
-	constructor(public payload: ChartOptions) {}
+	constructor(public payload: Partial<ChartOptions>) {}
 }

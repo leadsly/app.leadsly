@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptions } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import produce from 'immer';
 import { DashboardStateModel } from './dashboard-state.model.ts';
 import * as Dashboard from './dashboard.store.actions.ts';
@@ -14,40 +14,38 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 @State<DashboardStateModel>({
 	name: DASHBOARD_STATE_TOKEN,
 	defaults: {
-		overallReportOptions: {
-			apex: {
-				chart: {
-					type: 'area',
-					height: 0
-				},
-				dataLabels: {},
-				series: [
-					{
-						data: []
-					}
-				],
-				stroke: {},
-				tooltip: {},
-				xaxis: {}
-			}
-		}
+		campaignEffectivenessReport: undefined
 	}
 })
 @Injectable()
 export class DashboardState {
+	/**
+	 * @description Selector for campaigns effectiveness report.
+	 * @param state
+	 * @returns campaigns effectiveness report
+	 */
 	@Selector()
-	static getOverallReportOptions(state: DashboardStateModel): ChartOptions {
-		return state.overallReportOptions;
+	static getCampaignsEffectivenessReport(state: DashboardStateModel): Partial<ChartOptions> {
+		return state.campaignEffectivenessReport;
 	}
 
+	/**
+	 * Creates an instance of dashboard state.
+	 * @param _log
+	 */
 	constructor(private _log: LogService) {}
 
-	@Action(Dashboard.SetOverallReportOptions)
-	setOverallReportOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.SetOverallReportOptions): void {
+	/**
+	 * @description Sets campaigns effectiveness report.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Dashboard.SetCampaignsEffectivenessReport)
+	setOverallReportOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.SetCampaignsEffectivenessReport): void {
 		this._log.info('[DashboardState] Setting setOverallReportOptions.');
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
-				draft.overallReportOptions = action.payload;
+				draft.campaignEffectivenessReport = action.payload;
 				return draft;
 			})
 		);
