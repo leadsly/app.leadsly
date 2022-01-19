@@ -11,6 +11,7 @@ import { AccountGeneralDetails } from '../models/account/general/account-general
 import { AccountSecurityDetails } from '../models/account/security/account-security-details.model';
 import { PasswordReset } from '../models/auth/password-reset.model';
 import { Campaigns } from '../models/campaigns/campaigns.model';
+import { ChartOptions } from '../models/reports/chart-options.model';
 
 /**
  * User async service.
@@ -40,6 +41,10 @@ export class UsersAsyncService {
 	 */
 	getCampaigns$(userId: string): Observable<Campaigns> {
 		return this._http.get<Campaigns>(`${this._apiUrl}/users/${userId}/campaigns`);
+	}
+
+	getOverallReport$(userId: string): Observable<ChartOptions> {
+		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/reports/overall`);
 	}
 
 	/**

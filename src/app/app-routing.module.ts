@@ -24,6 +24,10 @@ const routes: Routes = [
 		loadChildren: () => import('./views/campaigns/campaigns.module').then((m) => m.CampaignsModule)
 	},
 	{
+		path: 'dashboard',
+		loadChildren: () => import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+	},
+	{
 		path: 'settings',
 		loadChildren: () => import('./views/settings/settings.module').then((m) => m.SettingsModule)
 	},

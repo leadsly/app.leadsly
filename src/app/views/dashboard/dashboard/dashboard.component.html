@@ -1,0 +1,10 @@
+<ng-container *ngIf="_overallReportOptions$ | async as apex">
+	<apx-chart
+		[series]="apex.chartOptions.series"
+		[chart]="apex.chartOptions.chart"
+		[xaxis]="apex.chartOptions.xaxis"
+		[stroke]="apex.chartOptions.stroke"
+		[tooltip]="apex.chartOptions.tooltip"
+		[dataLabels]="apex.chartOptions.dataLabels"
+	></apx-chart>
+</ng-container>

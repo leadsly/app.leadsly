@@ -197,6 +197,7 @@
 			"about": "About",
 			"examples": "Examples",
 			"campaigns": "Campaigns",
+			"dashboard": "Dashboard",
 			"signin": "Sign in",
 			"signout": "Sign out",
 			"account": "Account",
@@ -236,6 +237,9 @@
 			"themes.title": "Themes",
 			"title": "Active Campaigns",
 			"typescript": "Superior developer experience, code completion, refactoring and less bugs"
+		},
+		"dashboard": {
+			"title": "Analytics"
 		},
 		"buttons": {
 			"reset-password": "Reset Password",
