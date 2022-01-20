@@ -45,7 +45,7 @@ export class DashboardSandboxService {
 	getUserOverallReport(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._userAsyncService
-			.getOverallReport$(userId)
+			.getCampaignsEffectivenessReport$(userId)
 			.pipe(tap((options) => this._store.dispatch(new Dashboard.SetCampaignsEffectivenessReport(options))))
 			.subscribe();
 	}

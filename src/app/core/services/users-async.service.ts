@@ -43,8 +43,13 @@ export class UsersAsyncService {
 		return this._http.get<Campaigns>(`${this._apiUrl}/users/${userId}/campaigns`);
 	}
 
-	getOverallReport$(userId: string): Observable<ChartOptions> {
-		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/campaigns/reports/overall`);
+	/**
+	 * @description Gets users campaigns effectiveness report
+	 * @param userId
+	 * @returns campaigns
+	 */
+	getCampaignsEffectivenessReport$(userId: string): Observable<ChartOptions> {
+		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/campaigns/reports/effectiveness`);
 	}
 
 	/**
