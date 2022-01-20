@@ -1,3 +1,6 @@
 <div>
-	<ldsly-report-container [chartOptions]="_campaignsEffectivenessReport$ | async"></ldsly-report-container>
+	<ldsly-report-container
+		(chartOptionsLegendUpdated)="_updateEffectivenessReportLegendOptions($event)"
+		[chartOptions]="_campaignsEffectivenessReport$ | async"
+	></ldsly-report-container>
 </div>

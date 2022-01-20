@@ -1,17 +1,34 @@
+import { ChartOptionsLegend } from 'app/core/models/reports/chart-options-legend.model';
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 
 /**
- * Get campaigns effectiveness report.
+ * Updates campaigns effectiveness report.
  */
-export class SetCampaignsEffectivenessReport {
+export class UpdateCampaignsEffectivenessReport {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Reports] Set Campaigns Effectiveness Report';
+	static readonly type = '[Reports] Update Campaigns Effectiveness Report';
 
 	/**
-	 * Creates an instance of overall report.
+	 * Creates an instance of users campaigns effectiveness report.
 	 * @param payload
 	 */
 	constructor(public payload: Partial<ChartOptions>) {}
+}
+
+/**
+ * Updates campaigns effectiveness legend options.
+ */
+export class UpdateCampaignsEffectivenessLegendOptions {
+	/**
+	 * Type of action.
+	 */
+	static readonly type = '[Reports] Update Campaigns Effectiveness Legend Options';
+
+	/**
+	 * Creates an instance of users campaigns effectiveness report.
+	 * @param payload
+	 */
+	constructor(public payload: ChartOptionsLegend) {}
 }

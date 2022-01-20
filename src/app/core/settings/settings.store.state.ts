@@ -1,16 +1,16 @@
-import { Router } from '@angular/router';
-import { Injectable, NgZone } from '@angular/core';
-import { Action, Selector, State, StateContext, StateToken, NgxsOnInit } from '@ngxs/store';
-import { LocalStorageService } from '../local-storage/local-storage.service';
-import produce from 'immer';
-import { DEFAULT_THEME, NIGHT_MODE_THEME, SETTINGS_KEY, SettingsStateModel } from './settings-state.model';
-import { TranslateService } from '@ngx-translate/core';
-import { TitleService } from 'app/core/title/title.service';
-import * as Settings from './settings.store.actions';
-import { Observable } from 'rxjs';
-import { LogService } from '../logger/log.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Action, NgxsOnInit, Selector, State, StateContext, StateToken } from '@ngxs/store';
+import { TitleService } from 'app/core/title/title.service';
+import produce from 'immer';
+import { Observable } from 'rxjs';
 import { AnimationsService } from '../animations/animations.service';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { LogService } from '../logger/log.service';
+import { DEFAULT_THEME, NIGHT_MODE_THEME, SettingsStateModel, SETTINGS_KEY } from './settings-state.model';
+import * as Settings from './settings.store.actions';
 
 const SETTINGS_STATE_TOKEN = new StateToken<SettingsStateModel>('settings');
 
@@ -139,14 +139,14 @@ export class SettingsState implements NgxsOnInit {
 	 */
 	private _changeSetHour = (ctx: StateContext<SettingsStateModel>): void => {
 		const hour = new Date().getHours();
-		this._log.trace(
+		this._log.verbose(
 			`ngxsOnInit setInterval fired. Hour: ${hour} | prevHour: ${this._hour}. Is hour update required: ${String(hour !== this._hour)}.`,
 			this
 		);
 		if (hour !== this._hour) {
 			this._hour = hour;
 			const hourToSet = { hour };
-			this._log.trace(`ngxsOnInit setInterval dispatching action Settings.ChangeHour with data.`, this, hour);
+			this._log.verbose(`ngxsOnInit setInterval dispatching action Settings.ChangeHour with data.`, this, hour);
 			this._ngZone.runOutsideAngular(() => ctx.dispatch(new Settings.ChangeHour(hourToSet)));
 		}
 	};

@@ -31,6 +31,12 @@
 						<button mat-button class="nav-button" *ngFor="let item of _navigation" [routerLink]="[item.link]" routerLinkActive="active">
 							{{ item.label | translate }}
 						</button>
+						<button *ngIf="_isAuthenticated$ | async" mat-button class="nav-button" routerLink="dashboard" routerLinkActive="active">
+							{{ 'ldsly.menu.dashboard' | translate }}
+						</button>
+						<button *ngIf="_isAuthenticated$ | async" mat-button class="nav-button" routerLink="campaigns" routerLinkActive="active">
+							{{ 'ldsly.menu.campaigns' | translate }}
+						</button>
 					</span>
 					<button mat-button mat-stroked-button color="accent" *ngIf="!(_isAuthenticated$ | async)" (click)="_onSigninClicked()">
 						{{ 'ldsly.menu.signin' | translate }}

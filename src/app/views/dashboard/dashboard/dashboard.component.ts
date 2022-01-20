@@ -36,4 +36,15 @@ export class DashboardComponent implements OnInit {
 
 		this._sb.getUserOverallReport();
 	}
+
+	/**
+	 * @description Updates effectiveness report options
+	 * @param options
+	 */
+	_updateEffectivenessReportLegendOptions(options: Partial<ChartOptions>): void {
+		this._log.trace('[DashboardComponent] _updateEffectivenessReportOptions fired.');
+		this._sb.updateEffectivenessReportLegendOptions({
+			legend: options.chartOptionsApex.legend
+		});
+	}
 }

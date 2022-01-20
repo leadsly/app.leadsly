@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 
 /**
  * Campaigns effectiveness chart.
@@ -17,9 +19,22 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	 */
 	@Input() set chartOptions(value: Partial<ChartOptionsApex>) {
 		if (value) {
-			this._chartOptions = this._mergeChartDataWithViewOptions(value);
+			this._log.debug('[CampaignEffectivenessReportComponent] chartOptions are getting set.');
+			this._chartOptions = value;
 		}
 	}
+
+	/**
+	 * @description Sets state matcher value if specific screen size is encountered.
+	 */
+	@Input() set breakpointStateScreenMatcher(value: BreakpointState) {
+		this._updateChartOptions(value.matches);
+	}
+
+	/**
+	 * @description Emitted when chart options are updated.
+	 */
+	@Output() chartOptionsLegendUpdated = new EventEmitter<Partial<ChartOptions>>();
 
 	/**
 	 * Chart options.
@@ -40,42 +55,32 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	}
 
 	/**
-	 * Merges chart data from server with view options
-	 * @param options
-	 * @returns chart data with view options
+	 * @description Updates legend chart options.
+	 * @param screenMatches
 	 */
-	private _mergeChartDataWithViewOptions(options: Partial<ChartOptionsApex>): Partial<ChartOptionsApex> {
-		const opts: Partial<ChartOptionsApex> = {
-			series: options.series.map((s) => {
-				return {
-					name: s.name,
-					data: s.data
-				};
-			}),
-			chart: {
-				height: 350,
-				type: 'area'
-			},
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				curve: 'smooth'
-			},
-			xaxis: {
-				type: options.xaxis.type,
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				categories: options.xaxis.categories
-			},
-			tooltip: {
-				x: {
-					format: 'dd/MM/yy'
+	private _updateChartOptions(screenMatches: boolean): void {
+		if (screenMatches) {
+			this._log.debug('[CampaignEffectivenessReportComponent] breakpointStateScreenMatcher value matched!');
+			const updatedChartOptionsDesktop: ChartOptions = {
+				chartOptionsApex: {
+					legend: {
+						position: 'bottom',
+						horizontalAlign: 'center'
+					}
 				}
-			},
-			legend: {
-				position: 'top'
-			}
-		};
-		return opts;
+			};
+			this.chartOptionsLegendUpdated.emit(updatedChartOptionsDesktop);
+		} else {
+			this._log.debug('[CampaignEffectivenessReportComponent] breakpointStateScreenMatcher value did NOT match');
+			const updatedChartOptionsMobile: ChartOptions = {
+				chartOptionsApex: {
+					legend: {
+						position: 'top',
+						horizontalAlign: 'left'
+					}
+				}
+			};
+			this.chartOptionsLegendUpdated.emit(updatedChartOptionsMobile);
+		}
 	}
 }

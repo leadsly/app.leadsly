@@ -1,5 +1,9 @@
 <div>
 	<ng-container>
-		<ldsly-campaign-effectiveness-report [chartOptions]="_chartOptions?.chartOptionsApex"></ldsly-campaign-effectiveness-report>
+		<ldsly-campaign-effectiveness-report
+			(chartOptionsLegendUpdated)="_onChartOptionsLegendUpdated($event)"
+			[chartOptions]="_chartOptions?.chartOptionsApex"
+			[breakpointStateScreenMatcher]="_breakpointStateScreenMatcher$ | async"
+		></ldsly-campaign-effectiveness-report>
 	</ng-container>
 </div>

@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import produce from 'immer';
+import _ from 'lodash.merge';
 import { DashboardStateModel } from './dashboard-state.model.ts';
 import * as Dashboard from './dashboard.store.actions.ts';
 
@@ -14,7 +15,34 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 @State<DashboardStateModel>({
 	name: DASHBOARD_STATE_TOKEN,
 	defaults: {
-		campaignEffectivenessReport: undefined
+		campaignEffectivenessReport: {
+			chartOptionsApex: {
+				series: [
+					{
+						data: []
+					}
+				],
+				chart: {
+					height: 350,
+					type: 'area'
+				},
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					curve: 'smooth'
+				},
+				xaxis: {
+					type: 'datetime',
+					categories: []
+				},
+				tooltip: {
+					x: {
+						format: 'dd/MM/yy'
+					}
+				}
+			}
+		}
 	}
 })
 @Injectable()
@@ -36,16 +64,37 @@ export class DashboardState {
 	constructor(private _log: LogService) {}
 
 	/**
-	 * @description Sets campaigns effectiveness report.
+	 * @description Updates campaigns effectiveness report.
 	 * @param ctx
 	 * @param action
 	 */
-	@Action(Dashboard.SetCampaignsEffectivenessReport)
-	setOverallReportOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.SetCampaignsEffectivenessReport): void {
-		this._log.info('[DashboardState] Setting setOverallReportOptions.');
+	@Action(Dashboard.UpdateCampaignsEffectivenessReport)
+	updateCampaignsEffectivenessOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.UpdateCampaignsEffectivenessReport): void {
+		this._log.info('[DashboardState] Updating updateCampaignsEffectivenessOptions.');
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+		const updatedChartOptions = _(action.payload, ctx.getState().campaignEffectivenessReport);
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
-				draft.campaignEffectivenessReport = action.payload;
+				draft.campaignEffectivenessReport.chartOptionsApex = updatedChartOptions.chartOptionsApex;
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Updates effectiveness report legend options.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Dashboard.UpdateCampaignsEffectivenessLegendOptions)
+	updateCampaignEffectivenessLegendOptions(
+		ctx: StateContext<DashboardStateModel>,
+		action: Dashboard.UpdateCampaignsEffectivenessLegendOptions
+	): void {
+		this._log.info('[DashboardState] Updating updateCampaignEffectivenessLegendOptions.');
+		ctx.setState(
+			produce((draft: DashboardStateModel) => {
+				draft.campaignEffectivenessReport.chartOptionsApex.legend = action.payload.legend;
 				return draft;
 			})
 		);

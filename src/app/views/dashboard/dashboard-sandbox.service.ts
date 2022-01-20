@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
+import { ChartOptionsLegend } from 'app/core/models/reports/chart-options-legend.model';
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import { DashboardAsyncService } from 'app/core/services/dashboard-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
@@ -46,7 +47,15 @@ export class DashboardSandboxService {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._userAsyncService
 			.getCampaignsEffectivenessReport$(userId)
-			.pipe(tap((options) => this._store.dispatch(new Dashboard.SetCampaignsEffectivenessReport(options))))
+			.pipe(tap((options) => this._store.dispatch(new Dashboard.UpdateCampaignsEffectivenessReport(options))))
 			.subscribe();
+	}
+
+	/**
+	 * @description Updates effectiveness report legend options.
+	 * @param legendOptions
+	 */
+	updateEffectivenessReportLegendOptions(legendOptions: ChartOptionsLegend): void {
+		this._store.dispatch(new Dashboard.UpdateCampaignsEffectivenessLegendOptions(legendOptions));
 	}
 }
