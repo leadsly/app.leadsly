@@ -2,7 +2,6 @@ import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 
 /**
  * Campaigns effectiveness chart.
@@ -32,6 +31,13 @@ export class CampaignEffectivenessReportComponent {
 	 * @description Sets state matcher value if specific screen size is encountered.
 	 */
 	@Input() set breakpointStateScreenMatcher(value: BreakpointState) {
+		const chartOptions: Partial<ChartOptionsApex> = {
+			legend: {
+				position: value.matches ? 'top' : 'bottom',
+				horizontalAlign: value.matches ? 'left' : 'center'
+			}
+		};
+		this.chartOptionsLegendUpdated.emit(chartOptions);
 		this._breakpointStateScreenMatcher = value;
 	}
 
@@ -43,7 +49,7 @@ export class CampaignEffectivenessReportComponent {
 	/**
 	 * @description Emitted when chart options are updated.
 	 */
-	@Output() chartOptionsLegendUpdated = new EventEmitter<ChartOptions>();
+	@Output() chartOptionsLegendUpdated = new EventEmitter<Partial<ChartOptionsApex>>();
 
 	/**
 	 * Creates an instance of overall report component.

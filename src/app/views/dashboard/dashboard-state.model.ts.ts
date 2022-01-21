@@ -1,3 +1,4 @@
+import { ChartDataApex } from 'app/core/models/reports/chart-data-apex.model';
 import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
 
 /**
@@ -21,7 +22,7 @@ export interface DashboardStateModel {
 				 * @description Campaigns effectiveness reports data
 				 */
 				chartDataApex: {
-					[id: string]: Partial<ChartOptionsApex>;
+					[id: string]: ChartDataApex;
 				};
 				/**
 				 * @description Campaigns effectiveness options.

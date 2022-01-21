@@ -2,11 +2,15 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable } from 'rxjs';
 import { combineLatestWith, map } from 'rxjs/operators';
 import { DashboardSandboxService } from '../dashboard-sandbox.service';
+
+interface ReportNameView {
+	id: string;
+	name: string;
+}
 
 /**
  * @description Report containter component.
@@ -56,6 +60,10 @@ export class ReportContainerComponent implements OnInit {
 	 */
 	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
 
+	_campaignsEffectivenessReportIds$: Observable<string[]>;
+
+	_reportValues$: Observable<ReportNameView>;
+
 	/**
 	 * Creates an instance of report container component.
 	 * @param _log
@@ -64,6 +72,7 @@ export class ReportContainerComponent implements OnInit {
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
 		this._campaignsEffectivenessSelectedReportId$ = _sb.campaignsEffectivenessSelectedReportId$;
 		this._getEffectivenessReportById$ = _sb.getCampaignsEffectivenessReportById$;
+		this._campaignsEffectivenessReportIds$ = _sb.campaignsEffectivenessReportIds$;
 	}
 
 	/**
@@ -76,13 +85,23 @@ export class ReportContainerComponent implements OnInit {
 			combineLatestWith(this._getEffectivenessReportById$),
 			map(([id, getById]) => getById(id))
 		);
+
+		// this._reportValues$ = this._campaignsEffectivenessReportIds$.pipe(
+		// 	combineLatestWith(this._getEffectivenessReportById$),
+		// 	map(([ids, getById]) => ids.map(id => {
+		// 		const chartOptions = getById(id);
+		// 		return {
+		// 			id: chartOptions.
+		// 		} as ReportNameView;
+		// 	}))
+		// );
 	}
 
 	/**
 	 * @description When legend chart options have changed.
 	 * @param options
 	 */
-	_onChartOptionsLegendUpdated(options: Partial<ChartOptions>): void {
-		this._log.trace('[ReportContainerComponent] _onChartOptionsUpdated fired.');
+	_onChartOptionsLegendUpdated(options: Partial<ChartOptionsApex>): void {
+		this._sb.updateEffectivenessReportChartOptions(options);
 	}
 }

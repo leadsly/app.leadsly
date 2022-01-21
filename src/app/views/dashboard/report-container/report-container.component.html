@@ -1,4 +1,12 @@
 <div>
+	<ng-container *ngIf="_reportValues$ | async as report">
+		<!-- <mat-form-field appearance="fill">
+			<mat-label>{{ 'ldsly.dashboard.reports.effectiveness.drop-down' | translate }}</mat-label>
+			<mat-select [(value)]="selected">
+				<mat-option [value]="report?.id">{{ report?.name }}</mat-option>
+			</mat-select>
+		</mat-form-field> -->
+	</ng-container>
 	<ng-container>
 		<ldsly-campaign-effectiveness-report
 			(chartOptionsLegendUpdated)="_onChartOptionsLegendUpdated($event)"

@@ -1,4 +1,4 @@
-import { ChartOptionsApex } from './chart-options.apex.model';
+import { ChartDataApex } from './chart-data-apex.model';
 
 /**
  * @description Charts options apex.
@@ -7,7 +7,7 @@ export interface ChartsOptionsApex {
 	/**
 	 * @description Chart options.
 	 */
-	items: ChartOptionsApex[];
+	items: ChartDataApex[];
 
 	/**
 	 * @description The id of the selected chart.

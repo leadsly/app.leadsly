@@ -86,9 +86,9 @@ export class DashboardState {
 	static getCampaignsEffectivenessReportById(state: DashboardStateModel): (id: string) => { chartOptionsApex: ChartOptionsApex } {
 		return (id: string): { chartOptionsApex: ChartOptionsApex } => {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			const data = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartDataApex[id]) as Partial<ChartOptionsApex>;
+			const data = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartDataApex[id]);
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			const options = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartOptionsApex) as ChartOptionsApex;
+			const options = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartOptionsApex);
 			return {
 				chartOptionsApex: merge(data, options)
 			};
@@ -126,11 +126,16 @@ export class DashboardState {
 	 * @param ctx
 	 * @param action
 	 */
-	@Action(Dashboard.UpdateCampaignsEffectivenessLegendOptions)
-	updateCampaignEffectivenessLegendOptions(
-		ctx: StateContext<DashboardStateModel>,
-		action: Dashboard.UpdateCampaignsEffectivenessLegendOptions
-	): void {
-		this._log.info('[DashboardState] Updating updateCampaignEffectivenessLegendOptions.');
+	@Action(Dashboard.UpdateCampaignsEffectivenessChartOptions)
+	updateCampaignEffectivenessChartOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.UpdateCampaignsEffectivenessChartOptions): void {
+		this._log.info('[DashboardState] Updating updateCampaignEffectivenessChartOptions.');
+		const actionClone = clonedeep(action.payload);
+		const stateClone = clonedeep(ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex);
+		const mergeChartOptions = merge(action.payload, ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex, actionClone);
+		ctx.setState(
+			produce((draft: DashboardStateModel) => {
+				draft.campaignEffectivenessReports.items.apexCharts.chartOptionsApex = mergeChartOptions;
+			})
+		);
 	}
 }
