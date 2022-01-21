@@ -1,11 +1,11 @@
-<div *ngIf="_chartOptions">
+<div *ngIf="_selectedEffectivenessReport">
 	<apx-chart
-		[series]="_chartOptions?.series"
-		[chart]="_chartOptions?.chart"
-		[xaxis]="_chartOptions?.xaxis"
-		[stroke]="_chartOptions?.stroke"
-		[tooltip]="_chartOptions?.tooltip"
-		[dataLabels]="_chartOptions?.dataLabels"
-		[legend]="_chartOptions?.legend"
+		[series]="_selectedEffectivenessReport?.series"
+		[chart]="_selectedEffectivenessReport?.chart"
+		[xaxis]="_selectedEffectivenessReport?.xaxis"
+		[stroke]="_selectedEffectivenessReport?.stroke"
+		[tooltip]="_selectedEffectivenessReport?.tooltip"
+		[dataLabels]="_selectedEffectivenessReport?.dataLabels"
+		[legend]="_selectedEffectivenessReport?.legend"
 	></apx-chart>
 </div>

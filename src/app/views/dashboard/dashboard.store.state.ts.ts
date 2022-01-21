@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
+import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
 import produce from 'immer';
-import _ from 'lodash.merge';
+import clonedeep from 'lodash.clonedeep';
+import merge from 'lodash.merge';
+import { normalize } from 'normalizr';
+import { effectivenessReportsSchema } from './dashboard-normalizr.schema';
 import { DashboardStateModel } from './dashboard-state.model.ts';
 import * as Dashboard from './dashboard.store.actions.ts';
 
@@ -15,31 +18,38 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 @State<DashboardStateModel>({
 	name: DASHBOARD_STATE_TOKEN,
 	defaults: {
-		campaignEffectivenessReport: {
-			chartOptionsApex: {
-				series: [
-					{
-						data: []
-					}
-				],
-				chart: {
-					height: 350,
-					type: 'area'
-				},
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: 'smooth'
-				},
-				xaxis: {
-					type: 'datetime',
-					categories: []
-				},
-				tooltip: {
-					x: {
-						format: 'dd/MM/yy'
-					}
+		campaignEffectivenessReports: {
+			selected: '0',
+			items: {
+				apexCharts: {
+					ids: [],
+					chartOptionsApex: {
+						series: [
+							{
+								data: []
+							}
+						],
+						chart: {
+							height: 350,
+							type: 'area'
+						},
+						dataLabels: {
+							enabled: false
+						},
+						stroke: {
+							curve: 'smooth'
+						},
+						xaxis: {
+							type: 'datetime',
+							categories: []
+						},
+						tooltip: {
+							x: {
+								format: 'dd/MM/yy'
+							}
+						}
+					},
+					chartDataApex: {}
 				}
 			}
 		}
@@ -48,13 +58,41 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 @Injectable()
 export class DashboardState {
 	/**
-	 * @description Selector for campaigns effectiveness report.
+	 * @description Selects campaigns effectiveness report.
 	 * @param state
 	 * @returns campaigns effectiveness report
 	 */
 	@Selector()
-	static getCampaignsEffectivenessReport(state: DashboardStateModel): Partial<ChartOptions> {
-		return state.campaignEffectivenessReport;
+	static getCampaignsEffectivenessReports(state: DashboardStateModel): string[] {
+		return state.campaignEffectivenessReports.items.apexCharts.ids;
+	}
+
+	/**
+	 * @description Selects selected campaign effectiveness report id.
+	 * @param state
+	 * @returns campaigns effectiveness selected report
+	 */
+	@Selector()
+	static getCampaignsEffectivenessSelectedReport(state: DashboardStateModel): string {
+		return state.campaignEffectivenessReports.selected;
+	}
+
+	/**
+	 * @description Selects campaign effectiveness report by id.
+	 * @param state
+	 * @returns campaigns effectiveness report by id
+	 */
+	@Selector()
+	static getCampaignsEffectivenessReportById(state: DashboardStateModel): (id: string) => { chartOptionsApex: ChartOptionsApex } {
+		return (id: string): { chartOptionsApex: ChartOptionsApex } => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			const data = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartDataApex[id]) as Partial<ChartOptionsApex>;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			const options = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartOptionsApex) as ChartOptionsApex;
+			return {
+				chartOptionsApex: merge(data, options)
+			};
+		};
 	}
 
 	/**
@@ -68,15 +106,17 @@ export class DashboardState {
 	 * @param ctx
 	 * @param action
 	 */
-	@Action(Dashboard.UpdateCampaignsEffectivenessReport)
-	updateCampaignsEffectivenessOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.UpdateCampaignsEffectivenessReport): void {
+	@Action(Dashboard.InitializeCampaignsEffectivenessReport)
+	initializeCampaignsEffectivenessOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.InitializeCampaignsEffectivenessReport): void {
 		this._log.info('[DashboardState] Updating updateCampaignsEffectivenessOptions.');
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-		const updatedChartOptions = _(action.payload, ctx.getState().campaignEffectivenessReport);
+		const normalizedData = normalize(action.payload.chartsOptionsApex.items, [effectivenessReportsSchema]);
+		const effectivenessReportsData = normalizedData.entities['effectivenessReports'];
+		const effectivenessReportIds = normalizedData.result as string[];
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
-				draft.campaignEffectivenessReport.chartOptionsApex = updatedChartOptions.chartOptionsApex;
-				return draft;
+				draft.campaignEffectivenessReports.items.apexCharts.chartDataApex = effectivenessReportsData;
+				draft.campaignEffectivenessReports.items.apexCharts.ids = effectivenessReportIds;
+				draft.campaignEffectivenessReports.selected = action.payload.chartsOptionsApex.selected;
 			})
 		);
 	}
@@ -92,11 +132,5 @@ export class DashboardState {
 		action: Dashboard.UpdateCampaignsEffectivenessLegendOptions
 	): void {
 		this._log.info('[DashboardState] Updating updateCampaignEffectivenessLegendOptions.');
-		ctx.setState(
-			produce((draft: DashboardStateModel) => {
-				draft.campaignEffectivenessReport.chartOptionsApex.legend = action.payload.legend;
-				return draft;
-			})
-		);
 	}
 }

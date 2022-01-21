@@ -1,8 +1,8 @@
-import { LogPublisher } from '../log-publisher';
-import { LogEntry } from '../log-entry';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LogEntry } from '../log-entry';
+import { LogPublisher } from '../log-publisher';
 
 /**
  * Log class for logging messages to a rest api.
@@ -53,6 +53,6 @@ export class LogWebApi extends LogPublisher {
 		errors.push(msg);
 		console.error('An error occurred', errors);
 
-		return Observable.throw(errors);
+		return throwError(() => errors);
 	}
 }

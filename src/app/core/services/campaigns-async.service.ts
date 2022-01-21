@@ -40,6 +40,11 @@ export class CampaignsAsyncService {
 		return this._http.patch<Campaign>(`${this._apiUrl}/campaigns`, JSON.stringify(toggleCampaignStatus), { headers: this._headers });
 	}
 
+	/**
+	 * @description Clones campaign.
+	 * @param campaign
+	 * @returns new campaign.
+	 */
 	cloneCampaign$(campaign: CloneCampaign): Observable<Campaign> {
 		return this._http.post<Campaign>(`${this._apiUrl}/campaigns/${campaign.id}/clone`, JSON.stringify(campaign), { headers: this._headers });
 	}

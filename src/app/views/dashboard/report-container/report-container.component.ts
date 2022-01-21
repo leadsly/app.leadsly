@@ -1,10 +1,12 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
+import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
 import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
-import _ from 'lodash.clonedeep';
 import { Observable } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs/operators';
+import { DashboardSandboxService } from '../dashboard-sandbox.service';
 
 /**
  * @description Report containter component.
@@ -17,35 +19,51 @@ import { Observable } from 'rxjs';
 })
 export class ReportContainerComponent implements OnInit {
 	/**
-	 * @description Sets chart options.
+	 * @description campaigns effectiviness report ids.
 	 */
-	@Input() set chartOptions(value: ChartOptions) {
-		if (value) {
-			// cloning is necessary because apex charts adds properties to chart options.
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			const chartOptions = _(value) as ChartOptions;
-			this._chartOptions = chartOptions;
-		}
+	@Input() set campaignsEffectivenessReportIds(value: string[]) {
+		this._campaignsEffectivenessReportIds = value;
 	}
 
 	/**
-	 * @description Chart options.
+	 * @description campaigns effectiviness report ids.
 	 */
-	_chartOptions: ChartOptions;
+	_campaignsEffectivenessReportIds: string[];
+
+	/**
+	 * @description Campaigns effectiveness selected report id.
+	 */
+	_campaignsEffectivenessSelectedReportId$: Observable<string>;
+
+	/**
+	 * @description Get effectiveness report by id.
+	 */
+	_getEffectivenessReportById$: Observable<
+		(id: string) => {
+			chartOptionsApex: ChartOptionsApex;
+		}
+	>;
+
+	/**
+	 * @description Selected effectiveness report.
+	 */
+	_selectedEffectivenessReport$: Observable<{
+		chartOptionsApex: ChartOptionsApex;
+	}>;
 
 	/**
 	 * Whether specified screen width was matched.
 	 */
 	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
 
-	@Output() chartOptionsLegendUpdated = new EventEmitter<Partial<ChartOptions>>();
-
 	/**
 	 * Creates an instance of report container component.
 	 * @param _log
 	 */
-	constructor(private _log: LogService, breakpointObserver: BreakpointObserver) {
+	constructor(private _log: LogService, breakpointObserver: BreakpointObserver, private _sb: DashboardSandboxService) {
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
+		this._campaignsEffectivenessSelectedReportId$ = _sb.campaignsEffectivenessSelectedReportId$;
+		this._getEffectivenessReportById$ = _sb.getCampaignsEffectivenessReportById$;
 	}
 
 	/**
@@ -53,6 +71,11 @@ export class ReportContainerComponent implements OnInit {
 	 */
 	ngOnInit(): void {
 		this._log.trace('[ReportContainerComponent] Initialized.');
+
+		this._selectedEffectivenessReport$ = this._campaignsEffectivenessSelectedReportId$.pipe(
+			combineLatestWith(this._getEffectivenessReportById$),
+			map(([id, getById]) => getById(id))
+		);
 	}
 
 	/**
@@ -61,6 +84,5 @@ export class ReportContainerComponent implements OnInit {
 	 */
 	_onChartOptionsLegendUpdated(options: Partial<ChartOptions>): void {
 		this._log.trace('[ReportContainerComponent] _onChartOptionsUpdated fired.');
-		this.chartOptionsLegendUpdated.emit(options);
 	}
 }

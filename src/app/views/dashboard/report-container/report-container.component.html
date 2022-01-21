@@ -2,7 +2,7 @@
 	<ng-container>
 		<ldsly-campaign-effectiveness-report
 			(chartOptionsLegendUpdated)="_onChartOptionsLegendUpdated($event)"
-			[chartOptions]="_chartOptions?.chartOptionsApex"
+			[selectedEffectivenessReport]="_selectedEffectivenessReport$ | async"
 			[breakpointStateScreenMatcher]="_breakpointStateScreenMatcher$ | async"
 		></ldsly-campaign-effectiveness-report>
 	</ng-container>

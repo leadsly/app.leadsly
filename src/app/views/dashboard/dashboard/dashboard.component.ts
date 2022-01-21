@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
 import { Observable } from 'rxjs';
 import { DashboardSandboxService } from '../dashboard-sandbox.service';
 
@@ -15,9 +14,9 @@ import { DashboardSandboxService } from '../dashboard-sandbox.service';
 })
 export class DashboardComponent implements OnInit {
 	/**
-	 * @description Campaigns effectiveness report.
+	 * @description Campaigns effectiveness report ids.
 	 */
-	_campaignsEffectivenessReport$: Observable<Partial<ChartOptions>>;
+	_campaignsEffectivenessReportIds$: Observable<string[]>;
 
 	/**
 	 * Creates an instance of dashboard component.
@@ -25,7 +24,7 @@ export class DashboardComponent implements OnInit {
 	 * @param _sb
 	 */
 	constructor(private _log: LogService, private _sb: DashboardSandboxService) {
-		this._campaignsEffectivenessReport$ = _sb.campaignsEffectivenessReport$;
+		this._campaignsEffectivenessReportIds$ = _sb.campaignsEffectivenessReportIds$;
 	}
 
 	/**
@@ -35,16 +34,5 @@ export class DashboardComponent implements OnInit {
 		this._log.trace('[DashboardComponent] Initialized.');
 
 		this._sb.getUserOverallReport();
-	}
-
-	/**
-	 * @description Updates effectiveness report options
-	 * @param options
-	 */
-	_updateEffectivenessReportLegendOptions(options: Partial<ChartOptions>): void {
-		this._log.trace('[DashboardComponent] _updateEffectivenessReportOptions fired.');
-		this._sb.updateEffectivenessReportLegendOptions({
-			legend: options.chartOptionsApex.legend
-		});
 	}
 }

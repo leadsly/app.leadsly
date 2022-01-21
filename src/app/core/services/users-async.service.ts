@@ -48,7 +48,7 @@ export class UsersAsyncService {
 	 * @param userId
 	 * @returns campaigns
 	 */
-	getCampaignsEffectivenessReport$(userId: string): Observable<ChartOptions> {
+	getCampaignsEffectivenessReports$(userId: string): Observable<ChartOptions> {
 		return this._http.get<ChartOptions>(`${this._apiUrl}/users/${userId}/campaigns/reports/effectiveness`);
 	}
 

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { AuthService } from '../auth/auth.service';
-import { LogService } from '../logger/log.service';
-import { AuthState } from '../auth/auth.store.state';
-import { Router } from '@angular/router';
-import { InitSessionResult } from '../models/auth/init-session-result.model';
 import * as Auth from '../auth/auth.store.actions';
+import { AuthState } from '../auth/auth.store.state';
+import { LogService } from '../logger/log.service';
 
 /**
  * App initializer service.
@@ -34,7 +33,7 @@ export class AppInitializerService {
 		this._log.debug('[initUserSession] explicitlySignedOut:', this, explicitlySignedOut);
 		const promise = this._authService
 			.initUserSession$(isAuthenticated, explicitlySignedOut)
-			.toPromise<InitSessionResult>()
+			.toPromise()
 			.then((result) => {
 				this._log.debug('[initUserSession] result:', this, result.succeeded);
 				if (result.succeeded) {

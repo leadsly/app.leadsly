@@ -4,11 +4,10 @@ import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
 import { ChartOptionsLegend } from 'app/core/models/reports/chart-options-legend.model';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
+import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
 import { DashboardAsyncService } from 'app/core/services/dashboard-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 import * as Dashboard from './dashboard.store.actions.ts';
 import { DashboardState } from './dashboard.store.state.ts';
 
@@ -22,7 +21,21 @@ export class DashboardSandboxService {
 	/**
 	 * @description Gets campaigns effectiveness report.
 	 */
-	@Select(DashboardState.getCampaignsEffectivenessReport) campaignsEffectivenessReport$: Observable<Partial<ChartOptions>>;
+	@Select(DashboardState.getCampaignsEffectivenessReports) campaignsEffectivenessReportIds$: Observable<string[]>;
+
+	/**
+	 * @description Selects id for the selected campaign effectiveness report.
+	 */
+	@Select(DashboardState.getCampaignsEffectivenessSelectedReport) campaignsEffectivenessSelectedReportId$: Observable<string>;
+
+	/**
+	 * @description Gets campaigns effectiveness by id.
+	 */
+	@Select(DashboardState.getCampaignsEffectivenessReportById) getCampaignsEffectivenessReportById$: Observable<
+		(id: string) => {
+			chartOptionsApex: ChartOptionsApex;
+		}
+	>;
 
 	/**
 	 * Creates an instance of dashboard sandbox service.
@@ -46,8 +59,8 @@ export class DashboardSandboxService {
 	getUserOverallReport(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._userAsyncService
-			.getCampaignsEffectivenessReport$(userId)
-			.pipe(tap((options) => this._store.dispatch(new Dashboard.UpdateCampaignsEffectivenessReport(options))))
+			.getCampaignsEffectivenessReports$(userId)
+			.pipe(tap((options) => this._store.dispatch(new Dashboard.InitializeCampaignsEffectivenessReport(options))))
 			.subscribe();
 	}
 
