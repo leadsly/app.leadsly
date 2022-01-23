@@ -33,6 +33,6 @@ export class DashboardComponent implements OnInit {
 	ngOnInit(): void {
 		this._log.trace('[DashboardComponent] Initialized.');
 
-		this._sb.getUserOverallReport();
+		this._sb.getUserCampaignsEffectivenessReport();
 	}
 }

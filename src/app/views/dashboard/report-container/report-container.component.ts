@@ -1,16 +1,11 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable } from 'rxjs';
 import { combineLatestWith, map } from 'rxjs/operators';
 import { DashboardSandboxService } from '../dashboard-sandbox.service';
-
-interface ReportNameView {
-	id: string;
-	name: string;
-}
 
 /**
  * @description Report containter component.
@@ -21,7 +16,7 @@ interface ReportNameView {
 	styleUrls: ['./report-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportContainerComponent implements OnInit {
+export class ReportContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * @description campaigns effectiviness report ids.
 	 */
@@ -60,9 +55,10 @@ export class ReportContainerComponent implements OnInit {
 	 */
 	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
 
+	/**
+	 * @description Campaigns effectiveness report ids of report container component
+	 */
 	_campaignsEffectivenessReportIds$: Observable<string[]>;
-
-	_reportValues$: Observable<ReportNameView>;
 
 	/**
 	 * Creates an instance of report container component.
@@ -85,23 +81,20 @@ export class ReportContainerComponent implements OnInit {
 			combineLatestWith(this._getEffectivenessReportById$),
 			map(([id, getById]) => getById(id))
 		);
-
-		// this._reportValues$ = this._campaignsEffectivenessReportIds$.pipe(
-		// 	combineLatestWith(this._getEffectivenessReportById$),
-		// 	map(([ids, getById]) => ids.map(id => {
-		// 		const chartOptions = getById(id);
-		// 		return {
-		// 			id: chartOptions.
-		// 		} as ReportNameView;
-		// 	}))
-		// );
 	}
 
 	/**
-	 * @description When legend chart options have changed.
-	 * @param options
+	 * @description NgOnDestroy life cycle.
 	 */
-	_onChartOptionsLegendUpdated(options: Partial<ChartOptionsApex>): void {
-		this._sb.updateEffectivenessReportChartOptions(options);
+	ngOnDestroy(): void {
+		this._log.trace('[ReportContainer] Destroyed.');
+	}
+
+	/**
+	 * @description Event handler when chart options are updated.
+	 * @param event
+	 */
+	_onChartOptionsUpdated(event: Partial<ChartOptionsApex>): void {
+		this._sb.updateEffectivenessReportChartOptions(event);
 	}
 }

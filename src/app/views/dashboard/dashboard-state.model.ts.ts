@@ -1,5 +1,5 @@
-import { ChartDataApex } from 'app/core/models/reports/chart-data-apex.model';
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartDataApex } from 'app/core/models/reports/apex-charts/chart-data-apex.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 
 /**
  * Dashboard state model.

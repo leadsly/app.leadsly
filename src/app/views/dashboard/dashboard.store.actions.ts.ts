@@ -1,5 +1,5 @@
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
-import { ChartOptions } from 'app/core/models/reports/chart-options.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
+import { CampaignsReport } from './../../core/models/reports/campaigns-report.model';
 
 /**
  * Initializes campaigns effectiveness report.
@@ -14,7 +14,7 @@ export class InitializeCampaignsEffectivenessReport {
 	 * Creates an instance of users campaigns effectiveness reports.
 	 * @param payload
 	 */
-	constructor(public payload: ChartOptions) {}
+	constructor(public payload: CampaignsReport) {}
 }
 
 /**
@@ -31,4 +31,20 @@ export class UpdateCampaignsEffectivenessChartOptions {
 	 * @param payload
 	 */
 	constructor(public payload: Partial<ChartOptionsApex>) {}
+}
+
+/**
+ * Updates campaigns effectiveness legend options.
+ */
+export class UpdateCampaignsEffectivenessLegendChartOptions {
+	/**
+	 * Type of action.
+	 */
+	static readonly type = '[Reports] Update Campaigns Effectiveness Legend Chart Options';
+
+	/**
+	 * Creates an instance of users campaigns effectiveness report.
+	 * @param payload
+	 */
+	constructor(public payload: { desktop: boolean }) {}
 }

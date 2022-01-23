@@ -1,7 +1,7 @@
-import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
+import { BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 
 /**
  * Campaigns effectiveness chart.
@@ -23,33 +23,33 @@ export class CampaignEffectivenessReportComponent {
 	}
 
 	/**
-	 * @description Selected campaign effectiveness report.
+	 * @description Sets BreakpointState.
 	 */
-	_selectedEffectivenessReport: ChartOptionsApex;
-
-	/**
-	 * @description Sets state matcher value if specific screen size is encountered.
-	 */
-	@Input() set breakpointStateScreenMatcher(value: BreakpointState) {
+	@Input() set breakpointState(value: BreakpointState) {
 		const chartOptions: Partial<ChartOptionsApex> = {
 			legend: {
 				position: value.matches ? 'top' : 'bottom',
 				horizontalAlign: value.matches ? 'left' : 'center'
 			}
 		};
-		this.chartOptionsLegendUpdated.emit(chartOptions);
-		this._breakpointStateScreenMatcher = value;
+		this.chartOptionsUpdated.emit(chartOptions);
+		this._breakpointState = value;
 	}
 
 	/**
-	 * @description Sets state matcher value if specific screen size is encountered.
+	 * @description Breakpoint state of campaign effectiveness report.
 	 */
-	private _breakpointStateScreenMatcher: BreakpointState;
+	_breakpointState: BreakpointState;
+
+	/**
+	 * @description Selected campaign effectiveness report.
+	 */
+	_selectedEffectivenessReport: ChartOptionsApex;
 
 	/**
 	 * @description Emitted when chart options are updated.
 	 */
-	@Output() chartOptionsLegendUpdated = new EventEmitter<Partial<ChartOptionsApex>>();
+	@Output() chartOptionsUpdated = new EventEmitter<Partial<ChartOptionsApex>>();
 
 	/**
 	 * Creates an instance of overall report component.

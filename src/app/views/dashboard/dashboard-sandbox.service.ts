@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 import { DashboardAsyncService } from 'app/core/services/dashboard-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable, tap } from 'rxjs';
@@ -55,7 +55,7 @@ export class DashboardSandboxService {
 	/**
 	 * @description Gets user's campaigns effectiveness report
 	 */
-	getUserOverallReport(): void {
+	getUserCampaignsEffectivenessReport(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._userAsyncService
 			.getCampaignsEffectivenessReports$(userId)
@@ -64,10 +64,11 @@ export class DashboardSandboxService {
 	}
 
 	/**
-	 * @description Updates effectiveness report legend options.
-	 * @param options
+	 * @description Updates effectiveness report chart options.
+	 * @param chartOptions
 	 */
-	updateEffectivenessReportChartOptions(options: Partial<ChartOptionsApex>): void {
-		this._store.dispatch(new Dashboard.UpdateCampaignsEffectivenessChartOptions(options));
+	updateEffectivenessReportChartOptions(chartOptions: Partial<ChartOptionsApex>): void {
+		this._log.trace('[DashboardSandboxService] updateEffectivenessReportChartOptions dispatching action with options: ', chartOptions);
+		this._store.dispatch(new Dashboard.UpdateCampaignsEffectivenessChartOptions(chartOptions));
 	}
 }

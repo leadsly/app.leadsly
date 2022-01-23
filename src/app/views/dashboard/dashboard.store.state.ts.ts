@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { LogService } from 'app/core/logger/log.service';
-import { ChartOptionsApex } from 'app/core/models/reports/chart-options.apex.model';
+import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 import produce from 'immer';
 import clonedeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
@@ -47,6 +47,10 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 							x: {
 								format: 'dd/MM/yy'
 							}
+						},
+						legend: {
+							position: 'top',
+							horizontalAlign: 'left'
 						}
 					},
 					chartDataApex: {}
@@ -109,14 +113,14 @@ export class DashboardState {
 	@Action(Dashboard.InitializeCampaignsEffectivenessReport)
 	initializeCampaignsEffectivenessOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.InitializeCampaignsEffectivenessReport): void {
 		this._log.info('[DashboardState] Updating updateCampaignsEffectivenessOptions.');
-		const normalizedData = normalize(action.payload.chartsOptionsApex.items, [effectivenessReportsSchema]);
+		const normalizedData = normalize(action.payload.items, [effectivenessReportsSchema]);
 		const effectivenessReportsData = normalizedData.entities['effectivenessReports'];
-		const effectivenessReportIds = normalizedData.result as string[];
+		const campaignIds = normalizedData.result as string[];
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
 				draft.campaignEffectivenessReports.items.apexCharts.chartDataApex = effectivenessReportsData;
-				draft.campaignEffectivenessReports.items.apexCharts.ids = effectivenessReportIds;
-				draft.campaignEffectivenessReports.selected = action.payload.chartsOptionsApex.selected;
+				draft.campaignEffectivenessReports.items.apexCharts.ids = campaignIds;
+				draft.campaignEffectivenessReports.selected = action.payload.selectedCampaignId;
 			})
 		);
 	}
@@ -129,12 +133,12 @@ export class DashboardState {
 	@Action(Dashboard.UpdateCampaignsEffectivenessChartOptions)
 	updateCampaignEffectivenessChartOptions(ctx: StateContext<DashboardStateModel>, action: Dashboard.UpdateCampaignsEffectivenessChartOptions): void {
 		this._log.info('[DashboardState] Updating updateCampaignEffectivenessChartOptions.');
-		const actionClone = clonedeep(action.payload);
-		const stateClone = clonedeep(ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex);
-		const mergeChartOptions = merge(action.payload, ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex, actionClone);
+		const chartOptionsClone = clonedeep(ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex);
+		const updatedChartOptions = merge(chartOptionsClone, action.payload);
+		console.log('updatedChartOptions', updatedChartOptions);
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
-				draft.campaignEffectivenessReports.items.apexCharts.chartOptionsApex = mergeChartOptions;
+				draft.campaignEffectivenessReports.items.apexCharts.chartOptionsApex = updatedChartOptions;
 			})
 		);
 	}

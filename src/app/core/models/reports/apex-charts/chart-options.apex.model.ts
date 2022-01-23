@@ -10,5 +10,5 @@ export type ChartOptionsApex = {
 	stroke: ApexStroke;
 	tooltip: ApexTooltip;
 	dataLabels: ApexDataLabels;
-	legend?: ApexLegend;
+	legend: ApexLegend;
 };
