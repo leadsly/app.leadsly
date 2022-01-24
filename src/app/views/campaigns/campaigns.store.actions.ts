@@ -84,6 +84,22 @@ export class UpdateClonedCampaignId {
 }
 
 /**
+ * Get campaign by id.
+ */
+export class SetCampaignById {
+	/**
+	 * Type of action.
+	 */
+	static readonly type = '[Campaigns] Set Campaign';
+
+	/**
+	 * Creates an instance of delete campaign.
+	 * @param payload
+	 */
+	constructor(public payload: Campaign) {}
+}
+
+/**
  * Delete campaign.
  */
 export class Delete {

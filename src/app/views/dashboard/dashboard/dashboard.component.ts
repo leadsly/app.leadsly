@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @description Campaigns effectiveness report ids.
 	 */
-	_campaignsEffectivenessReportIds$: Observable<string[]>;
+	_campaignsIdsUsedForReport$: Observable<string[]>;
 
 	/**
 	 * Creates an instance of dashboard component.
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
 	 * @param _sb
 	 */
 	constructor(private _log: LogService, private _sb: DashboardSandboxService) {
-		this._campaignsEffectivenessReportIds$ = _sb.campaignsEffectivenessReportIds$;
+		this._campaignsIdsUsedForReport$ = _sb.campaignsIdsUsedForReport$;
 	}
 
 	/**

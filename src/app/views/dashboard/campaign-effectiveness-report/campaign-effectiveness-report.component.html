@@ -1,11 +1,22 @@
 <div>
-	<apx-chart
-		[series]="_selectedEffectivenessReport?.series"
-		[chart]="_selectedEffectivenessReport?.chart"
-		[xaxis]="_selectedEffectivenessReport?.xaxis"
-		[stroke]="_selectedEffectivenessReport?.stroke"
-		[tooltip]="_selectedEffectivenessReport?.tooltip"
-		[dataLabels]="_selectedEffectivenessReport?.dataLabels"
-		[legend]="_selectedEffectivenessReport?.legend"
-	></apx-chart>
+	<ng-container>
+		<mat-form-field appearance="fill">
+			<mat-label>{{ 'ldsly.dashboard.reports.effectiveness.drop-down' | translate }}</mat-label>
+			<mat-select [value]="_selectedCampaignId" (selectionChange)="_onSelectionChange($event)">
+				<mat-option *ngFor="let campaign of _campaigns" [value]="campaign?.id">{{ campaign?.name }}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</ng-container>
+
+	<div>
+		<apx-chart
+			[series]="_selectedCampaignReportChartOptions?.series"
+			[chart]="_selectedCampaignReportChartOptions?.chart"
+			[xaxis]="_selectedCampaignReportChartOptions?.xaxis"
+			[stroke]="_selectedCampaignReportChartOptions?.stroke"
+			[tooltip]="_selectedCampaignReportChartOptions?.tooltip"
+			[dataLabels]="_selectedCampaignReportChartOptions?.dataLabels"
+			[legend]="_selectedCampaignReportChartOptions?.legend"
+		></apx-chart>
+	</div>
 </div>

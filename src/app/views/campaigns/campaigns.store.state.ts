@@ -33,6 +33,18 @@ export class CampaignsState {
 	}
 
 	/**
+	 * @description Selects the given campaign by its id.
+	 * @param state
+	 * @returns campaign by id
+	 */
+	@Selector()
+	static getCampaignById(state: CampaignsStateModel): (id: string) => Campaign {
+		return (id: string): Campaign => {
+			return state.entities[id];
+		};
+	}
+
+	/**
 	 * Creates an instance of campaigns state.
 	 * @param _log
 	 */
@@ -46,9 +58,7 @@ export class CampaignsState {
 	@Action(Campaigns.SetUserCampaigns)
 	initializeCampaigns(ctx: StateContext<CampaignsStateModel>, action: Campaigns.SetUserCampaigns): void {
 		this._log.info('Initializing campaigns state.', this);
-		const normalizedData = normalize(action.payload.items, {
-			campaigns: [campaignsSchema]
-		});
+		const normalizedData = normalize(action.payload.items, [campaignsSchema]);
 		const campaigns = normalizedData.entities['campaigns'];
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {

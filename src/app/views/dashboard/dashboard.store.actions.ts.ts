@@ -1,4 +1,5 @@
 import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
+import { SelectedCampaign } from 'app/core/models/reports/selected-campaign.model';
 import { CampaignsReport } from './../../core/models/reports/campaigns-report.model';
 
 /**
@@ -34,17 +35,17 @@ export class UpdateCampaignsEffectivenessChartOptions {
 }
 
 /**
- * Updates campaigns effectiveness legend options.
+ * Updates currently selected campaign for campaign effectiveness report.
  */
-export class UpdateCampaignsEffectivenessLegendChartOptions {
+export class UpdateSelectedCampaignEffectivenessReport {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Reports] Update Campaigns Effectiveness Legend Chart Options';
+	static readonly type = '[Reports] Update Selected Campaign Effectiveness Report';
 
 	/**
 	 * Creates an instance of users campaigns effectiveness report.
 	 * @param payload
 	 */
-	constructor(public payload: { desktop: boolean }) {}
+	constructor(public payload: SelectedCampaign) {}
 }

@@ -6,6 +6,7 @@ import produce from 'immer';
 import clonedeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import { normalize } from 'normalizr';
+import { ChartDataApex } from './../../core/models/reports/apex-charts/chart-data-apex.model';
 import { effectivenessReportsSchema } from './dashboard-normalizr.schema';
 import { DashboardStateModel } from './dashboard-state.model.ts';
 import * as Dashboard from './dashboard.store.actions.ts';
@@ -67,7 +68,7 @@ export class DashboardState {
 	 * @returns campaigns effectiveness report
 	 */
 	@Selector()
-	static getCampaignsEffectivenessReports(state: DashboardStateModel): string[] {
+	static getCampaignsIdsUsedForReport(state: DashboardStateModel): string[] {
 		return state.campaignEffectivenessReports.items.apexCharts.ids;
 	}
 
@@ -77,8 +78,18 @@ export class DashboardState {
 	 * @returns campaigns effectiveness selected report
 	 */
 	@Selector()
-	static getCampaignsEffectivenessSelectedReport(state: DashboardStateModel): string {
+	static getSelectedCampaignId(state: DashboardStateModel): string {
 		return state.campaignEffectivenessReports.selected;
+	}
+
+	/**
+	 * @description Determines whether or not campaigns effectiveness data has been fetched.
+	 * @param state
+	 * @returns true if campaign effectiveness data been fetched
+	 */
+	@Selector()
+	static getCampaignEffectivenessReportData(state: DashboardStateModel): { [id: string]: ChartDataApex } {
+		return state.campaignEffectivenessReports.items.apexCharts.chartDataApex;
 	}
 
 	/**
@@ -87,7 +98,7 @@ export class DashboardState {
 	 * @returns campaigns effectiveness report by id
 	 */
 	@Selector()
-	static getCampaignsEffectivenessReportById(state: DashboardStateModel): (id: string) => { chartOptionsApex: ChartOptionsApex } {
+	static getEffectivenessReportByCampaignId(state: DashboardStateModel): (id: string) => { chartOptionsApex: ChartOptionsApex } {
 		return (id: string): { chartOptionsApex: ChartOptionsApex } => {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			const data = clonedeep(state.campaignEffectivenessReports.items.apexCharts.chartDataApex[id]);
@@ -135,10 +146,27 @@ export class DashboardState {
 		this._log.info('[DashboardState] Updating updateCampaignEffectivenessChartOptions.');
 		const chartOptionsClone = clonedeep(ctx.getState().campaignEffectivenessReports.items.apexCharts.chartOptionsApex);
 		const updatedChartOptions = merge(chartOptionsClone, action.payload);
-		console.log('updatedChartOptions', updatedChartOptions);
 		ctx.setState(
 			produce((draft: DashboardStateModel) => {
 				draft.campaignEffectivenessReports.items.apexCharts.chartOptionsApex = updatedChartOptions;
+			})
+		);
+	}
+
+	/**
+	 * @description Updates currently selected effectiveness report.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Dashboard.UpdateSelectedCampaignEffectivenessReport)
+	updateSelectedCampaignEffectivenessReport(
+		ctx: StateContext<DashboardStateModel>,
+		action: Dashboard.UpdateSelectedCampaignEffectivenessReport
+	): void {
+		this._log.info('[DashboardState] Updating updateSelectedCampaignEffectivenessReport.');
+		ctx.setState(
+			produce((draft: DashboardStateModel) => {
+				draft.campaignEffectivenessReports.selected = action.payload.id;
 			})
 		);
 	}

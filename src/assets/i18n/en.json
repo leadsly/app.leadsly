@@ -239,7 +239,12 @@
 			"typescript": "Superior developer experience, code completion, refactoring and less bugs"
 		},
 		"dashboard": {
-			"title": "Analytics"
+			"title": "Analytics",
+			"reports": {
+				"effectiveness": {
+					"drop-down": "Select campaign"
+				}
+			}
 		},
 		"buttons": {
 			"reset-password": "Reset Password",

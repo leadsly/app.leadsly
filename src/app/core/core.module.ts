@@ -36,6 +36,7 @@ import {
 	upDownFadeInAnimation
 } from 'app/core/animations/element.animations';
 import { I18nModule } from 'app/i18n/i18n.module';
+import { CampaignsState } from 'app/views/campaigns/campaigns.store.state';
 import { environment } from '../../environments/environment';
 import { AnimationsService } from './animations/animations.service';
 import { routeAnimations, ROUTE_ANIMATIONS_ELEMENTS } from './animations/route.animations';
@@ -95,7 +96,7 @@ export {
 		I18nModule,
 
 		// ngxs
-		NgxsModule.forRoot([SettingsState, AuthState], {
+		NgxsModule.forRoot([SettingsState, AuthState, CampaignsState], {
 			developmentMode: !environment.production,
 			selectorOptions: {
 				suppressErrors: false,
