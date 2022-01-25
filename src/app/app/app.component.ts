@@ -62,7 +62,12 @@ export class AppComponent implements OnInit, OnDestroy {
 	/**
 	 * Navigation options for side drawer.
 	 */
-	readonly _navigationSideMenu = [...this._navigation, { link: 'settings', label: 'ldsly.menu.settings' }];
+	readonly _navigationSideMenu = [
+		...this._navigation,
+		{ link: 'dashboard', label: 'ldsly.menu.dashboard' },
+		{ link: 'campaigns', label: 'ldsly.menu.campaigns' },
+		{ link: 'settings', label: 'ldsly.menu.settings' }
+	];
 
 	/**
 	 * Stream indicating if user is authenticated.

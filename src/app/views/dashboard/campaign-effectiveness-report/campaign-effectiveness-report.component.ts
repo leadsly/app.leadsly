@@ -1,8 +1,6 @@
 import { BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 import { LogService } from 'app/core/logger/log.service';
-import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 
 /**
@@ -30,34 +28,6 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	_selectedCampaignReportChartOptions: ChartOptionsApex;
 
 	/**
-	 * @description Currently selected campaign id.
-	 */
-	@Input() set selectedCampaignId(value: string) {
-		if (value) {
-			this._selectedCampaignId = value;
-		}
-	}
-
-	/**
-	 * @description Currently selected campaign id.
-	 */
-	_selectedCampaignId: string;
-
-	/**
-	 * @description Users campaigns.
-	 */
-	@Input() set campaigns(value: Campaign[]) {
-		if (value) {
-			this._campaigns = value;
-		}
-	}
-
-	/**
-	 * @description Users campaigns.
-	 */
-	_campaigns: Campaign[];
-
-	/**
 	 * @description Sets BreakpointState.
 	 */
 	@Input() set breakpointState(value: BreakpointState) {
@@ -82,11 +52,6 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	@Output() chartOptionsUpdated = new EventEmitter<Partial<ChartOptionsApex>>();
 
 	/**
-	 * @description Emitted when current campaign selection has changed.
-	 */
-	@Output() campaignSelectionChanged = new EventEmitter<string>();
-
-	/**
 	 * Creates an instance of overall report component.
 	 * @param _log
 	 */
@@ -97,14 +62,5 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	 */
 	ngOnInit(): void {
 		this._log.trace('[CampaignEffectivenessReportComponent] Initialized.');
-	}
-
-	/**
-	 * @description When user changes campaign selection event handler.
-	 * @param event
-	 */
-	_onSelectionChange(event: MatSelectChange): void {
-		this._log.trace('[CampaignEffectivenessReportComponent] _onSelectionChange fired.', this, event);
-		this.campaignSelectionChanged.emit(event.value);
 	}
 }

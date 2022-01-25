@@ -242,7 +242,8 @@
 			"title": "Analytics",
 			"reports": {
 				"effectiveness": {
-					"drop-down": "Select campaign"
+					"drop-down-campaigns": "Select campaign",
+					"drop-down-filter": "Last {number} days"
 				}
 			}
 		},

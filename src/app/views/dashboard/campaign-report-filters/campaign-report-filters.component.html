@@ -1,0 +1,18 @@
+<div class="campaign-filters__container">
+	<ng-container *ngIf="!_breakpointState?.matches">
+		<mat-form-field appearance="standard">
+			<mat-label>{{ 'ldsly.dashboard.reports.effectiveness.drop-down-campaigns' | translate }}</mat-label>
+			<mat-select [value]="_selectedCampaignId" (selectionChange)="_onSelectionChange($event)">
+				<mat-option *ngFor="let campaign of _campaigns" [value]="campaign?.id">{{ campaign?.name }}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</ng-container>
+	<!-- <ng-container *ngIf="!_breakpointState?.matches">
+		<mat-form-field appearance="standard">
+			<mat-label>{{ 'ldsly.dashboard.reports.effectiveness.drop-down-campaigns' | translate }}</mat-label>
+			<mat-select [value]="_selectedCampaignId" (selectionChange)="_onSelectionChange($event)">
+				<mat-option *ngFor="let campaign of _campaigns" [value]="campaign?.id">{{ campaign?.name }}</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</ng-container> -->
+</div>

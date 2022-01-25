@@ -29,23 +29,31 @@
 					<mat-grid-list cols="2" rowHeight="85">
 						<mat-grid-tile colspan="2" rowspan="1">
 							<div class="campaign__container-mobile">
-								<span
+								<!-- <span
 									[matTooltip]="'ldsly.campaigns.tooltips.edit-daily-connections' | translate"
 									matTooltipPosition="above"
 									[style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont"
 									class="campaign__stat-title-mobile"
 									>{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</span
-								>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">
-									<ng-container [formGroup]="_campaignForm">
+								> -->
+								<!-- <span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats"> -->
+								<ng-container [formGroup]="_campaignForm">
+									<mat-form-field
+										[style.--campaign-item-stat-font]="_campaignStatFontSize"
+										class="campaign--stats"
+										matTooltipPosition="above"
+										appearance="outline"
+									>
+										<mat-label class="campaign__stat-title-mobile">{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</mat-label>
 										<input
 											matInput
 											formControlName="connectionsSentDaily"
 											(blur)="_onUpdateCampaignClicked()"
 											[value]="_campaignForm?.get('connectionsSentDaily')?.value"
 										/>
-									</ng-container>
-								</span>
+									</mat-form-field>
+								</ng-container>
+								<!-- </span> -->
 							</div>
 						</mat-grid-tile>
 						<mat-grid-tile colspan="1" rowspan="1" class="">
@@ -53,7 +61,9 @@
 								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
 									'ldsly.campaigns.total-connections-sent' | translate
 								}}</span>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.totalConnectionsSent }}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats campaign--stats-color">{{
+									_campaign?.totalConnectionsSent
+								}}</span>
 							</div>
 						</mat-grid-tile>
 
@@ -62,7 +72,9 @@
 								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
 									'ldsly.campaigns.connections-accepted' | translate
 								}}</span>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.connectionsAccepted }}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats campaign--stats-color">{{
+									_campaign?.connectionsAccepted
+								}}</span>
 							</div>
 						</mat-grid-tile>
 
@@ -71,7 +83,9 @@
 								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
 									'ldsly.campaigns.replies' | translate
 								}}</span>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.replies }}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats campaign--stats-color">{{
+									_campaign?.replies
+								}}</span>
 							</div>
 						</mat-grid-tile>
 
@@ -80,7 +94,9 @@
 								<span [style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont" class="campaign__stat-title-mobile">{{
 									'ldsly.campaigns.profile-views' | translate
 								}}</span>
-								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.profileViews }}</span>
+								<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats campaign--stats-color">{{
+									_campaign?.profileViews
+								}}</span>
 							</div>
 						</mat-grid-tile>
 

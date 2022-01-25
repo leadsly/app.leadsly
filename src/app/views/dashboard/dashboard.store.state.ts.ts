@@ -21,6 +21,10 @@ const DASHBOARD_STATE_TOKEN = new StateToken<DashboardStateModel>('dashboard');
 	defaults: {
 		campaignEffectivenessReports: {
 			selected: '0',
+			dateRange: {
+				start: new Date(),
+				end: new Date()
+			},
 			items: {
 				apexCharts: {
 					ids: [],

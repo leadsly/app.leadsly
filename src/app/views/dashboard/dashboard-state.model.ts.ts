@@ -35,5 +35,9 @@ export interface DashboardStateModel {
 		 * @description The id of the selected chart.
 		 */
 		selected: string;
+		dateRange: {
+			start: Date;
+			end: Date;
+		};
 	};
 }

@@ -1,12 +1,17 @@
 <div>
-	<ng-container>
-		<ldsly-campaign-effectiveness-report
-			(chartOptionsUpdated)="_onChartOptionsUpdated($event)"
-			(campaignSelectionChanged)="_onCampaignSelectionChange($event)"
-			[breakpointState]="_breakpointStateScreenMatcher$ | async"
+	<div>
+		<ldsly-campaign-report-filters
 			[selectedCampaignId]="_selectedCampaignId$ | async"
 			[campaigns]="_campaigns$ | async"
+			(campaignSelectionChanged)="_onCampaignSelectionChange($event)"
+		></ldsly-campaign-report-filters>
+	</div>
+
+	<div>
+		<ldsly-campaign-effectiveness-report
+			(chartOptionsUpdated)="_onChartOptionsUpdated($event)"
+			[breakpointState]="_breakpointStateScreenMatcher$ | async"
 			[selectedCampaignReportChartOptions]="_selectedCampaignReportChartOptions$ | async"
 		></ldsly-campaign-effectiveness-report>
-	</ng-container>
+	</div>
 </div>
