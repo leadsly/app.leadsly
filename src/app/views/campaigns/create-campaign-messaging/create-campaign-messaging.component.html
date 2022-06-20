@@ -1,0 +1,48 @@
+<form [formGroup]="_form">
+	<ng-container formArrayName="messages">
+		<ng-container *ngFor="let messageFormGroup of _form.get('messages')['controls']; let i = index">
+			<ng-container [formGroupName]="i">
+				<div>
+					<mat-form-field appearance="standard">
+						<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.invitation-message' | translate }}</mat-label>
+						<textarea
+							matInput
+							[placeholder]="'ldsly.campaigns.new-campaign.placeholders.invitation-message' | translate"
+							formControlName="content"
+							required
+						>
+						</textarea>
+					</mat-form-field>
+				</div>
+
+				<div formGroupName="delay">
+					<div>
+						<mat-form-field appearance="standard">
+							<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.wait-value' | translate }}</mat-label>
+							<input matInput type="number" [placeholder]="5" formControlName="value" />
+						</mat-form-field>
+					</div>
+
+					<div>
+						<mat-form-field appearance="standard">
+							<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.wait-unit' | translate }}</mat-label>
+							<mat-select formControlName="unit" required>
+								<mat-option>--</mat-option>
+								<mat-option *ngFor="let delayUnit of _delayUnits" [value]="delayUnit?.unit">{{ delayUnit?.viewData }}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+			</ng-container>
+		</ng-container>
+	</ng-container>
+
+	<div>
+		<button mat-button type="button" (click)="_onAddNewMessageClicked()">{{ 'ldsly.buttons.add-new-message' | translate }}</button>
+	</div>
+
+	<div>
+		<button mat-button matStepperPrevious>{{ 'ldsly.buttons.back' | translate }}</button>
+		<button mat-button matStepperNext>{{ 'ldsly.buttons.save-and-continue' | translate }}</button>
+	</div>
+</form>

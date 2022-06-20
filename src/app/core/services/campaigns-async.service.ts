@@ -4,9 +4,11 @@ import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../api-url-injection-token';
 import { CloneCampaign } from '../models/campaigns/clone-campaign.model';
 import { GetCampaign } from '../models/campaigns/get-campaign.model';
+import { NewCampaign } from '../models/campaigns/new-campaign';
 import { ToggleCampaignStatus } from '../models/campaigns/toggle-campaign-status.model';
 import { Campaign } from './../models/campaigns/campaign.model';
 import { DeleteCampaign } from './../models/campaigns/delete-campaign.model';
+import { OperationResponse } from './../models/operation-response.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -48,6 +50,15 @@ export class CampaignsAsyncService {
 	 */
 	cloneCampaign$(campaign: CloneCampaign): Observable<Campaign> {
 		return this._http.post<Campaign>(`${this._apiUrl}/campaigns/${campaign.id}/clone`, JSON.stringify(campaign), { headers: this._headers });
+	}
+
+	/**
+	 * @description Creates and launches the new campaign.
+	 * @param campaign
+	 * @returns campaign$
+	 */
+	createCampaign$(campaign: NewCampaign): Observable<OperationResponse> {
+		return this._http.post<OperationResponse>(`${this._apiUrl}/campaigns`, JSON.stringify(campaign), { headers: this._headers });
 	}
 
 	/**

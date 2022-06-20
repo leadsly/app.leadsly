@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
+import { CampaignWizardContainerComponent } from './campaign-wizard-container/campaign-wizard-container.component';
 import { CampaignsContainerComponent } from './campaigns-container/campaigns-container.component';
-import { CreateCampaignContinainerComponent } from './create-campaign-continainer/create-campaign-continainer.component';
 
 const routes: Routes = [
 	{
@@ -17,7 +17,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'create',
-				component: CreateCampaignContinainerComponent
+				component: CampaignWizardContainerComponent
 			}
 		]
 	}

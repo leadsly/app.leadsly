@@ -204,6 +204,30 @@
 			"settings": "Settings"
 		},
 		"campaigns": {
+			"new-campaign": {
+				"placeholders": {
+					"name": "Please Enter The Name",
+					"type": "Select Type",
+					"invite-limit": "Select Daily Invite Limit",
+					"invitation-message": "Hello, thank you for connecting..."
+				},
+				"details": {
+					"labels": {
+						"name": "Campaign Name",
+						"type": "Campaign Type",
+						"invite-limit": "Daily Invite Limit"
+					},
+					"step-title": "Campaign Details"
+				},
+				"messaging": {
+					"step-title": "Messaging",
+					"labels": {
+						"invitation-message": "Create Invitation Message",
+						"wait-value": "Enter Value",
+						"wait-unit": "Select Unit"
+					}
+				}
+			},
 			"tooltips": {
 				"view-notes": "View, add or edit notes",
 				"clone": "Clone this campaign",
@@ -248,6 +272,7 @@
 			}
 		},
 		"buttons": {
+			"save-and-continue": "Save & Continue",
 			"reset-password": "Reset Password",
 			"resend-verification": "Resend",
 			"change": "Change",
@@ -268,7 +293,9 @@
 			"edit": "Edit",
 			"add": "Add",
 			"close": "Close (AutoSaves)",
-			"create": "Create"
+			"create": "Create",
+			"back": "Back",
+			"add-new-message": "Add New Message"
 		}
 	}
 }
