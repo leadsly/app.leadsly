@@ -1,15 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DelayUnit } from 'app/core/models/campaigns/delay-unit.model';
 import { LogService } from './../../../core/logger/log.service';
 
+/**
+ * @description Create campaign messaging component.
+ */
 @Component({
 	selector: 'ldsly-create-campaign-messaging',
 	templateUrl: './create-campaign-messaging.component.html',
 	styleUrls: ['./create-campaign-messaging.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateCampaignMessagingComponent implements OnInit {
+export class CreateCampaignMessagingComponent {
 	/**
 	 * @description Input setter for this component's form.
 	 */
@@ -37,9 +40,11 @@ export class CreateCampaignMessagingComponent implements OnInit {
 	 */
 	@Output() addNewMessageClicked: EventEmitter<void> = new EventEmitter<void>();
 
+	/**
+	 * Creates an instance of create campaign messaging component.
+	 * @param _log
+	 */
 	constructor(private _log: LogService) {}
-
-	ngOnInit(): void {}
 
 	/**
 	 * @description Event emitter when user wants to add new message

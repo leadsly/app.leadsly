@@ -11,6 +11,7 @@ import { NotificationService } from 'app/core/core.module';
 import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
 import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
 import { AsyncValidatorsService } from 'app/core/form-validators/validators-async.service';
+import { LeadslyService } from 'app/core/leadsly/leadsly.service';
 import { LogService } from 'app/core/logger/log.service';
 import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
 import { AccessToken } from 'app/core/models/auth/access-token.model';
@@ -146,6 +147,7 @@ export class AuthSandboxService {
 	 * @param _jwtService
 	 * @param _notificationService
 	 * @param _translationService
+	 * @param _leadslyService
 	 * @param translateValidationErrorService
 	 * @param log
 	 * @param fb
@@ -162,6 +164,7 @@ export class AuthSandboxService {
 		private _jwtService: JsonWebTokenService,
 		private _notificationService: NotificationService,
 		private _translationService: TranslateService,
+		private _leadslyService: LeadslyService,
 		public translateValidationErrorService: TranslateValidationErrorsService,
 		public log: LogService,
 		public fb: FormBuilder,
@@ -266,7 +269,8 @@ export class AuthSandboxService {
 			.pipe(
 				switchMap((resp) =>
 					this._authenticateUsingAppSignin$(resp.accessToken, model.rememberMe, model.email, resp.is2StepVerificationRequired, resp.provider)
-				)
+				),
+				switchMap(() => this._leadslyService.getConnectedAccount$())
 			)
 			.subscribe();
 	}

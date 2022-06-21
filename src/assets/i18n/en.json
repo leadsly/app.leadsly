@@ -226,6 +226,11 @@
 						"wait-value": "Enter Value",
 						"wait-unit": "Select Unit"
 					}
+				},
+				"launch": {
+					"labels": {
+						"review-and-launch": "Review & Launch"
+					}
 				}
 			},
 			"tooltips": {
@@ -295,7 +300,8 @@
 			"close": "Close (AutoSaves)",
 			"create": "Create",
 			"back": "Back",
-			"add-new-message": "Add New Message"
+			"add-new-message": "Add New Message",
+			"launch-campaign": "Launch Campaign"
 		}
 	}
 }

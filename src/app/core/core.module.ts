@@ -36,7 +36,6 @@ import {
 	upDownFadeInAnimation
 } from 'app/core/animations/element.animations';
 import { I18nModule } from 'app/i18n/i18n.module';
-import { CampaignsState } from 'app/views/campaigns/campaigns.store.state';
 import { environment } from '../../environments/environment';
 import { AnimationsService } from './animations/animations.service';
 import { routeAnimations, ROUTE_ANIMATIONS_ELEMENTS } from './animations/route.animations';
@@ -48,6 +47,7 @@ import { ServerErrorService } from './error-handler/server-error.service';
 import { HttpAccessTokenInterceptor } from './http-interceptors/http-access-token.interceptor';
 import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 import { HttpStatusInterceptor } from './http-interceptors/http-status.interceptor';
+import { LeadslyState } from './leadsly/leadsly.store.state';
 import { LocalStorageService } from './local-storage/local-storage.service';
 import { LogService } from './logger/log.service';
 import { InitNgxsState } from './meta-reducers/init-ngxs-state';
@@ -96,7 +96,7 @@ export {
 		I18nModule,
 
 		// ngxs
-		NgxsModule.forRoot([SettingsState, AuthState, CampaignsState], {
+		NgxsModule.forRoot([SettingsState, AuthState, LeadslyState], {
 			developmentMode: !environment.production,
 			selectorOptions: {
 				suppressErrors: false,

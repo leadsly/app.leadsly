@@ -91,7 +91,8 @@ export class CreateCampaignWizardComponent implements OnInit {
 		this._log.trace('[_onLaunchCampaignClicked] event handler executed');
 		this._messagingForm.get('messages').updateValueAndValidity();
 		const campaignDetails = this._detailsForm.value as CampaignDetails;
-		const messages = this._messagingForm.value as CampaignMessage[];
+		const messagesForm = this._messagingForm.value as { messages: CampaignMessage[] };
+		const messages = messagesForm.messages;
 		const newCampaign: NewCampaign = {
 			campaignDetails: campaignDetails,
 			messages: messages

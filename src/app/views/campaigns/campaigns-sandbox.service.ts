@@ -121,7 +121,7 @@ export class CampaignsSandboxService {
 		const launchCampaign = this._leadslyService.createNewCampaign(newCampaign);
 		this._campaignAsyncService
 			.createCampaign$(launchCampaign)
-			.pipe(tap((data) => console.log(data)))
+			.pipe(tap((resp) => this._store.dispatch(new CampaignsActions.Create(resp.data))))
 			.subscribe();
 	}
 }

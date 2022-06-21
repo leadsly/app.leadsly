@@ -27,7 +27,7 @@ export class CampaignsState {
 	 * @param state
 	 * @returns campaigns
 	 */
-	@Selector()
+	@Selector([CAMPAIGNS_STATE_TOKEN])
 	static getCampaigns(state: CampaignsStateModel): Campaign[] {
 		return Object.values(state.entities);
 	}
@@ -37,7 +37,7 @@ export class CampaignsState {
 	 * @param state
 	 * @returns campaign by id
 	 */
-	@Selector()
+	@Selector([CAMPAIGNS_STATE_TOKEN])
 	static getCampaignById(state: CampaignsStateModel): (id: string) => Campaign {
 		return (id: string): Campaign => {
 			return state.entities[id];

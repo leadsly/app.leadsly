@@ -1,14 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 
+/**
+ * @description Create campaign details component.
+ */
 @Component({
 	selector: 'ldsly-create-campaign-details',
 	templateUrl: './create-campaign-details.component.html',
 	styleUrls: ['./create-campaign-details.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateCampaignDetailsComponent implements OnInit {
+export class CreateCampaignDetailsComponent {
 	/**
 	 * @description Campaign details form.
 	 */
@@ -34,6 +37,4 @@ export class CreateCampaignDetailsComponent implements OnInit {
 	_campaignTypes: CampaignType[] = [];
 
 	constructor() {}
-
-	ngOnInit(): void {}
 }

@@ -11,7 +11,7 @@
 			<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.type' | translate }}</mat-label>
 			<mat-select formControlName="campaignType" required>
 				<mat-option>--</mat-option>
-				<mat-option *ngFor="let campaignType of _campaignTypes" [value]="campaignType?.id">{{ campaignType?.type }}</mat-option>
+				<mat-option *ngFor="let campaignType of _campaignTypes" [value]="campaignType?.type">{{ campaignType?.type }}</mat-option>
 			</mat-select>
 		</mat-form-field>
 	</div>

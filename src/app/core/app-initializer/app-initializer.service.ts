@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import * as Auth from '../auth/auth.store.actions';
 import { AuthState } from '../auth/auth.store.state';
+import { LeadslyService } from '../leadsly/leadsly.service';
 import { LogService } from '../logger/log.service';
 
 /**
@@ -19,7 +21,13 @@ export class AppInitializerService {
 	 * @param _authService
 	 * @param _log
 	 */
-	constructor(private _store: Store, private _router: Router, private _authService: AuthService, private _log: LogService) {}
+	constructor(
+		private _store: Store,
+		private _router: Router,
+		private _authService: AuthService,
+		private _log: LogService,
+		private _leadslyService: LeadslyService
+	) {}
 
 	/**
 	 * Initializes user's session.
@@ -42,10 +50,13 @@ export class AppInitializerService {
 					return this._authService
 						.authenticate$(result.accessToken)
 						.toPromise()
-						.then(() => {
+						.then(async () => {
 							this._log.debug('[initUserSession] User is authenticated. Starting monitoring session activity.', this);
 							void this._authService.monitorSessionActivity$().toPromise();
 							this._log.debug('[initUserSession] monitorSessionActivity$ executed.', this);
+
+							this._log.debug('[initUserSession] Fetching user`s connected account');
+							await lastValueFrom(this._leadslyService.getConnectedAccount$());
 						});
 				}
 				if (result.error) {
