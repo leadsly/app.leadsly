@@ -1,7 +1,12 @@
 <mat-stepper orientation="vertical" [linear]="_isLinear" #stepper>
 	<mat-step [stepControl]="_detailsForm">
 		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.details.step-title' | translate }}</ng-template>
-		<ldsly-create-campaign-details [form]="_detailsForm" [types]="campaignTypes"> </ldsly-create-campaign-details>
+		<ldsly-create-campaign-details
+			[prospectLists]="prospectLists"
+			[form]="_detailsForm"
+			[types]="campaignTypes"
+			(searchUrlControllAdded)="_onSearchUrlControlAdded()"
+		></ldsly-create-campaign-details>
 	</mat-step>
 	<mat-step [stepControl]="_detailsForm">
 		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.messaging.step-title' | translate }}</ng-template>
@@ -11,9 +16,9 @@
 	<mat-step>
 		<ng-template matStepLabel>Done</ng-template>
 		<p>{{ 'ldsly.campaigns.new-campaign.launch.labels.review-and-launch' | translate }}</p>
-		<div>
-			<button mat-button matStepperPrevious>{{ 'ldsly.buttons.back' | translate }}</button>
-			<button mat-button (click)="_onLaunchCampaignClicked()">{{ 'ldsly.buttons.launch-campaign' | translate }}</button>
+		<div class="action-buttons">
+			<button mat-raised-button matStepperPrevious>{{ 'ldsly.buttons.back' | translate }}</button>
+			<button color="primary" mat-raised-button (click)="_onLaunchCampaignClicked()">{{ 'ldsly.buttons.launch-campaign' | translate }}</button>
 		</div>
 	</mat-step>
 </mat-stepper>

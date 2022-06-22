@@ -40,8 +40,8 @@ export class LogConsole extends LogPublisher {
 	 * @param log
 	 */
 	private _logInfo(log: LogData): void {
-		if (log.data) {
-			console.log(log.message, log.data);
+		if (log.data !== undefined) {
+			console.log(log.message, log?.data);
 		} else {
 			console.log(log.message);
 		}

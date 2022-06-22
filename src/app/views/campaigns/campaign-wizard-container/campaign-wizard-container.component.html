@@ -1,4 +1,8 @@
 <div>
-	<ldsly-create-campaign-wizard [campaignTypes]="_campaignTypes$ | async" (launchCampaignClicked)="_onLaunchNewCampaign($event)">
+	<ldsly-create-campaign-wizard
+		[campaignTypes]="_campaignTypes$ | async"
+		[prospectLists]="_prospectLists$ | async"
+		(launchCampaignClicked)="_onLaunchNewCampaign($event)"
+	>
 	</ldsly-create-campaign-wizard>
 </div>

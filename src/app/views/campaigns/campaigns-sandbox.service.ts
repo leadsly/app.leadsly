@@ -6,6 +6,7 @@ import { LeadslyService } from 'app/core/leadsly/leadsly.service';
 import { LogService } from 'app/core/logger/log.service';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
+import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable, of } from 'rxjs';
@@ -31,6 +32,11 @@ export class CampaignsSandboxService {
 	 * @description Available campaign types.
 	 */
 	campaignTypes$ = of<CampaignType[]>([{ id: '1', type: 'FollowUp' }]);
+
+	/**
+	 * @description Prospect lists for the current user.
+	 */
+	prospectLists$ = of<PrimaryProspectList[]>([{ name: 'lawyers' }]);
 
 	/**
 	 * Creates an instance of campaigns sandbox service.
@@ -119,6 +125,7 @@ export class CampaignsSandboxService {
 	 */
 	launchNewCampaign(newCampaign: NewCampaign): void {
 		const launchCampaign = this._leadslyService.createNewCampaign(newCampaign);
+		this._log.debug('launchNewCampaign', this, launchCampaign);
 		this._campaignAsyncService
 			.createCampaign$(launchCampaign)
 			.pipe(tap((resp) => this._store.dispatch(new CampaignsActions.Create(resp.data))))

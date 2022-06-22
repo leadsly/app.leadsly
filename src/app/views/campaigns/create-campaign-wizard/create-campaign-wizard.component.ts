@@ -5,6 +5,7 @@ import { LogService } from 'app/core/logger/log.service';
 import { CampaignDetails } from 'app/core/models/campaigns/campaign-details';
 import { CampaignMessage } from 'app/core/models/campaigns/campaign-message';
 import { DelayUnit } from 'app/core/models/campaigns/delay-unit.model';
+import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { CampaignType } from '../../../core/models/campaigns/campaign-type';
 import { NewCampaign } from './../../../core/models/campaigns/new-campaign';
 
@@ -50,6 +51,11 @@ export class CreateCampaignWizardComponent implements OnInit {
 	@Input() campaignTypes: CampaignType[] = [];
 
 	/**
+	 * @description Users existing prospect lists.
+	 */
+	@Input() prospectLists: PrimaryProspectList[] = [];
+
+	/**
 	 * @description Event emitter when new campaign is launched.
 	 */
 	@Output() launchCampaignClicked: EventEmitter<NewCampaign> = new EventEmitter<NewCampaign>();
@@ -81,7 +87,7 @@ export class CreateCampaignWizardComponent implements OnInit {
 	 * @description Event handler when user wants to remove a message.
 	 */
 	_onDeleteMessageClicked(): void {
-		console.log('_onDeleteMessageClicked');
+		this._log.error('NOT IMPLEMENTED');
 	}
 
 	/**
@@ -90,6 +96,7 @@ export class CreateCampaignWizardComponent implements OnInit {
 	_onLaunchCampaignClicked(): void {
 		this._log.trace('[_onLaunchCampaignClicked] event handler executed');
 		this._messagingForm.get('messages').updateValueAndValidity();
+		this._detailsForm.get('primaryProspectList').get('searchUrls').updateValueAndValidity();
 		const campaignDetails = this._detailsForm.value as CampaignDetails;
 		const messagesForm = this._messagingForm.value as { messages: CampaignMessage[] };
 		const messages = messagesForm.messages;
@@ -98,6 +105,14 @@ export class CreateCampaignWizardComponent implements OnInit {
 			messages: messages
 		};
 		this.launchCampaignClicked.emit(newCampaign);
+	}
+
+	/**
+	 * @description Event handler when user clicks to add new search url control
+	 */
+	_onSearchUrlControlAdded(): void {
+		const formArray = this._detailsForm.get('primaryProspectList').get('searchUrls')['controls'] as FormArray;
+		formArray.push(this._createSearchUrlControl());
 	}
 
 	/**
@@ -154,8 +169,29 @@ export class CreateCampaignWizardComponent implements OnInit {
 		return this._fb.group({
 			name: this._fb.control('', [LdslyValidators.required]),
 			campaignType: this._fb.control('', [LdslyValidators.required]),
+			primaryProspectList: this._createPrimaryProspectListFormGroup(),
 			dailyInviteLimit: this._fb.control('', [LdslyValidators.required])
 		});
+	}
+
+	/**
+	 * @description Creates primary prospect list form group.
+	 * @returns primary prospect list form group
+	 */
+	private _createPrimaryProspectListFormGroup(): FormGroup {
+		return this._fb.group({
+			name: this._fb.control('', [LdslyValidators.required]),
+			existing: this._fb.control(false),
+			searchUrls: this._fb.array([this._createSearchUrlControl()])
+		});
+	}
+
+	/**
+	 * @description Creates search url controls.
+	 * @returns search url controls
+	 */
+	private _createSearchUrlControl(): FormControl {
+		return this._fb.control('', [LdslyValidators.required]);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
+import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { Observable } from 'rxjs';
 import { CampaignsSandboxService } from '../campaigns-sandbox.service';
 import { LogService } from './../../../core/logger/log.service';
@@ -21,12 +22,18 @@ export class CampaignWizardContainerComponent {
 	_campaignTypes$: Observable<CampaignType[]>;
 
 	/**
+	 * @description User's prospect lists.
+	 */
+	_prospectLists$: Observable<PrimaryProspectList[]>;
+
+	/**
 	 * Creates an instance of campaign wizard container component.
 	 * @param _sb
 	 * @param _log
 	 */
 	constructor(private _sb: CampaignsSandboxService, private _log: LogService) {
 		this._campaignTypes$ = _sb.campaignTypes$;
+		this._prospectLists$ = _sb.prospectLists$;
 	}
 
 	/**

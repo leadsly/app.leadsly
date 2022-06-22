@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { LeadslyAsyncService } from 'app/core/leadsly/leadsly-async.service';
 import { Observable, tap } from 'rxjs';
 import * as Leadsly from '../../core/leadsly/leadsly.store.actions';
+import { LogService } from '../logger/log.service';
 import { ConnectedAccount } from '../models/connected-account';
 import { OperationResponse } from '../models/operation-response.model';
 import { NewCampaign } from './../models/campaigns/new-campaign';
@@ -19,8 +20,9 @@ export class LeadslyService {
 	 * Creates an instance of leadsly service.
 	 * @param _store
 	 * @param _leadslyAsyncService
+	 * * @param _log
 	 */
-	constructor(private _store: Store, private _leadslyAsyncService: LeadslyAsyncService) {}
+	constructor(private _log: LogService, private _store: Store, private _leadslyAsyncService: LeadslyAsyncService) {}
 
 	/**
 	 * @description Creates new campaign with all of the necessary properties.
@@ -30,7 +32,6 @@ export class LeadslyService {
 	createNewCampaign(campaign: NewCampaign): NewCampaign {
 		const connectedAccount = this._store.selectSnapshot(LeadslyState.selectConnectedAccount);
 		const halId = this._store.selectSnapshot(LeadslyState.selectHalId);
-		console.log(campaign);
 		return {
 			campaignDetails: {
 				...campaign.campaignDetails,

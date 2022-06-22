@@ -209,13 +209,16 @@
 					"name": "Please Enter The Name",
 					"type": "Select Type",
 					"invite-limit": "Select Daily Invite Limit",
-					"invitation-message": "Hello, thank you for connecting..."
+					"invitation-message": "Hello, thank you for connecting...",
+					"search-url": "LinkedIn Search Url..."
 				},
 				"details": {
 					"labels": {
 						"name": "Campaign Name",
 						"type": "Campaign Type",
-						"invite-limit": "Daily Invite Limit"
+						"invite-limit": "Daily Invite Limit",
+						"primary-prospect-list": "Prospect List",
+						"search-url": "Search Url"
 					},
 					"step-title": "Campaign Details"
 				},
@@ -301,7 +304,8 @@
 			"create": "Create",
 			"back": "Back",
 			"add-new-message": "Add New Message",
-			"launch-campaign": "Launch Campaign"
+			"launch-campaign": "Launch Campaign",
+			"add-search-url": "Add Search Url"
 		}
 	}
 }
