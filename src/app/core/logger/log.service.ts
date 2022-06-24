@@ -1,9 +1,10 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LogEntry } from './log-entry';
+import { LogLevel } from './log-level';
 import { LogPublisher } from './log-publisher';
 import { LogPublishersService } from './log-publishers.service';
-import { LogLevel } from './log-level';
-import { ComponentType } from '@angular/cdk/portal';
 
 /**
  * Logging service that performs the logging.
@@ -31,7 +32,7 @@ export class LogService {
 	 * Initializes list of active publishers.
 	 * @param publishersService
 	 */
-	constructor(publishersService: LogPublishersService) {
+	constructor(publishersService: LogPublishersService, private _activatedRoute: ActivatedRoute) {
 		this.publishers = publishersService.publishers;
 		this.level = publishersService.level;
 	}

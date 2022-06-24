@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { map, Observable, startWith } from 'rxjs';
@@ -14,7 +14,7 @@ import { PrimaryProspectList } from './../../../core/models/campaigns/primary-pr
 	styleUrls: ['./create-campaign-details.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateCampaignDetailsComponent implements OnInit {
+export class CreateCampaignDetailsComponent {
 	/**
 	 * @description Campaign details form.
 	 */
@@ -42,6 +42,7 @@ export class CreateCampaignDetailsComponent implements OnInit {
 	@Input() set prospectLists(value: PrimaryProspectList[]) {
 		if (value) {
 			this._prospectLists = value;
+			this._setFilteredPrimaryProspectList();
 		}
 	}
 
@@ -57,22 +58,11 @@ export class CreateCampaignDetailsComponent implements OnInit {
 	 */
 	_filteredPrimaryProspectLists$: Observable<PrimaryProspectList[]>;
 
-	constructor(private _log: LogService) {}
-
 	/**
-	 * @description NgOnInit life cycle.
+	 * Creates an instance of create campaign details component.
+	 * @param _log
 	 */
-	ngOnInit(): void {
-		this._filteredPrimaryProspectLists$ = this._form
-			.get('primaryProspectList')
-			.get('name')
-			.valueChanges.pipe(
-				startWith(''),
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-				map((value) => (typeof value === 'string' ? value : (value['name'] as string))),
-				map((name) => (name ? this._filter(name) : this._prospectLists.slice()))
-			);
-	}
+	constructor(private _log: LogService) {}
 
 	/**
 	 * @description Event handler fired when user clicks to add new search url control
@@ -90,6 +80,21 @@ export class CreateCampaignDetailsComponent implements OnInit {
 	private _filter(name: string): PrimaryProspectList[] {
 		const filterValue = name.toLowerCase();
 		return this._prospectLists.filter((primaryProspectList) => primaryProspectList.name.toLowerCase().includes(filterValue));
+	}
+
+	/**
+	 * @description Sets filtered primary prospect list.
+	 */
+	private _setFilteredPrimaryProspectList(): void {
+		this._filteredPrimaryProspectLists$ = this._form
+			?.get('primaryProspectList')
+			.get('name')
+			.valueChanges.pipe(
+				startWith(''),
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				map((value) => (typeof value === 'string' ? value : (value['name'] as string))),
+				map((name) => (name ? this._filter(name) : this._prospectLists.slice()))
+			);
 	}
 
 	/**

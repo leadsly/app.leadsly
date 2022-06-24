@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { LogService } from 'app/core/logger/log.service';
+import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { updateEntity } from 'app/shared/state-helpers';
 import produce from 'immer';
 import { normalize } from 'normalizr';
@@ -17,7 +18,8 @@ const CAMPAIGNS_STATE_TOKEN = new StateToken<CampaignsStateModel>('campaigns');
 @State<CampaignsStateModel>({
 	name: CAMPAIGNS_STATE_TOKEN,
 	defaults: {
-		entities: {}
+		entities: {},
+		userProspectLists: []
 	}
 })
 @Injectable()
@@ -45,6 +47,16 @@ export class CampaignsState {
 	}
 
 	/**
+	 * @description Selects user's prospect lists.
+	 * @param state
+	 * @returns user prospect lists
+	 */
+	@Selector([CAMPAIGNS_STATE_TOKEN])
+	static selectUserProspectLists(state: CampaignsStateModel): PrimaryProspectList[] {
+		return state.userProspectLists;
+	}
+
+	/**
 	 * Creates an instance of campaigns state.
 	 * @param _log
 	 */
@@ -64,6 +76,21 @@ export class CampaignsState {
 			produce((draft: CampaignsStateModel) => {
 				draft.entities = campaigns;
 				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Sets user's prospect lists.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Campaigns.SetUserProspectLists)
+	setUserProspectLists(ctx: StateContext<CampaignsStateModel>, action: Campaigns.SetUserProspectLists): void {
+		this._log.info('[CampaignsStore] Set user`s prospect list exectuing', this, action.payload);
+		ctx.setState(
+			produce((draft: CampaignsStateModel) => {
+				draft.userProspectLists = action.payload;
 			})
 		);
 	}
@@ -91,7 +118,6 @@ export class CampaignsState {
 	@Action(Campaigns.Delete)
 	delete(ctx: StateContext<CampaignsStateModel>, action: Campaigns.Delete): void {
 		this._log.info(`[CampaignsStore] Deleting campaign with id: ${action.payload.id}.`, this);
-		console.log(ctx.getState());
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
 				delete draft.entities[action.payload.id];

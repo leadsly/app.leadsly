@@ -8,6 +8,7 @@ import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
+import { ProspectListAsyncService } from 'app/core/services/prospect-list-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -36,7 +37,7 @@ export class CampaignsSandboxService {
 	/**
 	 * @description Prospect lists for the current user.
 	 */
-	prospectLists$ = of<PrimaryProspectList[]>([{ name: 'lawyers' }]);
+	@Select(CampaignsState.selectUserProspectLists) prospectLists$: Observable<PrimaryProspectList[]>;
 
 	/**
 	 * Creates an instance of campaigns sandbox service.
@@ -50,6 +51,7 @@ export class CampaignsSandboxService {
 		private _log: LogService,
 		private _store: Store,
 		private _campaignAsyncService: CampaignsAsyncService,
+		private _prospectListAsyncService: ProspectListAsyncService,
 		private _leadslyService: LeadslyService,
 		private _userAsyncService: UsersAsyncService,
 		public router: Router
@@ -129,6 +131,18 @@ export class CampaignsSandboxService {
 		this._campaignAsyncService
 			.createCampaign$(launchCampaign)
 			.pipe(tap((resp) => this._store.dispatch(new CampaignsActions.Create(resp.data))))
+			.subscribe();
+	}
+
+	/**
+	 * @description Gets users prospect lists.
+	 */
+	getUsersProspectLists(): void {
+		const id = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		this._log.debug('getUserProspectLists executed. User id is: ', this, id);
+		this._prospectListAsyncService
+			.getUsersProspectLists$(id)
+			.pipe(tap((resp) => this._store.dispatch(new CampaignsActions.SetUserProspectLists(resp.data))))
 			.subscribe();
 	}
 }

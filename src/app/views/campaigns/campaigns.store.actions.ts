@@ -1,6 +1,7 @@
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { Campaigns } from 'app/core/models/campaigns/campaigns.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
+import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 
 /**
@@ -113,4 +114,19 @@ export class Delete {
 	 * @param payload
 	 */
 	constructor(public payload: DeleteCampaign) {}
+}
+
+/**
+ * @description Get user prospect lists.
+ */
+export class SetUserProspectLists {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Campaign] Set User Prospect Lists';
+
+	/**
+	 * Creates an instance of GetUserProspectLists action.
+	 */
+	constructor(public payload: PrimaryProspectList[]) {}
 }

@@ -9,6 +9,9 @@ import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-
 import { CampaignType } from '../../../core/models/campaigns/campaign-type';
 import { NewCampaign } from './../../../core/models/campaigns/new-campaign';
 
+/**
+ * @description CreateCampaignWizard component.
+ */
 @Component({
 	selector: 'ldsly-create-campaign-wizard',
 	templateUrl: './create-campaign-wizard.component.html',

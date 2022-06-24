@@ -1,6 +1,6 @@
 <mat-stepper orientation="vertical" [linear]="_isLinear" #stepper>
 	<mat-step [stepControl]="_detailsForm">
-		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.details.step-title' | translate }}</ng-template>
+		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.details.labels.step-title' | translate }}</ng-template>
 		<ldsly-create-campaign-details
 			[prospectLists]="prospectLists"
 			[form]="_detailsForm"
@@ -9,7 +9,7 @@
 		></ldsly-create-campaign-details>
 	</mat-step>
 	<mat-step [stepControl]="_detailsForm">
-		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.messaging.step-title' | translate }}</ng-template>
+		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.messaging.labels.step-title' | translate }}</ng-template>
 		<ldsly-create-campaign-messaging [form]="_messagingForm" [delayUnits]="_delayUnits" (addNewMessageClicked)="_onAddNewMessageClicked()">
 		</ldsly-create-campaign-messaging>
 	</mat-step>

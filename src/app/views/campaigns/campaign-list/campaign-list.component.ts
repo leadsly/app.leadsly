@@ -63,6 +63,9 @@ export class CampaignListComponent implements OnInit {
 		this._sb.getUserCampaigns();
 	}
 
+	/**
+	 * @description Create campaign event handler.
+	 */
 	_onCreateCampaignClicked(): void {
 		void this._sb.router.navigate(['create'], { relativeTo: this._route.parent });
 	}

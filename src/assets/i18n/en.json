@@ -214,17 +214,17 @@
 				},
 				"details": {
 					"labels": {
+						"step-title": "Campaign Details",
 						"name": "Campaign Name",
 						"type": "Campaign Type",
 						"invite-limit": "Daily Invite Limit",
 						"primary-prospect-list": "Prospect List",
 						"search-url": "Search Url"
-					},
-					"step-title": "Campaign Details"
+					}
 				},
 				"messaging": {
-					"step-title": "Messaging",
 					"labels": {
+						"step-title": "Messaging",
 						"invitation-message": "Create Invitation Message",
 						"wait-value": "Enter Value",
 						"wait-unit": "Select Unit"
