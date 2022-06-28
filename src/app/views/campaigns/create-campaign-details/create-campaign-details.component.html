@@ -63,6 +63,8 @@
 	</div>
 
 	<div>
-		<button color="primary" mat-raised-button matStepperNext>{{ 'ldsly.buttons.save-and-continue' | translate }}</button>
+		<button (click)="_onSaveAndContinue()" color="primary" mat-raised-button matStepperNext>
+			{{ 'ldsly.buttons.save-and-continue' | translate }}
+		</button>
 	</div>
 </form>

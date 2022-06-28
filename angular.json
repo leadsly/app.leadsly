@@ -72,7 +72,7 @@
 							]
 						},
 						"hmr": {
-							"sourceMap": false,
+							"sourceMap": true,
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",
@@ -81,7 +81,7 @@
 							]
 						},
 						"development": {
-							"sourceMap": false
+							"sourceMap": true
 						}
 					}
 				},

@@ -73,6 +73,18 @@ export class CreateCampaignDetailsComponent {
 	}
 
 	/**
+	 * @description Updates forms existing property based on if the value exists in prospect lists array
+	 */
+	_onSaveAndContinue(): void {
+		this._log.trace('[_onSaveAndContinue]: User clicked to save and continue');
+		const exists: boolean = this._prospectLists.some(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			(primaryProspectList) => primaryProspectList.name === this._form.get('primaryProspectList').get('name').value['name']
+		);
+		this._form.get('primaryProspectList').get('existing').setValue(exists);
+	}
+
+	/**
 	 * @description Filters primary prospect list based on the passed in value
 	 * @param name
 	 * @returns filter

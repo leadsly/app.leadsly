@@ -16,6 +16,10 @@ const routes: Routes = [
 		loadChildren: () => import('./views/account/account.module').then((m) => m.AccountModule)
 	},
 	{
+		path: 'profile',
+		loadChildren: () => import('./views/profile/profile.module').then((m) => m.ProfileModule)
+	},
+	{
 		path: 'about',
 		loadChildren: () => import('./views/about/about.module').then((m) => m.AboutModule)
 	},

@@ -46,12 +46,18 @@
 						<fa-icon icon="user-circle"></fa-icon>
 					</button>
 					<mat-menu #toolbarUserMenu="matMenu">
-						<button mat-menu-item (click)="_onDashboardClicked()">
+						<button mat-menu-item (click)="_onAccountClicked()">
 							<mat-icon>
 								<fa-icon icon="tachometer-alt"></fa-icon>
 							</mat-icon>
 							<span>{{ 'ldsly.menu.account' | translate }}</span>
 						</button>
+
+						<button mat-menu-item (click)="_onProfileClicked()">
+							<mat-icon>person</mat-icon>
+							<span>{{ 'ldsly.menu.profile' | translate }}</span>
+						</button>
+
 						<button mat-menu-item (click)="_onSignoutClicked()">
 							<mat-icon>
 								<fa-icon icon="power-off"></fa-icon>

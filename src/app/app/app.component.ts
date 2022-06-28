@@ -165,9 +165,17 @@ export class AppComponent implements OnInit, OnDestroy {
 	/**
 	 * Event handler for when user clicks the account button.
 	 */
-	_onDashboardClicked(): void {
+	_onAccountClicked(): void {
 		this._sb.log.debug('_onDashboardClicked event handler fired.', this);
 		void this._sb.router.navigate(['account']);
+	}
+
+	/**
+	 * @description Event handler for when user clicks the profile button.
+	 */
+	_onProfileClicked(): void {
+		this._sb.log.debug('_onProfileClicked event handler fired.', this);
+		void this._sb.router.navigate(['profile']);
 	}
 
 	/**

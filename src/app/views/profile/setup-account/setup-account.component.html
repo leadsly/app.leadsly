@@ -1,0 +1,23 @@
+<div class="account-setup__container">
+	<mat-stepper [orientation]="_orientation" [linear]="false" #stepper>
+		<mat-step [stepControl]="_newAssistantForm">
+			<ng-template matStepLabel>{{ 'ldsly.profile.steps.step1' | translate }}</ng-template>
+			<ldsly-virtual-assistant-setup
+				[availableTimeZones]="_availableTimeZones"
+				[form]="_newAssistantForm"
+				(newAssistantRequested)="_onNewAssistantRequsted($event)"
+			></ldsly-virtual-assistant-setup>
+		</mat-step>
+		<mat-step [stepControl]="_linkAccountForm">
+			<ng-template matStepLabel>{{ 'ldsly.profile.steps.step2' | translate }}</ng-template>
+			<ldsly-link-account-setup [form]="_linkAccountForm" (linkAccountRequested)="_onLinkAccountRequested($event)"></ldsly-link-account-setup>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Done</ng-template>
+			<p>You are now done.</p>
+			<div class="setup__container-action-buttons">
+				<button (click)="_onFinishClicked()" color="primary" type="button" mat-raised-button>{{ 'ldsly.buttons.finish' | translate }}</button>
+			</div>
+		</mat-step>
+	</mat-stepper>
+</div>

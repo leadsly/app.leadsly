@@ -1,0 +1,11 @@
+<div class="linked-account__container">
+	<ng-container *ngIf="_connectedAccount">
+		<ldsly-connected-account></ldsly-connected-account>
+	</ng-container>
+
+	<ng-container *ngIf="!_connectedAccount">
+		<ldsly-disconnected-account></ldsly-disconnected-account>
+		<ldsly-setup-account [availableTimeZones]="_timeZones" [newAssistantForm]="_newAssistantForm" [linkAccountForm]="_setupForm">
+		</ldsly-setup-account>
+	</ng-container>
+</div>

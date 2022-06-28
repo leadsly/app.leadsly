@@ -201,7 +201,8 @@
 			"signin": "Sign in",
 			"signout": "Sign out",
 			"account": "Account",
-			"settings": "Settings"
+			"settings": "Settings",
+			"profile": "Profile"
 		},
 		"campaigns": {
 			"new-campaign": {
@@ -279,6 +280,32 @@
 				}
 			}
 		},
+		"profile": {
+			"title": "Profile",
+			"steps": {
+				"step1": "Virtual Assistant",
+				"step2": "Link Account"
+			},
+			"linked-account": {
+				"no-linked": "No Linked Account Detected",
+				"connected": "Connected",
+				"disconnected": "Disconnected",
+				"setup": "Setup",
+				"setup-complete": "You've successfully setup your virtual assistant",
+				"setup-account": {
+					"email": "LinkedIn Email",
+					"password": "LinkedIn Password"
+				},
+				"placeholders": {
+					"email": "Enter your LinkedIn email",
+					"password": "Enter your LinkedIn password"
+				}
+			}
+		},
+		"labels": {
+			"email": "Email",
+			"timezoneIds": "Timezones"
+		},
 		"buttons": {
 			"save-and-continue": "Save & Continue",
 			"reset-password": "Reset Password",
@@ -305,7 +332,10 @@
 			"back": "Back",
 			"add-new-message": "Add New Message",
 			"launch-campaign": "Launch Campaign",
-			"add-search-url": "Add Search Url"
+			"add-search-url": "Add Search Url",
+			"connect-account": "Connect Account",
+			"disconnect-account": "Disconnect Account",
+			"link": "Link"
 		}
 	}
 }

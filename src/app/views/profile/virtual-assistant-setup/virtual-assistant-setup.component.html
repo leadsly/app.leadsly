@@ -1,0 +1,25 @@
+<div class="virtual-assistant-setup__container">
+	<form (ngSubmit)="_onFormSubmitted()" [formGroup]="_newAssistantForm">
+		<div>
+			<mat-form-field appearance="standard">
+				<mat-label>{{ 'ldsly.labels.email' | translate }}</mat-label>
+				<input matInput [placeholder]="'ldsly.profile.linked-account.placeholders.email' | translate" formControlName="email" required />
+				<mat-error *ngIf="_newAssistantForm.get('email').invalid">{{ _getErrorMessages() }}</mat-error>
+			</mat-form-field>
+		</div>
+
+		<div>
+			<mat-form-field appearance="standard">
+				<mat-label>{{ 'ldsly.labels.timezoneIds' | translate }}</mat-label>
+				<mat-select formControlName="timezoneId" required>
+					<mat-option>--</mat-option>
+					<mat-option *ngFor="let timeZone of _availableTimeZones" [value]="timeZone?.leadslyTimeZoneId">{{ timeZone?.timeZoneId }}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="_newAssistantForm.get('timezoneId').invalid">{{ _getErrorMessages() }}</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="virtual-assistant-setup__action-buttons">
+			<button color="primary" type="submit" [disabled]="_newAssistantForm.invalid" mat-raised-button matStepperNext>Next</button>
+		</div>
+	</form>
+</div>

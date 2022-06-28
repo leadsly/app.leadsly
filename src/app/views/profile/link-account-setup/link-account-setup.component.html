@@ -1,0 +1,37 @@
+<div class="link-account-setup__container">
+	<form (ngSubmit)="_onFormSubmitted()" [formGroup]="_linkAccountForm">
+		<div>
+			<mat-form-field appearance="standard">
+				<mat-label>{{ 'ldsly.profile.linked-account.setup-account.email' | translate }}</mat-label>
+				<input
+					matInput
+					[placeholder]="'ldsly.profile.linked-account.setup-account.email' | translate"
+					type="email"
+					name="email"
+					formControlName="email"
+					required
+				/>
+				<mat-error *ngIf="_linkAccountForm.get('email').invalid">{{ _getErrorMessages() }}</mat-error>
+			</mat-form-field>
+		</div>
+
+		<div>
+			<mat-form-field appearance="standard">
+				<mat-label>{{ 'ldsly.profile.linked-account.setup-account.password' | translate }}</mat-label>
+				<input
+					matInput
+					[placeholder]="'ldsly.profile.linked-account.placeholders.password' | translate"
+					type="password"
+					name="password"
+					formControlName="password"
+					required
+				/>
+				<mat-error *ngIf="_linkAccountForm.get('password').invalid">{{ _getErrorMessages() }}</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="link-account-setup__action-buttons">
+			<button mat-raised-button matStepperPrevious>Back</button>
+			<button color="primary" type="submit" [disabled]="_linkAccountForm.invalid" mat-raised-button>{{ 'ldsly.buttons.link' | translate }}</button>
+		</div>
+	</form>
+</div>

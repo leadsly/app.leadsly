@@ -196,13 +196,4 @@ export class CreateCampaignWizardComponent implements OnInit {
 	private _createSearchUrlControl(): FormControl {
 		return this._fb.control('', [LdslyValidators.required]);
 	}
-
-	/**
-	 * @description Creates campaign type controls.
-	 * @param campaignTypes
-	 * @returns campaign type controls
-	 */
-	private _createCampaignTypeControls(campaignTypes: CampaignType[]): FormControl[] {
-		return campaignTypes.map((c) => this._fb.control(c.type, [LdslyValidators.required]));
-	}
 }
