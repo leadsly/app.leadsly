@@ -73,6 +73,9 @@
 						},
 						"hmr": {
 							"sourceMap": true,
+							"buildOptimizer": false,
+							"namedChunks": true,
+							"optimization": false,
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",

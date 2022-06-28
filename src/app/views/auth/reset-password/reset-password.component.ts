@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { downUpFadeInAnimation, ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
 import { LdslyValidators, MinPasswordLength } from 'app/core/form-validators/ldsly-validators';
@@ -123,7 +123,7 @@ export class ResetPasswordComponent extends AuthBase implements OnInit, OnDestro
 	 * @param _fb
 	 * @param _sb
 	 */
-	constructor(private _sb: AuthSandboxService, protected cd: ChangeDetectorRef, private _route: ActivatedRoute) {
+	constructor(private _sb: AuthSandboxService, protected cd: ChangeDetectorRef, private _route: ActivatedRoute, private _fb: FormBuilder) {
 		super(_sb.translateValidationErrorService, _sb.log, cd);
 
 		this._passwordResetComplete$ = _sb.passwordResetCompleted$;
@@ -238,9 +238,9 @@ export class ResetPasswordComponent extends AuthBase implements OnInit, OnDestro
 	 * @returns reset password form
 	 */
 	private _initResetPasswordForm(): FormGroup {
-		return this._sb.fb.group(
+		return this._fb.group(
 			{
-				password: this._sb.fb.control('', {
+				password: this._fb.control('', {
 					validators: [
 						LdslyValidators.required,
 						LdslyValidators.minLength(MinPasswordLength),
@@ -252,7 +252,7 @@ export class ResetPasswordComponent extends AuthBase implements OnInit, OnDestro
 					],
 					updateOn: 'change'
 				}),
-				confirmPassword: this._sb.fb.control('', LdslyValidators.required)
+				confirmPassword: this._fb.control('', LdslyValidators.required)
 			},
 			{
 				validators: LdslyValidators.requireConfirmPassword,

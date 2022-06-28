@@ -145,13 +145,12 @@ export class AuthService {
 		this._log.trace('_doesNotRequire2StepVerification$ executed.', this);
 		if (accessToken) {
 			const userId = this._jwtService.getSubClaim(accessToken.access_token);
-			return this._store
-				.dispatch([
-					// if no other errors occured, sign user in
-					new Auth.Is2StepVerificationRequired({ is2StepVerificationRequired: false }),
-					new Auth.Signin({ accessToken, userId })
-				])
-				.pipe(switchMap(() => this.monitorSessionActivity$()));
+			return this._store.dispatch([
+				// if no other errors occured, sign user in
+				new Auth.Is2StepVerificationRequired({ is2StepVerificationRequired: false }),
+				new Auth.Signin({ accessToken, userId })
+			]);
+			// .pipe(switchMap(() => this.monitorSessionActivity$()));
 		} else {
 			this._log.error('[_doesNotRequire2StepVerification$]: AccessToken was not defined. User authentication failed.', this);
 		}

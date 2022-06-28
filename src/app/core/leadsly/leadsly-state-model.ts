@@ -1,3 +1,5 @@
+import { LeadslyConnectResult } from '../models/profile/leadsly-connect-result.model';
+import { LeadslySetupResult } from '../models/profile/leadsly-setup-result.model';
 import { TimeZone } from '../models/time-zone.model';
 
 /**
@@ -17,5 +19,15 @@ export interface LeadslyStateModel {
 	/**
 	 * @description Leadsly supported time zones.
 	 */
-	supportedTimeZones: TimeZone[];
+	timeZones: TimeZone[];
+
+	/**
+	 * @description Leadsly setup result.
+	 */
+	setup: LeadslySetupResult;
+
+	/**
+	 * @description Leadsly connect result.
+	 */
+	connect: LeadslyConnectResult;
 }

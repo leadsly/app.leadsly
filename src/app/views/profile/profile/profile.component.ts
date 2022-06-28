@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConnectedAccount } from 'app/core/models/connected-account';
-import { TimeZone } from 'app/core/models/time-zone.model';
+
 import { Observable } from 'rxjs';
 import { ProfileSandboxService } from '../profile-sandbox.service';
 
@@ -13,16 +13,11 @@ import { ProfileSandboxService } from '../profile-sandbox.service';
 	styleUrls: ['./profile.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 	/**
 	 * @description User's linked accounts.
 	 */
 	_connectedAccount$: Observable<ConnectedAccount>;
-
-	/**
-	 * @description Leadsly supported timezones.
-	 */
-	_timeZones$: Observable<TimeZone[]>;
 
 	/**
 	 * Creates an instance of profile component.
@@ -30,12 +25,5 @@ export class ProfileComponent implements OnInit {
 	 */
 	constructor(private _sb: ProfileSandboxService) {
 		this._connectedAccount$ = _sb.connectedAccount$;
-	}
-
-	/**
-	 * @description NgOnInit life cycle.
-	 */
-	ngOnInit(): void {
-		this._timeZones$ = this._sb.getSupportedTimeZones$();
 	}
 }

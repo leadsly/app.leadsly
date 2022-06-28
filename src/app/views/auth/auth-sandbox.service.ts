@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
@@ -23,6 +23,7 @@ import { SigninUser } from 'app/core/models/auth/signin-user.model';
 import { SignupUser } from 'app/core/models/auth/signup-user.model';
 import { TwoFactorRecoveryCode } from 'app/core/models/auth/two-factor-recovery-code.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { OperationResponse } from 'app/core/models/operation-response.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
@@ -167,7 +168,6 @@ export class AuthSandboxService {
 		private _leadslyService: LeadslyService,
 		public translateValidationErrorService: TranslateValidationErrorsService,
 		public log: LogService,
-		public fb: FormBuilder,
 		public router: Router,
 		public asyncValidators: AsyncValidatorsService
 	) {}
@@ -269,10 +269,17 @@ export class AuthSandboxService {
 			.pipe(
 				switchMap((resp) =>
 					this._authenticateUsingAppSignin$(resp.accessToken, model.rememberMe, model.email, resp.is2StepVerificationRequired, resp.provider)
-				),
-				switchMap(() => this._leadslyService.getConnectedAccount$())
+				)
 			)
 			.subscribe();
+	}
+
+	/**
+	 * @description Gets connected account.
+	 * @returns connected account$
+	 */
+	getConnectedAccount$(): Observable<OperationResponse> {
+		return this._leadslyService.getConnectedAccount$();
 	}
 
 	/**

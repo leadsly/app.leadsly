@@ -30,8 +30,11 @@
 			</mat-form-field>
 		</div>
 		<div class="link-account-setup__action-buttons">
-			<button mat-raised-button matStepperPrevious>Back</button>
-			<button color="primary" type="submit" [disabled]="_linkAccountForm.invalid" mat-raised-button>{{ 'ldsly.buttons.link' | translate }}</button>
+			<button color="primary" type="submit" [disabled]="_linkAccountForm.invalid || _inProgress" mat-raised-button>
+				{{ 'ldsly.buttons.link' | translate }}
+				<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
+				</ldsly-spinner>
+			</button>
 		</div>
 	</form>
 </div>

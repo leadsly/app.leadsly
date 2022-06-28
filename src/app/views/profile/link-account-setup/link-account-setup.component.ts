@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
  * @description Link account setup component.
@@ -31,6 +32,32 @@ export class LinkAccountSetupComponent {
 	 * @description Event emitter when user clicks to link their account
 	 */
 	@Output() linkAccountRequested = new EventEmitter<LinkAccount>();
+
+	/**
+	 * @description Whether link account is in progress.
+	 */
+	@Input() set inProgress(value: boolean) {
+		this._inProgress = value;
+	}
+
+	_inProgress = false;
+
+	/**
+	 * @description Whether server error occured.
+	 */
+	@Input() set serverErrorOccured(value: boolean) {
+		this._inProgress = !value;
+	}
+
+	/**
+	 * Verified next step button spinner diameter.
+	 */
+	readonly _spinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
+
+	/**
+	 * Verified next step button spinner stroke width.
+	 */
+	readonly _spinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
 
 	/**
 	 * Creates an instance of link account setup component.

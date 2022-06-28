@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import produce from 'immer';
+import { LeadslyConnectResult } from '../models/profile/leadsly-connect-result.model';
+import { LeadslySetupResult } from '../models/profile/leadsly-setup-result.model';
 import { TimeZone } from '../models/time-zone.model';
 import { LogService } from './../logger/log.service';
 import { LeadslyStateModel } from './leadsly-state-model';
@@ -13,7 +15,9 @@ const LEADSLY_STATE_TOKEN = new StateToken<LeadslyStateModel>('leadsly');
 	defaults: {
 		connectedAccount: '',
 		halId: '',
-		supportedTimeZones: []
+		timeZones: [],
+		setup: {},
+		connect: {}
 	}
 })
 @Injectable()
@@ -39,7 +43,7 @@ export class LeadslyState {
 	 */
 	@Selector([LEADSLY_STATE_TOKEN])
 	static selectSupportedTimeZones(state: LeadslyStateModel): TimeZone[] {
-		return state.supportedTimeZones;
+		return state.timeZones;
 	}
 
 	/**
@@ -53,7 +57,28 @@ export class LeadslyState {
 	}
 
 	/**
-	 *
+	 * @description Selects leadsly's setup result.
+	 * @param state
+	 * @returns leadsly setup result
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectLeadslySetupResult(state: LeadslyStateModel): LeadslySetupResult {
+		return state.setup;
+	}
+
+	/**
+	 * @description Selects leadsly connect result
+	 * @param state
+	 * @returns leadsly connect result
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectLeadslyConnectResult(state: LeadslyStateModel): LeadslyConnectResult {
+		return state.connect;
+	}
+
+	/**
+	 * Creates an instance of leadsly state.
+	 * @param _log
 	 */
 	constructor(private _log: LogService) {}
 
@@ -86,7 +111,39 @@ export class LeadslyState {
 		this._log.info('setSupportedTimeZones action handler fired.');
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
-				draft.supportedTimeZones = action.payload.timeZones;
+				draft = { ...draft, ...action.payload };
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Event handler for when user finishes virtual assistant setup.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.VirtualAssistantSetupResult)
+	virtualAssistantSetupResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.VirtualAssistantSetupResult): void {
+		this._log.info('virtualAssistantSetupResult action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft = { ...draft, ...action.payload };
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Event handler when user finishes leadsly connect result.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.ConnectAccountSetupResult)
+	connectAccountSetupResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.ConnectAccountSetupResult): void {
+		this._log.info('connectAccountSetupResult action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft = { ...draft, ...action.payload };
 				return draft;
 			})
 		);

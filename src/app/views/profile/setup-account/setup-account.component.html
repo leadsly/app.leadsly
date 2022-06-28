@@ -1,16 +1,24 @@
 <div class="account-setup__container">
-	<mat-stepper [orientation]="_orientation" [linear]="false" #stepper>
-		<mat-step [stepControl]="_newAssistantForm">
+	<mat-stepper [orientation]="_orientation" [linear]="true" #stepper>
+		<mat-step [editable]="false" [optional]="false" [stepControl]="_newAssistantForm">
 			<ng-template matStepLabel>{{ 'ldsly.profile.steps.step1' | translate }}</ng-template>
 			<ldsly-virtual-assistant-setup
-				[availableTimeZones]="_availableTimeZones"
+				[serverErrorOccured]="_serverErrorOccured$ | async"
+				[inProgress]="_virtualAssistantCreationInProgress"
+				[availableTimeZones]="_availableTimeZones$ | async"
 				[form]="_newAssistantForm"
 				(newAssistantRequested)="_onNewAssistantRequsted($event)"
-			></ldsly-virtual-assistant-setup>
+			>
+			</ldsly-virtual-assistant-setup>
 		</mat-step>
-		<mat-step [stepControl]="_linkAccountForm">
+		<mat-step [editable]="false" [optional]="false" [stepControl]="_setupForm">
 			<ng-template matStepLabel>{{ 'ldsly.profile.steps.step2' | translate }}</ng-template>
-			<ldsly-link-account-setup [form]="_linkAccountForm" (linkAccountRequested)="_onLinkAccountRequested($event)"></ldsly-link-account-setup>
+			<ldsly-link-account-setup
+				[serverErrorOccured]="_serverErrorOccured$ | async"
+				[inProgress]="_linkAccountInProgress"
+				[form]="_setupForm"
+				(linkAccountRequested)="_onLinkAccountRequested($event)"
+			></ldsly-link-account-setup>
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Done</ng-template>

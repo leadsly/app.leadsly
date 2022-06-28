@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/core.module';
 import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -51,7 +51,7 @@ export class ForgotPasswordContainerComponent implements OnInit, OnDestroy {
 	 * Creates an instance of forgot password container component.
 	 * @param _sb
 	 */
-	constructor(private _sb: AuthSandboxService) {
+	constructor(private _sb: AuthSandboxService, private _fb: FormBuilder) {
 		this._internalServerErrorDetails$ = _sb.internalServerErrorDetails$;
 		this._forgotPasswordRequestSubmittedSuccessfully$ = _sb.forgotPasswordRequestSubmittedSuccessfully$;
 		this._forgotPasswordRequestSubmitting$ = _sb.forgotPasswordRequestSubmitting$;
@@ -126,8 +126,8 @@ export class ForgotPasswordContainerComponent implements OnInit, OnDestroy {
 	 * @returns forgot password form
 	 */
 	private _initForgotPasswordForm(): FormGroup {
-		return this._sb.fb.group({
-			email: this._sb.fb.control('', [LdslyValidators.required, LdslyValidators.email])
+		return this._fb.group({
+			email: this._fb.control('', [LdslyValidators.required, LdslyValidators.email])
 		});
 	}
 }

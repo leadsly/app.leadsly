@@ -2,7 +2,6 @@
 	"compileOnSave": false,
 	"compilerOptions": {
 		"noUnusedLocals": false,
-		"strict": false,
 		"noUnusedParameters": false,
 		"baseUrl": "./src",
 		"resolveJsonModule": true,
@@ -21,6 +20,7 @@
 	},
 	"angularCompilerOptions": {
 		"fullTemplateTypeCheck": true,
-		"strictInjectionParameters": true
+		"strictInjectionParameters": true,
+		"strictTemplates": true
 	}
 }

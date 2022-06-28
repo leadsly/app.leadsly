@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActionCompletion } from '@ngxs/store';
 import { rightLeftFadeInAnimation } from 'app/core/core.module';
@@ -57,7 +57,7 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Whether to display sign-in or sign-up component.
 	 */
-	_activeAuthType$: Observable<string>;
+	_activeAuthType$: Observable<ActiveAuthType>;
 
 	/**
 	 * Requires user to enter the same password for confirm password field.
@@ -90,7 +90,7 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 	 * @param _asyncValidators
 	 * @param breakpointObserver
 	 */
-	constructor(breakpointObserver: BreakpointObserver, private _sb: AuthSandboxService, private _route: ActivatedRoute) {
+	constructor(breakpointObserver: BreakpointObserver, private _sb: AuthSandboxService, private _route: ActivatedRoute, private _fb: FormBuilder) {
 		this._problemDetails$ = _sb.problemDetails$;
 		this._internalServerErrorDetails$ = _sb.internalServerErrorDetails$;
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
@@ -223,14 +223,14 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 	 * @returns signup form
 	 */
 	private _initSignupForm(): FormGroup {
-		return this._sb.fb.group(
+		return this._fb.group(
 			{
-				email: this._sb.fb.control('', {
+				email: this._fb.control('', {
 					validators: [LdslyValidators.required, LdslyValidators.email],
 					asyncValidators: [this._sb.asyncValidators.isEmailInvitedToRegister()],
 					updateOn: 'blur'
 				}),
-				password: this._sb.fb.control('', {
+				password: this._fb.control('', {
 					validators: [
 						LdslyValidators.required,
 						LdslyValidators.minLength(MinPasswordLength),
@@ -242,7 +242,7 @@ export class SignUpContainerComponent implements OnInit, OnDestroy {
 					],
 					updateOn: 'change'
 				}),
-				confirmPassword: this._sb.fb.control('', LdslyValidators.required)
+				confirmPassword: this._fb.control('', LdslyValidators.required)
 			},
 			{
 				validators: LdslyValidators.requireConfirmPassword,

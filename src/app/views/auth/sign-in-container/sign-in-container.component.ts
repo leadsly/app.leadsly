@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActionCompletion } from '@ngxs/store';
 import { leftRightFadeInAnimation } from 'app/core/core.module';
@@ -9,10 +9,11 @@ import { ActiveAuthType } from 'app/core/models/auth/active-auth-type.model';
 import { AuthTypeRouteUrl } from 'app/core/models/auth/auth-type-route-url.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { OperationResponse } from 'app/core/models/operation-response.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { AuthSandboxService } from '../auth-sandbox.service';
 
 /**
@@ -49,7 +50,7 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * Whether to display sign-in or sign-up component.
 	 */
-	_activeAuthType$: Observable<string>;
+	_activeAuthType$: Observable<ActiveAuthType>;
 
 	/**
 	 * Remember me option selected by the user.
@@ -82,7 +83,7 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	 * @param _route
 	 * @param breakpointObserver
 	 */
-	constructor(breakpointObserver: BreakpointObserver, private _sb: AuthSandboxService, private _route: ActivatedRoute) {
+	constructor(breakpointObserver: BreakpointObserver, private _sb: AuthSandboxService, private _route: ActivatedRoute, private _fb: FormBuilder) {
 		this._problemDetails$ = _sb.problemDetails$;
 		this._internalServerErrorDetails$ = _sb.internalServerErrorDetails$;
 		this._rememberMe$ = _sb.rememberMe$;
@@ -163,8 +164,11 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	 * Listens if user has signed in.
 	 * @returns if user signed in$
 	 */
-	private _listenIfUserSignedIn$(): Observable<ActionCompletion<any, Error>> {
-		return this._signInActionCompleted$.pipe(tap(() => void this._sb.router.navigate(['account'])));
+	private _listenIfUserSignedIn$(): Observable<OperationResponse> {
+		return this._signInActionCompleted$.pipe(
+			tap(() => void this._sb.router.navigate(['account'])),
+			switchMap(() => this._sb.getConnectedAccount$())
+		);
 	}
 
 	/**
@@ -179,13 +183,13 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	 * @returns signin form
 	 */
 	private _initSigninForm(): FormGroup {
-		return this._sb.fb.group({
-			email: this._sb.fb.control('', {
+		return this._fb.group({
+			email: this._fb.control('', {
 				validators: [LdslyValidators.required, LdslyValidators.email],
 				updateOn: 'blur'
 			}),
-			password: this._sb.fb.control('', [LdslyValidators.required]),
-			rememberMe: this._sb.fb.control(false)
+			password: this._fb.control('', [LdslyValidators.required]),
+			rememberMe: this._fb.control(false)
 		});
 	}
 }

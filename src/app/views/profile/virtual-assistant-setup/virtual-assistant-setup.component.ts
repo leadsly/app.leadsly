@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
  * @description Virtual assistant setup component.
@@ -44,6 +45,33 @@ export class VirtualAssistantSetupComponent {
 	_availableTimeZones: TimeZone[] = [];
 
 	/**
+	 * @description Whether virtual assistant creation is in progress.
+	 */
+	@Input() set inProgress(value: boolean) {
+		this._log.debug('[VirtualAssistantSetupComponent] inProgress setter executed', this, value);
+		this._inProgress = value;
+	}
+
+	_inProgress = false;
+
+	/**
+	 * @description Whether server error occured.
+	 */
+	@Input() set serverErrorOccured(value: boolean) {
+		this._inProgress = !value;
+	}
+
+	/**
+	 * Verified next step button spinner diameter.
+	 */
+	readonly _spinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
+
+	/**
+	 * Verified next step button spinner stroke width.
+	 */
+	readonly _spinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
+
+	/**
 	 * @description Event emitter when user clicks to create new virtual assistant.
 	 */
 	@Output() newAssistantRequested = new EventEmitter<SetupVirtualAssistant>();
@@ -68,9 +96,9 @@ export class VirtualAssistantSetupComponent {
 	 * @returns error messages
 	 */
 	_getErrorMessages(): string {
-		if (this._newAssistantForm.get('email').hasError('required')) {
+		if (this._newAssistantForm.get('username').hasError('required')) {
 			return 'You must enter a value';
-		} else if (this._newAssistantForm.get('email').hasError('email')) {
+		} else if (this._newAssistantForm.get('username').hasError('email')) {
 			return 'Not a valid email';
 		}
 
