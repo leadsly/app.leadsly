@@ -140,6 +140,9 @@ export class SignInComponent extends AuthBase implements OnInit {
 		this.signinForm.get('email').setValue(this._username);
 	}
 
+	/**
+	 * @description NgOnDestroy life cycle.
+	 */
 	ngOnDestroy(): void {
 		this.log.trace('[SignInComponent] Destroyed.', this);
 	}

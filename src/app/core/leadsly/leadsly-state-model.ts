@@ -1,5 +1,6 @@
+import { Connected } from '../models/connected.model';
 import { LeadslyConnectResult } from '../models/profile/leadsly-connect-result.model';
-import { LeadslySetupResult } from '../models/profile/leadsly-setup-result.model';
+import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
 import { TimeZone } from '../models/time-zone.model';
 
 /**
@@ -7,14 +8,9 @@ import { TimeZone } from '../models/time-zone.model';
  */
 export interface LeadslyStateModel {
 	/**
-	 * @description Connected LinkedIn account.
+	 * @description Whether this user is connected to virtual assistant.
 	 */
-	connectedAccount: string;
-
-	/**
-	 * @description Hal id.
-	 */
-	halId: string;
+	connected: Connected;
 
 	/**
 	 * @description Leadsly supported time zones.
@@ -24,7 +20,7 @@ export interface LeadslyStateModel {
 	/**
 	 * @description Leadsly setup result.
 	 */
-	setup: LeadslySetupResult;
+	virtualAssistant: VirtualAssistant;
 
 	/**
 	 * @description Leadsly connect result.

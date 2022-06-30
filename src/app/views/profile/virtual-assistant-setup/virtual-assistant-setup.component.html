@@ -2,14 +2,6 @@
 	<form (ngSubmit)="_onFormSubmitted()" [formGroup]="_newAssistantForm">
 		<div>
 			<mat-form-field appearance="standard">
-				<mat-label>{{ 'ldsly.labels.email' | translate }}</mat-label>
-				<input matInput [placeholder]="'ldsly.profile.linked-account.placeholders.email' | translate" formControlName="username" required />
-				<mat-error *ngIf="_newAssistantForm.get('username').invalid">{{ _getErrorMessages() }}</mat-error>
-			</mat-form-field>
-		</div>
-
-		<div>
-			<mat-form-field appearance="standard">
 				<mat-label>{{ 'ldsly.labels.timezoneIds' | translate }}</mat-label>
 				<mat-select formControlName="timezoneId" required>
 					<mat-option>--</mat-option>

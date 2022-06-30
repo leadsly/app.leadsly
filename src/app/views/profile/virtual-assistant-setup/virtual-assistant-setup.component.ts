@@ -96,12 +96,6 @@ export class VirtualAssistantSetupComponent {
 	 * @returns error messages
 	 */
 	_getErrorMessages(): string {
-		if (this._newAssistantForm.get('username').hasError('required')) {
-			return 'You must enter a value';
-		} else if (this._newAssistantForm.get('username').hasError('email')) {
-			return 'Not a valid email';
-		}
-
 		return this._newAssistantForm.get('timezoneId').hasError('required') ? 'Time zone is required' : '';
 	}
 }

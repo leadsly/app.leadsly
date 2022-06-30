@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
-import { LeadslyService } from 'app/core/leadsly/leadsly.service';
+
 import { LogService } from 'app/core/logger/log.service';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
+import { CampaignsService } from 'app/core/services/campaigns.service';
 import { ProspectListAsyncService } from 'app/core/services/prospect-list-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable, of } from 'rxjs';
@@ -52,8 +53,8 @@ export class CampaignsSandboxService {
 		private _store: Store,
 		private _campaignAsyncService: CampaignsAsyncService,
 		private _prospectListAsyncService: ProspectListAsyncService,
-		private _leadslyService: LeadslyService,
 		private _userAsyncService: UsersAsyncService,
+		private _campaignsService: CampaignsService,
 		public router: Router
 	) {}
 
@@ -126,7 +127,7 @@ export class CampaignsSandboxService {
 	 * @param newCampaign
 	 */
 	launchNewCampaign(newCampaign: NewCampaign): void {
-		const launchCampaign = this._leadslyService.createNewCampaign(newCampaign);
+		const launchCampaign = this._campaignsService.newCampaign(newCampaign);
 		this._log.debug('launchNewCampaign', this, launchCampaign);
 		this._campaignAsyncService
 			.createCampaign$(launchCampaign)

@@ -1,4 +1,5 @@
 import { ProblemDetails } from './../../../core/models/problem-details.model';
+import { VirtualAssistant } from './../../../core/models/profile/virtual-assistant.model';
 import { ProfileSandboxService } from './../profile-sandbox.service';
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -9,7 +10,6 @@ import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { LeadslyConnectResult } from 'app/core/models/profile/leadsly-connect-result.model';
-import { LeadslySetupResult } from 'app/core/models/profile/leadsly-setup-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
@@ -63,7 +63,7 @@ export class SetupAccountComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Virtual assistant creation result$ of setup account component
 	 */
-	_virtualAssistantCreationResult$: Observable<LeadslySetupResult>;
+	_virtualAssistantCreationResult$: Observable<VirtualAssistant>;
 
 	/**
 	 * @description Reference to the mat stepper.
@@ -129,6 +129,9 @@ export class SetupAccountComponent implements OnInit, OnDestroy {
 		return merge(this._problemDetails$, this._internalServerErrorDetails$).pipe(map((err) => !!err));
 	}
 
+	/**
+	 * @description Links account setup completed
+	 */
 	private _linkAccountSetupCompleted(): void {
 		this._subscription.add(
 			this._linkAccountResult$
@@ -185,7 +188,6 @@ export class SetupAccountComponent implements OnInit, OnDestroy {
 	 */
 	private _buildNewAssistantForm(): FormGroup {
 		return this._fb.group({
-			username: this._fb.control('', [LdslyValidators.required, LdslyValidators.email]),
 			timezoneId: this._fb.control('', [LdslyValidators.required])
 		});
 	}

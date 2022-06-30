@@ -1,5 +1,7 @@
 import { ConnectedAccount } from '../models/connected-account';
-import { LeadslySetupResult } from '../models/profile/leadsly-setup-result.model';
+import { Connected } from '../models/connected.model';
+
+import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
 import { TimeZone } from '../models/time-zone.model';
 import { LeadslyConnectResult } from './../models/profile/leadsly-connect-result.model';
 
@@ -16,7 +18,7 @@ export class AddConnectedAccount {
 	 * Creates an instance of add connected account.
 	 * @param payload
 	 */
-	constructor(public payload: { leadslyDetails: ConnectedAccount }) {}
+	constructor(public payload: { connectedAccount: ConnectedAccount }) {}
 }
 
 /**
@@ -38,17 +40,33 @@ export class SetSupportedTimeZones {
 /**
  * @description Virtual assistant setup result.
  */
-export class VirtualAssistantSetupResult {
+export class SetVirtualAssistant {
 	/**
 	 * @description Type of action.
 	 */
-	static readonly type = '[Leadsly] Virtual Assistant Setup Result';
+	static readonly type = '[Leadsly] Set Virtual Assistant';
 
 	/**
 	 * Creates an instance of virtual assistant setup result.
 	 * @param payload
 	 */
-	constructor(public payload: { setup: LeadslySetupResult }) {}
+	constructor(public payload: { virtualAssistant: VirtualAssistant }) {}
+}
+
+/**
+ * @description Set connect result.
+ */
+export class SetConnected {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Leadsly] Set Connected Status';
+
+	/**
+	 * Creates an instance of set connected.
+	 * @param payload
+	 */
+	constructor(public payload: { connected: Connected }) {}
 }
 
 /**

@@ -1,4 +1,9 @@
+/**
+ * @description Connected user's account information.
+ */
 export interface ConnectedAccount {
-	connectedAccount: string;
-	halId: string;
+	/**
+	 * @description Connected user's email.
+	 */
+	email?: string;
 }

@@ -11,7 +11,6 @@ import { NotificationService } from 'app/core/core.module';
 import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
 import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
 import { AsyncValidatorsService } from 'app/core/form-validators/validators-async.service';
-import { LeadslyService } from 'app/core/leadsly/leadsly.service';
 import { LogService } from 'app/core/logger/log.service';
 import { TwoFactorAuthenticationVerificationCode } from 'app/core/models/account/security/two-factor-authentication-verification-code.model';
 import { AccessToken } from 'app/core/models/auth/access-token.model';
@@ -22,9 +21,11 @@ import { PasswordReset } from 'app/core/models/auth/password-reset.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
 import { SignupUser } from 'app/core/models/auth/signup-user.model';
 import { TwoFactorRecoveryCode } from 'app/core/models/auth/two-factor-recovery-code.model';
+import { Connected } from 'app/core/models/connected.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { OperationResponse } from 'app/core/models/operation-response.model';
+
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LinkedInAccountService } from 'app/core/services/linkedin-account.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { Observable } from 'rxjs';
@@ -148,7 +149,7 @@ export class AuthSandboxService {
 	 * @param _jwtService
 	 * @param _notificationService
 	 * @param _translationService
-	 * @param _leadslyService
+	 * @param _linkedInAccountService
 	 * @param translateValidationErrorService
 	 * @param log
 	 * @param fb
@@ -165,7 +166,7 @@ export class AuthSandboxService {
 		private _jwtService: JsonWebTokenService,
 		private _notificationService: NotificationService,
 		private _translationService: TranslateService,
-		private _leadslyService: LeadslyService,
+		private _linkedInAccountService: LinkedInAccountService,
 		public translateValidationErrorService: TranslateValidationErrorsService,
 		public log: LogService,
 		public router: Router,
@@ -278,8 +279,8 @@ export class AuthSandboxService {
 	 * @description Gets connected account.
 	 * @returns connected account$
 	 */
-	getConnectedAccount$(): Observable<OperationResponse> {
-		return this._leadslyService.getConnectedAccount$();
+	getConnectedAccount$(): Observable<Connected> {
+		return this._linkedInAccountService.getConnectedAccount$();
 	}
 
 	/**

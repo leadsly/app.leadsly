@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+
 import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../api-url-injection-token';
+
 import { OperationResponse } from './../models/operation-response.model';
 import { SetupLinkAccount } from './../models/profile/setup-link-account.model';
 
@@ -30,15 +31,6 @@ export class LeadslyAsyncService {
 	 */
 	getConnectedAccount$(): Observable<OperationResponse> {
 		return this._http.get<OperationResponse>(`${this._apiUrl}/leadsly/connected-account`, { headers: this._headers });
-	}
-
-	/**
-	 * @description Creates virtual assistant.
-	 * @param model
-	 * @returns virtual assistant$
-	 */
-	createVirtualAssistant$(model: SetupVirtualAssistant): Observable<OperationResponse> {
-		return this._http.post<OperationResponse>(`${this._apiUrl}/leadsly/setup`, JSON.stringify(model), { headers: this._headers });
 	}
 
 	/**

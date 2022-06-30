@@ -17,7 +17,7 @@ export class LinkedAccountComponent {
 	 * @description User's linked account.
 	 */
 	@Input() set connectedAccount(value: ConnectedAccount) {
-		this._connectedAccount = undefined; // value;
+		this._connectedAccount = value;
 	}
 
 	/**
