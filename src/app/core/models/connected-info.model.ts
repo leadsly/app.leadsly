@@ -3,7 +3,7 @@ import { ConnectedAccount } from './connected-account';
 /**
  * @description If this user is connected to virtual assistant.
  */
-export interface Connected {
+export interface ConnectedInfo {
 	/**
 	 * @description Whether this user is connected to virtual assistant.
 	 */

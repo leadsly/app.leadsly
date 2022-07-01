@@ -8,12 +8,14 @@ import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { ActiveAuthType } from 'app/core/models/auth/active-auth-type.model';
 import { AuthTypeRouteUrl } from 'app/core/models/auth/auth-type-route-url.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
+
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { OperationResponse } from 'app/core/models/operation-response.model';
+
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { Observable, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { AuthSandboxService } from '../auth-sandbox.service';
 
 /**
@@ -164,10 +166,10 @@ export class SignInContainerComponent implements OnInit, OnDestroy {
 	 * Listens if user has signed in.
 	 * @returns if user signed in$
 	 */
-	private _listenIfUserSignedIn$(): Observable<OperationResponse> {
+	private _listenIfUserSignedIn$(): Observable<ActionCompletion<any, Error>> {
 		return this._signInActionCompleted$.pipe(
-			tap(() => void this._sb.router.navigate(['account'])),
-			switchMap(() => this._sb.getConnectedAccount$())
+			tap(() => void this._sb.router.navigate(['account']))
+			// switchMap(() => this._sb.getUserLeadslyDetails$())
 		);
 	}
 

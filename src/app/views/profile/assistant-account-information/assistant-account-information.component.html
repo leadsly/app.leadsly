@@ -1,0 +1,22 @@
+<div class="assistant-information__container">
+	<div>
+		<ldsly-virtual-assistant
+			[form]="_virtualAssistantSetupForm"
+			[timeZones]="_timeZones$ | async"
+			[virtualAssistantInfo]="_virtualAssistantInfo$ | async"
+			[serverErrorOccured]="_serverErrorOccured$ | async"
+			(requested)="_onVirtualAssistantRequested($event)"
+		></ldsly-virtual-assistant>
+	</div>
+
+	<div>
+		<ldsly-connected-account
+			[form]="_connectForm"
+			[serverErrorOccured]="_serverErrorOccured$ | async"
+			[disabled]="_isLinkAccountDisabled"
+			[connectedInfo]="_connectedInfo$ | async"
+			(connect)="_onConnectToVirtualAssistant($event)"
+		>
+		</ldsly-connected-account>
+	</div>
+</div>

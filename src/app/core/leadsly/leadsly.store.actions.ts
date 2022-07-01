@@ -1,25 +1,7 @@
-import { ConnectedAccount } from '../models/connected-account';
-import { Connected } from '../models/connected.model';
-
+import { ConnectedInfo } from '../models/connected-info.model';
+import { VirtualAssistantInfo } from '../models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
 import { TimeZone } from '../models/time-zone.model';
-import { LeadslyConnectResult } from './../models/profile/leadsly-connect-result.model';
-
-/**
- * @description Add connected account.
- */
-export class AddConnectedAccount {
-	/**
-	 * @description Type of action.
-	 */
-	static readonly type = '[Leadsly] Add Connected Account';
-
-	/**
-	 * Creates an instance of add connected account.
-	 * @param payload
-	 */
-	constructor(public payload: { connectedAccount: ConnectedAccount }) {}
-}
 
 /**
  * @description Set supported time zones.
@@ -38,49 +20,50 @@ export class SetSupportedTimeZones {
 }
 
 /**
- * @description Virtual assistant setup result.
+ * @description Virtual assistant info.
  */
-export class SetVirtualAssistant {
+export class SetVirtualAssistantInfo {
 	/**
 	 * @description Type of action.
 	 */
-	static readonly type = '[Leadsly] Set Virtual Assistant';
+	static readonly type = '[Leadsly] Set Virtual Assistant Info';
 
 	/**
-	 * Creates an instance of virtual assistant setup result.
+	 * Creates an instance of virtual assistant info.
 	 * @param payload
 	 */
-	constructor(public payload: { virtualAssistant: VirtualAssistant }) {}
+	constructor(public payload: { virtualAssistantInfo: VirtualAssistantInfo }) {}
 }
 
 /**
- * @description Set connect result.
+ * @description Create virtual assistant.
  */
-export class SetConnected {
+export class CreateVirtualAssistant {
+	/**
+	 * @description Type  of action.
+	 */
+	static readonly type = '[Leadsly] Create Virtual Assistant';
+
+	/**
+	 * Creates an instance of create virtual assistant.
+	 * @param payload
+	 */
+	constructor(public payload: { assistant: VirtualAssistant }) {}
+}
+
+/**
+ * @description Set connect value which represents if user is connected to virtual assistant.
+ * and if they are what account they have linked.
+ */
+export class SetConnectedInfo {
 	/**
 	 * @description Type of action.
 	 */
-	static readonly type = '[Leadsly] Set Connected Status';
+	static readonly type = '[Leadsly] Set Connected Info';
 
 	/**
 	 * Creates an instance of set connected.
 	 * @param payload
 	 */
-	constructor(public payload: { connected: Connected }) {}
-}
-
-/**
- * @description Connect account setup result.
- */
-export class ConnectAccountSetupResult {
-	/**
-	 * @description Type of action.
-	 */
-	static readonly type = '[Leadsly] Connect Account Setup Result';
-
-	/**
-	 * Creates an instance of connect account setup result.
-	 * @param payload
-	 */
-	constructor(public payload: { connect: LeadslyConnectResult }) {}
+	constructor(public payload: { connectedInfo: ConnectedInfo }) {}
 }

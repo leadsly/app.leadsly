@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../api-url-injection-token';
-import { Connected } from '../models/connected.model';
+import { BACKEND_API_URL } from '../../api-url-injection-token';
+import { ConnectedInfo } from '../../models/connected-info.model';
 
 /**
  * @description LinkedIn account async service.
@@ -26,7 +26,7 @@ export class LinkedInAccountAsyncService {
 	 * @description Gets connected account information.
 	 * @returns connected account$
 	 */
-	getIsConnected$(userId: string): Observable<Connected> {
-		return this._http.get<Connected>(`${this._apiUrl}/linkedin-account/${userId}/is-connected`, { headers: this._headers });
+	getInfo$(userId: string): Observable<ConnectedInfo> {
+		return this._http.get<ConnectedInfo>(`${this._apiUrl}/linkedin-accounts/${userId}/info`, { headers: this._headers });
 	}
 }

@@ -1,0 +1,41 @@
+<div class="virtual-assistant__container">
+	<mat-accordion>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					{{ 'ldsly.profile.virtual-assistant.panel-title' | translate }}
+				</mat-panel-title>
+				<mat-panel-description>
+					<mat-icon *ngIf="!_virtualAssistantInfo?.created"> priority_high </mat-icon>
+					<mat-icon *ngIf="_virtualAssistantInfo?.created"> check </mat-icon>
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+
+			<div>
+				<form [formGroup]="_form" (ngSubmit)="_onSubmit()">
+					<div>
+						<mat-form-field *ngIf="_virtualAssistantInfo?.created">
+							<mat-label>{{ 'ldsly.labels.timezoneIds' | translate }}</mat-label>
+							<input matInput [value]="_getTimezoneId()" formControlName="timezoneId" readonly />
+						</mat-form-field>
+						<mat-form-field *ngIf="!_virtualAssistantInfo?.created" appearance="standard">
+							<mat-label>{{ 'ldsly.labels.timezoneId' | translate }}</mat-label>
+							<mat-select formControlName="timezoneId" required>
+								<mat-option>--</mat-option>
+								<mat-option *ngFor="let timeZone of _timeZones" [value]="timeZone?.timeZoneId">{{ timeZone?.timeZoneId }}</mat-option>
+							</mat-select>
+							<mat-error *ngIf="_form?.get('timezoneId').invalid">{{ _getErrorMessages() }}</mat-error>
+						</mat-form-field>
+					</div>
+					<div *ngIf="!_virtualAssistantInfo?.created" class="virtual-assistant__action-buttons">
+						<button color="primary" type="submit" [disabled]="_form?.invalid || _inProgress" mat-raised-button>
+							{{ 'ldsly.buttons.create' | translate }}
+							<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
+							</ldsly-spinner>
+						</button>
+					</div>
+				</form>
+			</div>
+		</mat-expansion-panel>
+	</mat-accordion>
+</div>

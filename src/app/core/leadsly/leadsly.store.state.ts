@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import produce from 'immer';
-import { LeadslyConnectResult } from '../models/profile/leadsly-connect-result.model';
-import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
+import { ConnectedInfo } from './../models/connected-info.model';
+import { VirtualAssistantInfo } from './../models/profile/virtual-assistant-info.model';
+
 import { TimeZone } from '../models/time-zone.model';
 import { LogService } from './../logger/log.service';
 import { LeadslyStateModel } from './leadsly-state-model';
@@ -13,13 +14,15 @@ const LEADSLY_STATE_TOKEN = new StateToken<LeadslyStateModel>('leadsly');
 @State<LeadslyStateModel>({
 	name: LEADSLY_STATE_TOKEN,
 	defaults: {
-		connected: {
+		connectedInfo: {
 			isConnected: false,
 			connectedAccount: {}
 		},
 		timeZones: [],
-		virtualAssistant: {},
-		connect: {}
+		virtualAssistantInfo: {
+			created: false,
+			assistant: {}
+		}
 	}
 })
 @Injectable()
@@ -28,36 +31,6 @@ const LEADSLY_STATE_TOKEN = new StateToken<LeadslyStateModel>('leadsly');
  * @description Leadsly state.
  */
 export class LeadslyState {
-	/**
-	 * @description Selects user's connected account.
-	 * @param state
-	 * @returns connected account
-	 */
-	@Selector([LEADSLY_STATE_TOKEN])
-	static selectConnectedAccount(state: LeadslyStateModel): string {
-		return state.connectedAccount.email;
-	}
-
-	/**
-	 * @description Selects if user is connected to virtual assistant.
-	 * @param state
-	 * @returns true if is connected
-	 */
-	@Selector([LEADSLY_STATE_TOKEN])
-	static selectIsConnected(state: LeadslyStateModel): boolean {
-		return state.connected.isConnected;
-	}
-
-	/**
-	 * @description Selects whether user has already created virtual assistant.
-	 * @param state
-	 * @returns true if is virtual assistant created
-	 */
-	@Selector([LEADSLY_STATE_TOKEN])
-	static selectIsVirtualAssistantCreated(state: LeadslyStateModel): boolean {
-		return Object.keys(state.virtualAssistant).length > 0;
-	}
-
 	/**
 	 * @description Selects leadsly's supported timezones.
 	 * @param state
@@ -69,33 +42,23 @@ export class LeadslyState {
 	}
 
 	/**
-	 * @description Selects hal id for this connected account.
+	 * @description Selects user's virtual assistant info.
 	 * @param state
-	 * @returns hal id
+	 * @returns virtual assistant info
 	 */
 	@Selector([LEADSLY_STATE_TOKEN])
-	static selectHalId(state: LeadslyStateModel): string {
-		return state.halId;
+	static selectVirtualAssistantInfo(state: LeadslyStateModel): VirtualAssistantInfo {
+		return state.virtualAssistantInfo;
 	}
 
 	/**
-	 * @description Selects leadsly's setup result.
+	 * @description Selects user's connected info regarding virtual assistant.
 	 * @param state
-	 * @returns leadsly setup result
+	 * @returns connected info
 	 */
 	@Selector([LEADSLY_STATE_TOKEN])
-	static selectLeadslySetupResult(state: LeadslyStateModel): VirtualAssistant {
-		return state.virtualAssistant;
-	}
-
-	/**
-	 * @description Selects leadsly connect result
-	 * @param state
-	 * @returns leadsly connect result
-	 */
-	@Selector([LEADSLY_STATE_TOKEN])
-	static selectLeadslyConnectResult(state: LeadslyStateModel): LeadslyConnectResult {
-		return state.connect;
+	static selectConnectedInfo(state: LeadslyStateModel): ConnectedInfo {
+		return state.connectedInfo;
 	}
 
 	/**
@@ -125,12 +88,29 @@ export class LeadslyState {
 	 * @param ctx
 	 * @param action
 	 */
-	@Action(Leadsly.SetVirtualAssistant)
-	setVirtualAssistant(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetVirtualAssistant): void {
-		this._log.info('createVirtualAssistant action handler fired.', this, action);
+	@Action(Leadsly.SetVirtualAssistantInfo)
+	setVirtualAssistantInfo(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetVirtualAssistantInfo): void {
+		this._log.info('setVirtualAssistantInfo action handler fired.', this, action);
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
 				draft = { ...draft, ...action.payload };
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Creates new virtual assistant.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.CreateVirtualAssistant)
+	createVirtualAssistant(ctx: StateContext<LeadslyStateModel>, action: Leadsly.CreateVirtualAssistant): void {
+		this._log.info('createVirtualAssistant action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.virtualAssistantInfo.assistant = action.payload.assistant;
+				draft.virtualAssistantInfo.created = true;
 				return draft;
 			})
 		);
@@ -141,25 +121,9 @@ export class LeadslyState {
 	 * @param ctx
 	 * @param action
 	 */
-	@Action(Leadsly.SetConnected)
-	setConnected(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetConnected): void {
-		this._log.info('setConnected action handler fired.', this, action);
-		ctx.setState(
-			produce((draft: LeadslyStateModel) => {
-				draft = { ...draft, ...action.payload };
-				return draft;
-			})
-		);
-	}
-
-	/**
-	 * @description Event handler when user finishes leadsly connect result.
-	 * @param ctx
-	 * @param action
-	 */
-	@Action(Leadsly.ConnectAccountSetupResult)
-	connectAccountSetupResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.ConnectAccountSetupResult): void {
-		this._log.info('connectAccountSetupResult action handler fired.', this, action);
+	@Action(Leadsly.SetConnectedInfo)
+	setConnectedInfo(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetConnectedInfo): void {
+		this._log.info('setConnectedInfo action handler fired.', this, action);
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
 				draft = { ...draft, ...action.payload };

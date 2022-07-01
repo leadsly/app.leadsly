@@ -4,23 +4,18 @@ import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
 import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
 import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
+import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
-import { TimezonesAsyncService } from './../../core/services/time-zones-async.service';
-
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { LeadslyConnectResult } from 'app/core/models/profile/leadsly-connect-result.model';
 import { SetupLinkAccount } from 'app/core/models/profile/setup-link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
-import { LinkedInAccountAsyncService } from 'app/core/services/linkedin-account-async.service';
 import { Observable, shareReplay, tap } from 'rxjs';
 import * as Leadsly from '../../core/leadsly/leadsly.store.actions';
-import { LeadslyService } from './../../core/leadsly/leadsly.service';
+import { LeadslyService } from '../../core/services/leadsly/leadsly.service';
 import { LeadslyState } from './../../core/leadsly/leadsly.store.state';
-import { ConnectedAccount } from './../../core/models/connected-account';
-import { VirtualAssistant } from './../../core/models/profile/virtual-assistant.model';
-import { ProfileAsyncService } from './../../core/services/profile-async.service';
-import { VirtualAssistantAsyncService } from './../../core/services/virtual-assistant-async.service';
+import { TimezonesAsyncService } from './../../core/services/time-zones-async.service';
 
 /**
  * @description Profile sandbox service
@@ -38,21 +33,14 @@ export class ProfileSandboxService {
 	@InternalServerError() internalServerErrorDetails$: Observable<InternalServerErrorDetails>;
 
 	/**
-	 * @description Selects user's linked accounts.
+	 * @description Selects whether user is connected to virtual assistant.
 	 */
-	@Select(LeadslyState.selectConnectedAccount) connectedAccount$: Observable<ConnectedAccount>;
-
-	@Select(LeadslyState.selectIsConnected) isConnected$: Observable<boolean>;
+	@Select(LeadslyState.selectVirtualAssistantInfo) virtualAssistantInfo$: Observable<VirtualAssistantInfo>;
 
 	/**
-	 * @description Selects user's setup result.
+	 * @description Selects whether user has created a virtual assistant or not.
 	 */
-	@Select(LeadslyState.selectLeadslySetupResult) leadslySetupResult$: Observable<VirtualAssistant>;
-
-	/**
-	 * @description Selects user's connect result.
-	 */
-	@Select(LeadslyState.selectConnectedAccount) leadslyConnectResult$: Observable<LeadslyConnectResult>;
+	@Select(LeadslyState.selectConnectedInfo) connectedInfo$: Observable<ConnectedInfo>;
 
 	/**
 	 * Creates an instance of profile sandbox service.
@@ -63,11 +51,8 @@ export class ProfileSandboxService {
 	constructor(
 		public router: Router,
 		private _store: Store,
-		private _profileAsyncService: ProfileAsyncService,
-		private _virtualAssistantAsyncService: VirtualAssistantAsyncService,
 		private _leadslyService: LeadslyService,
-		private _timezonesAsyncService: TimezonesAsyncService,
-		private _linkedInAccountAsyncService: LinkedInAccountAsyncService
+		private _timezonesAsyncService: TimezonesAsyncService
 	) {}
 
 	/**
@@ -86,21 +71,33 @@ export class ProfileSandboxService {
 	 */
 	createVirtualAssistant(model: SetupVirtualAssistant): void {
 		model.userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		this._virtualAssistantAsyncService
-			.create$(model)
-			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistant({ virtualAssistant: resp }))))
+		this._leadslyService
+			.createVirtualAssistant$(model)
+			.pipe(tap((resp) => this._store.dispatch(new Leadsly.CreateVirtualAssistant({ assistant: resp }))))
 			.subscribe();
 	}
 
 	/**
 	 * @description Gets virtual assistant
-	 * @returns virtual assistant$
+	 * @returns virtual assistant
 	 */
-	getVirtualAssistant$(): Observable<VirtualAssistant> {
-		return this._virtualAssistantAsyncService.get$().pipe(
-			tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistant({ virtualAssistant: resp }))),
-			shareReplay()
-		);
+	getVirtualAssistantInfo$(): void {
+		this._leadslyService
+			.getVirtualAssistantInfo$()
+			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistantInfo({ virtualAssistantInfo: resp }))))
+			.subscribe();
+	}
+
+	/**
+	 * @description Gets connected info.
+	 * @returns connected info
+	 */
+	getConnectedInfo$(): void {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		this._leadslyService
+			.getConnectedAccountInfo$(userId)
+			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))))
+			.subscribe();
 	}
 
 	/**

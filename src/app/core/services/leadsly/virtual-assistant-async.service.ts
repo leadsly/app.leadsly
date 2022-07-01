@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../api-url-injection-token';
-import { SetupVirtualAssistant } from '../models/profile/setup-virtual-assistant.model';
-import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
+import { BACKEND_API_URL } from '../../api-url-injection-token';
+import { SetupVirtualAssistant } from '../../models/profile/setup-virtual-assistant.model';
+import { VirtualAssistant } from '../../models/profile/virtual-assistant.model';
 
 /**
  * @description Virtual assistant async service.
@@ -43,8 +44,8 @@ export class VirtualAssistantAsyncService {
 	 * @description Gets user's virtual assistant
 	 * @returns get$
 	 */
-	get$(): Observable<VirtualAssistant> {
-		return this._http.get<VirtualAssistant>(`${this._apiUrl}/virtual-assistant`, {
+	getInfo$(): Observable<VirtualAssistantInfo> {
+		return this._http.get<VirtualAssistantInfo>(`${this._apiUrl}/virtual-assistant`, {
 			headers: this._headers
 		});
 	}

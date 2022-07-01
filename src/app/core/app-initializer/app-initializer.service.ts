@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { lastValueFrom } from 'rxjs';
 
 import { AuthService } from '../auth/auth.service';
 import * as Auth from '../auth/auth.store.actions';
 import { AuthState } from '../auth/auth.store.state';
-
 import { LogService } from '../logger/log.service';
-
-import { LinkedInAccountService } from '../services/linkedin-account.service';
+import { LeadslyService } from '../services/leadsly/leadsly.service';
 
 /**
  * App initializer service.
@@ -28,8 +25,8 @@ export class AppInitializerService {
 		private _store: Store,
 		private _router: Router,
 		private _authService: AuthService,
-		private _linkedInAccountService: LinkedInAccountService,
-		private _log: LogService // private _leadslyService: LeadslyService
+		private _leadslyService: LeadslyService,
+		private _log: LogService
 	) {}
 
 	/**
@@ -58,7 +55,8 @@ export class AppInitializerService {
 							void this._authService.monitorSessionActivity$().toPromise();
 							this._log.debug('[initUserSession] monitorSessionActivity$ executed.', this);
 
-							void lastValueFrom(this._linkedInAccountService.getConnectedAccount$());
+							// void lastValueFrom(this._leadslyService.getVirtualAssistantInfo$());
+							// void lastValueFrom(this._leadslyService.getConnectedAccountInfo$());
 						});
 				}
 				if (result.error) {

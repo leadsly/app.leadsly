@@ -282,29 +282,22 @@
 		},
 		"profile": {
 			"title": "Profile",
-			"steps": {
-				"step1": "Virtual Assistant",
-				"step2": "Link Account"
+			"virtual-assistant": {
+				"panel-title": "Virtual Assistant"
 			},
-			"linked-account": {
-				"no-linked": "No Linked Account Detected",
-				"connected": "Connected",
-				"disconnected": "Disconnected",
-				"setup": "Setup",
-				"setup-complete": "You've successfully setup your virtual assistant",
-				"setup-account": {
-					"email": "LinkedIn Email",
-					"password": "LinkedIn Password"
-				},
-				"placeholders": {
-					"email": "Enter your LinkedIn email",
-					"password": "Enter your LinkedIn password"
+			"connected-account": {
+				"info": "Linked Account Info",
+				"labels": {
+					"linked-account": "Linked Account",
+					"linked-in-email": "LinkedIn Email",
+					"linked-in-password": "LinkedIn Password"
 				}
 			}
 		},
 		"labels": {
 			"email": "Email",
-			"timezoneIds": "Timezones"
+			"timezoneIds": "Timezones",
+			"timezoneId": "Timezone"
 		},
 		"buttons": {
 			"save-and-continue": "Save & Continue",
