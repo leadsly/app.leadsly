@@ -5,6 +5,7 @@ import { LogService } from 'app/core/logger/log.service';
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
@@ -55,12 +56,17 @@ export class AssistantAccountInformationComponent implements OnInit {
 	/**
 	 * @description Whether any server errors occured.
 	 */
-	_serverErrorOccured$: Observable<boolean>;
+	_serverErrorOccured$: Observable<ProblemDetails | InternalServerErrorDetails>;
 
 	/**
 	 * @description Whether the link account expansion panel is disabled or not. Should only be enabled once user has successfully created virtual assistant.
 	 */
 	_isLinkAccountDisabled = false;
+
+	/**
+	 * @description Connect user's linked in account to virtual assistant result.
+	 */
+	_connectLinkedInAccountResult$: Observable<ConnectLinkedInAccountResult>;
 
 	/**
 	 * Emitted when server responds with 40X error.
@@ -109,7 +115,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	_onConnectToVirtualAssistant(event: LinkAccount): void {
 		this._log.debug('_onConnectToVirtualAssistant', this, event);
-		this._sb.connectLinkedInAccount(event);
+		this._connectLinkedInAccountResult$ = this._sb.connectLinkedInAccount$(event);
 	}
 
 	/**
@@ -139,15 +145,20 @@ export class AssistantAccountInformationComponent implements OnInit {
 	private _getConnectedInfo$(): Observable<ConnectedInfo> {
 		return this._sb.connectedInfo$.pipe(
 			filter((resp) => resp?.connectedAccount !== null),
-			tap((resp) => this._connectForm.get('email').setValue(resp?.connectedAccount?.email))
+			tap((resp) => this._connectForm.get('username').setValue(resp?.connectedAccount?.email))
 		);
 	}
 
 	/**
 	 * @description Listens for server errors.
 	 */
-	private _hasServerErrorOccured$(): Observable<boolean> {
-		return merge(this._problemDetails$, this._internalServerErrorDetails$).pipe(map((err) => !!err));
+	private _hasServerErrorOccured$(): Observable<ProblemDetails | InternalServerErrorDetails> {
+		return merge(this._problemDetails$, this._internalServerErrorDetails$).pipe(
+			map((err) => {
+				this._log.error('_hasServerErrorOccured', this, err);
+				return err;
+			})
+		);
 	}
 
 	/**
@@ -164,7 +175,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _createConnectForm(email?: string): FormGroup {
 		return this._fb.group({
-			email: this._fb.control(email ? email : '', [LdslyValidators.required, LdslyValidators.email]),
+			username: this._fb.control(email ? email : '', [LdslyValidators.required, LdslyValidators.email]),
 			password: this._fb.control('', [LdslyValidators.required])
 		});
 	}

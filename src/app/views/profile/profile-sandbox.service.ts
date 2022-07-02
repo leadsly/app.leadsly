@@ -7,7 +7,9 @@ import { ProblemDetailsError } from 'app/core/error-handler/problem-details-erro
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { SetupLinkAccount } from 'app/core/models/profile/setup-link-account.model';
+import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { LinkAccount } from 'app/core/models/profile/link-account.model';
+
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
@@ -104,5 +106,8 @@ export class ProfileSandboxService {
 	 * @description Connects linked in account.
 	 * @param model
 	 */
-	connectLinkedInAccount(model: SetupLinkAccount): void {}
+	connectLinkedInAccount$(model: LinkAccount): Observable<ConnectLinkedInAccountResult> {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		return this._leadslyService.connectLinkedInAccount$(userId, model);
+	}
 }

@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../../api-url-injection-token';
 import { ConnectedInfo } from '../../models/connected-info.model';
@@ -28,5 +30,17 @@ export class LinkedInAccountAsyncService {
 	 */
 	getInfo$(userId: string): Observable<ConnectedInfo> {
 		return this._http.get<ConnectedInfo>(`${this._apiUrl}/linkedin-accounts/${userId}/info`, { headers: this._headers });
+	}
+
+	/**
+	 * @description Connects user to LinkedIn.
+	 * @param userId
+	 * @param model
+	 * @returns connect
+	 */
+	connect$(userId: string, model: LinkAccount): Observable<ConnectLinkedInAccountResult> {
+		return this._http.post<ConnectLinkedInAccountResult>(`${this._apiUrl}/linkedin-accounts/${userId}/connect`, JSON.stringify(model), {
+			headers: this._headers
+		});
 	}
 }

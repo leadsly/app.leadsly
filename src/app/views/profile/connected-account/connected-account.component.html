@@ -15,14 +15,14 @@
 				<form [formGroup]="_form" (ngSubmit)="_onSubmit()">
 					<div>
 						<mat-form-field *ngIf="_connectedInfo?.isConnected">
-							<mat-label>{{ 'ldsly.profile.connected-account.label.linked-account' | translate }}</mat-label>
-							<input matInput [value]="_form.get('email').value['email']" formControlName="email" readonly />
+							<mat-label>{{ 'ldsly.profile.connected-account.labels.linked-account' | translate }}</mat-label>
+							<input matInput [value]="_form.get('username').value['email']" formControlName="username" readonly />
 						</mat-form-field>
 						<ng-container *ngIf="!_connectedInfo?.isConnected">
 							<mat-form-field appearance="standard">
 								<mat-label>{{ 'ldsly.profile.connected-account.labels.linked-in-email' | translate }}</mat-label>
-								<input matInput formControlName="email" required />
-								<mat-error *ngIf="_form?.get('email').invalid">{{ _getErrorMessages() }}</mat-error>
+								<input matInput formControlName="username" required />
+								<mat-error *ngIf="_form?.get('username').invalid">{{ _getErrorMessages() }}</mat-error>
 							</mat-form-field>
 
 							<mat-form-field appearance="standard">

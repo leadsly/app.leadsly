@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 
@@ -20,7 +22,8 @@ export class VirtualAssistantComponent {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
-	@Input() set serverErrorOccured(value: boolean) {
+	@Input() set serverErrorOccured(value: ProblemDetails | InternalServerErrorDetails) {
+		this._log.debug('serverErrorOccured setter executed', this, value);
 		this._inProgress = false;
 	}
 	/**

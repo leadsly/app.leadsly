@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { InternalServerErrorDetails } from '../models/internal-server-error-details.model';
 import { ProblemDetails } from '../models/problem-details.model';
 

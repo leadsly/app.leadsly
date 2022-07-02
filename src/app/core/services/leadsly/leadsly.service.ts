@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { LinkAccount } from 'app/core/models/profile/link-account.model';
 
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
+import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.model';
@@ -85,5 +87,15 @@ export class LeadslyService {
 		// const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		return this._linkedInAccountAsyncService.getInfo$(userId);
 		// .pipe(tap((resp) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))));
+	}
+
+	/**
+	 * @description Connects user's account to linked in.
+	 * @param userId
+	 * @param model
+	 * @returns linked in account$
+	 */
+	connectLinkedInAccount$(userId: string, model: LinkAccount): Observable<ConnectLinkedInAccountResult> {
+		return this._linkedInAccountAsyncService.connect$(userId, model);
 	}
 }

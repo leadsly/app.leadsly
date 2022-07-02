@@ -2,8 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
+import { ConnectLinkedInAccountResult } from './../../../core/models/profile/connect-linked-in-account-result.model';
 
 /**
  * @description Connected account copmonent.
@@ -18,7 +21,8 @@ export class ConnectedAccountComponent implements OnInit {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
-	@Input() set serverErrorOccured(value: boolean) {
+	@Input() set serverErrorOccured(value: ProblemDetails | InternalServerErrorDetails) {
+		this._log.debug('serverErrorOccured setter executed', this, value);
 		this._inProgress = false;
 	}
 
@@ -45,6 +49,16 @@ export class ConnectedAccountComponent implements OnInit {
 	}
 
 	_form: FormGroup;
+
+	/**
+	 * @description Sets connect linked in account result.
+	 */
+	@Input() set connectLinkedInAccountResult(value: ConnectLinkedInAccountResult) {
+		this._log.debug('connectLinkedInAccountResult setter executed', this, value);
+		this._connectLinkedInAccountResult = value;
+	}
+
+	_connectLinkedInAccountResult: ConnectLinkedInAccountResult;
 
 	/**
 	 * @description Event emitter when user clicks to link their account to virtual assistant.
@@ -79,6 +93,7 @@ export class ConnectedAccountComponent implements OnInit {
 	 */
 	_onSubmit(): void {
 		this._log.debug('Connected account form', this, this._form.value);
+		this._inProgress = true;
 		this.connect.emit(this._form.value);
 	}
 
@@ -87,10 +102,10 @@ export class ConnectedAccountComponent implements OnInit {
 	 * @returns error messages
 	 */
 	_getErrorMessages(): string {
-		if (this._form.get('email').hasError('required') || this._form.get('password').hasError('required')) {
+		if (this._form.get('username').hasError('required') || this._form.get('password').hasError('required')) {
 			return 'You must enter a value';
 		}
 
-		return this._form.get('email').hasError('email') ? 'Not a valid email' : '';
+		return this._form.get('username').hasError('email') ? 'Not a valid email' : '';
 	}
 }
