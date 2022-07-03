@@ -67,7 +67,6 @@ export class LeadslyService {
 	 */
 	createVirtualAssistant$(model: SetupVirtualAssistant): Observable<VirtualAssistant> {
 		return this._virtualAssistantAsyncService.create$(model);
-		// .pipe(tap((resp) => this._store.dispatch(new Leadsly.CreateVirtualAssistant({ assistant: resp }))));
 	}
 
 	/**
@@ -76,7 +75,6 @@ export class LeadslyService {
 	 */
 	getVirtualAssistantInfo$(): Observable<VirtualAssistantInfo> {
 		return this._virtualAssistantAsyncService.getInfo$();
-		// .pipe(tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistantInfo({ virtualAssistantInfo: resp }))));
 	}
 
 	/**
@@ -84,9 +82,7 @@ export class LeadslyService {
 	 * @returns connected account info$
 	 */
 	getConnectedAccountInfo$(userId: string): Observable<ConnectedInfo> {
-		// const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		return this._linkedInAccountAsyncService.getInfo$(userId);
-		// .pipe(tap((resp) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))));
 	}
 
 	/**

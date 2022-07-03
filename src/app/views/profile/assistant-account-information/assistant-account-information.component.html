@@ -1,23 +1,26 @@
 <div class="assistant-information__container">
-	<div>
-		<ldsly-virtual-assistant
+	<div class="assistant-information__assistant-overview">
+		<ldsly-virtual-assistant-overview
 			[form]="_virtualAssistantSetupForm"
 			[timeZones]="_timeZones$ | async"
 			[virtualAssistantInfo]="_virtualAssistantInfo$ | async"
 			[serverErrorOccured]="_serverErrorOccured$ | async"
-			(requested)="_onVirtualAssistantRequested($event)"
-		></ldsly-virtual-assistant>
+			(createAssistant)="_onVirtualAssistantRequested($event)"
+			(deleteAssistant)="_onDeleteVirtualAssistantRequested()"
+		>
+		</ldsly-virtual-assistant-overview>
 	</div>
 
-	<div>
-		<ldsly-connected-account
+	<div class="assistant-information__account-overview">
+		<ldsly-linked-account-overview
 			[form]="_connectForm"
 			[serverErrorOccured]="_serverErrorOccured$ | async"
 			[disabled]="_isLinkAccountDisabled"
 			[connectedInfo]="_connectedInfo$ | async"
 			[connectLinkedInAccountResult]="_connectLinkedInAccountResult$ | async"
 			(connect)="_onConnectToVirtualAssistant($event)"
+			(disconnect)="_onDisconnectRequested()"
 		>
-		</ldsly-connected-account>
+		</ldsly-linked-account-overview>
 	</div>
 </div>

@@ -131,4 +131,20 @@ export class LeadslyState {
 			})
 		);
 	}
+
+	/**
+	 * @description Sets users LinkedIn connection status.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.SetIsConnected)
+	setIsConnected(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetIsConnected): void {
+		this._log.info('setIsConnected action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.connectedInfo.isConnected = action.payload.isConnected;
+				return draft;
+			})
+		);
+	}
 }

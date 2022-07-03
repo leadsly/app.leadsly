@@ -3,18 +3,20 @@ import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+import { TimeZone } from 'app/core/models/time-zone.model';
 import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
- * @description Virtual assistant component.
+ * @description Create virtual assistant component.
  */
 @Component({
-	selector: 'ldsly-virtual-assistant',
-	templateUrl: './virtual-assistant.component.html',
-	styleUrls: ['./virtual-assistant.component.scss'],
+	selector: 'ldsly-create-virtual-assistant',
+	templateUrl: './create-virtual-assistant.component.html',
+	styleUrls: ['./create-virtual-assistant.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VirtualAssistantComponent {
+export class CreateVirtualAssistantComponent {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
@@ -34,9 +36,18 @@ export class VirtualAssistantComponent {
 	_form: FormGroup;
 
 	/**
-	 * @description When user requests to delete their virtual assistant.
+	 * @description Sets supported time zones.
 	 */
-	@Output() deleteAssistant = new EventEmitter<void>();
+	@Input() set timeZones(value: TimeZone[]) {
+		this._timeZones = value;
+	}
+
+	_timeZones: TimeZone[] = [];
+
+	/**
+	 * @description Event emitter when user requests to create a new virtual assistant.
+	 */
+	@Output() createVirtualAssistant = new EventEmitter<SetupVirtualAssistant>();
 
 	/**
 	 * Button spinner diameter.
@@ -54,27 +65,26 @@ export class VirtualAssistantComponent {
 	_inProgress = false;
 
 	/**
-	 * Creates an instance of virtual assistant component.
+	 * Creates an instance of create virtual assistant component.
 	 * @param _log
 	 */
 	constructor(private _log: LogService) {}
 
 	/**
-	 * @description Event handler when user requests to disconnect account from virtual assistant.
+	 * @description Event handler when user submits a form.
 	 */
-	_onDeleteVirtualAssistant(): void {
-		this._log.debug('Deleting virtual assistant', this);
+	_onSubmit(): void {
+		const setup = this._form.value as SetupVirtualAssistant;
+		this._log.debug('_onSubmit', this, setup);
 		this._inProgress = true;
-		this.deleteAssistant.emit();
+		this.createVirtualAssistant.emit(setup);
 	}
 
 	/**
-	 * @description Gets timezone id.
-	 * @returns timezone id
+	 * @description Gets error message for the given field.
+	 * @returns error messages
 	 */
-	_getTimezoneId(): string {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		const timezoneId = this._form?.get('timezoneId').value?.timezoneId as string;
-		return timezoneId ? timezoneId : '';
+	_getErrorMessages(): string {
+		return this._form.get('timezoneId').hasError('required') ? 'Time zone is required' : '';
 	}
 }

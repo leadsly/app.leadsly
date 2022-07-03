@@ -1,0 +1,13 @@
+.assistant-information__container {
+	display: flex;
+	flex-flow: column;
+	height: 120px;
+
+	.assistant-information__assistant-overview {
+		flex: 1 1 auto;
+	}
+
+	.assistant-information__account-overview {
+		flex: 1 1 auto;
+	}
+}

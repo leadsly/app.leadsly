@@ -1,0 +1,21 @@
+<div class="create-assistant__container">
+	<form [formGroup]="_form" (ngSubmit)="_onSubmit()">
+		<div>
+			<mat-form-field appearance="standard">
+				<mat-label>{{ 'ldsly.labels.timezoneId' | translate }}</mat-label>
+				<mat-select formControlName="timezoneId" required>
+					<mat-option>--</mat-option>
+					<mat-option *ngFor="let timeZone of _timeZones" [value]="timeZone?.timeZoneId">{{ timeZone?.timeZoneId }}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="_form?.get('timezoneId').invalid">{{ _getErrorMessages() }}</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="create-assistant__action-buttons">
+			<button color="primary" type="submit" [disabled]="_form?.invalid || _inProgress" mat-raised-button>
+				{{ 'ldsly.buttons.create' | translate }}
+				<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
+				</ldsly-spinner>
+			</button>
+		</div>
+	</form>
+</div>

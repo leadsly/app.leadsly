@@ -1,0 +1,32 @@
+<div class="connected-account__container">
+	<mat-accordion>
+		<mat-expansion-panel [disabled]="disabled">
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					{{ 'ldsly.profile.linked-account-overview.info' | translate }}
+				</mat-panel-title>
+				<mat-panel-description>
+					<mat-icon *ngIf="!_connectedInfo?.isConnected"> priority_high </mat-icon>
+					<mat-icon *ngIf="_connectedInfo?.isConnected"> check </mat-icon>
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+
+			<div>
+				<ng-container *ngIf="_connectedInfo?.isConnected; else linkAccount">
+					<ldsly-connected-account [serverErrorOccured]="_serverErrorOccured" [form]="_form" (disconnect)="_onDisconnectRequested()">
+					</ldsly-connected-account>
+				</ng-container>
+			</div>
+		</mat-expansion-panel>
+	</mat-accordion>
+</div>
+
+<ng-template #linkAccount>
+	<ldsly-link-account
+		[form]="_form"
+		[serverErrorOccured]="_serverErrorOccured"
+		[connectLinkedInAccountResult]="_connectLinkedInAccountResult"
+		(connect)="_onConnectToVirtualAssistant($event)"
+	>
+	</ldsly-link-account>
+</ng-template>

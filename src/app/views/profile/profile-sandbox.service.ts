@@ -11,6 +11,7 @@ import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-li
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
 import { Observable, shareReplay, tap } from 'rxjs';
@@ -108,6 +109,10 @@ export class ProfileSandboxService {
 	 */
 	connectLinkedInAccount$(model: LinkAccount): Observable<ConnectLinkedInAccountResult> {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		return this._leadslyService.connectLinkedInAccount$(userId, model);
+		return this._leadslyService
+			.connectLinkedInAccount$(userId, model)
+			.pipe(
+				tap((resp) => this._store.dispatch(new Leadsly.SetIsConnected({ isConnected: !resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured })))
+			);
 	}
 }

@@ -8,6 +8,7 @@ import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
 import { filter, map, merge, Observable, tap } from 'rxjs';
@@ -115,7 +116,32 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	_onConnectToVirtualAssistant(event: LinkAccount): void {
 		this._log.debug('_onConnectToVirtualAssistant', this, event);
-		this._connectLinkedInAccountResult$ = this._sb.connectLinkedInAccount$(event);
+		this._connectLinkedInAccountResult$ = this._sb.connectLinkedInAccount$(event).pipe(tap((resp) => this._createTwoFactorAuthForm(resp)));
+	}
+
+	/**
+	 * @description Creates two factor auth control.
+	 * @param resp
+	 */
+	private _createTwoFactorAuthForm(resp: ConnectLinkedInAccountResult): void {
+		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
+			this._connectForm.addControl('twoFactorAuthCode', this._fb.control('', LdslyValidators.required));
+		}
+	}
+
+	/**
+	 * @description Event handler when user requests to disconnect from virtual assistant.
+	 */
+	_onDisconnectRequested(): void {
+		this._log.debug('_onDisconnectRequested event handler fired', this);
+		// this._sb.disconnectLinkedInAccount();
+	}
+
+	/**
+	 * @description Event handler when user requests to delete virtual assistant.
+	 */
+	_onDeleteVirtualAssistantRequested(): void {
+		this._log.debug('_onDeleteVirtualAssistantRequested', this);
 	}
 
 	/**

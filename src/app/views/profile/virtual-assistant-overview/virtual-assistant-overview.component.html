@@ -1,0 +1,33 @@
+<div class="virtual-assistant__container">
+	<mat-accordion>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					{{ 'ldsly.profile.virtual-assistant-overview.panel-title' | translate }}
+				</mat-panel-title>
+				<mat-panel-description>
+					<mat-icon *ngIf="!_virtualAssistantInfo?.created"> priority_high </mat-icon>
+					<mat-icon *ngIf="_virtualAssistantInfo?.created"> check </mat-icon>
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+
+			<div>
+				<ng-container *ngIf="_virtualAssistantInfo?.created; else createVirtualAssistant">
+					<ldsly-virtual-assistant [serverErrorOccured]="_serverErrorOccured" [form]="_form" (deleteAssistant)="_onDeleteRequested()">
+					</ldsly-virtual-assistant>
+				</ng-container>
+			</div>
+		</mat-expansion-panel>
+	</mat-accordion>
+</div>
+
+<ng-template #createVirtualAssistant>
+	<ldsly-create-virtual-assistant
+		[form]="_form"
+		[timeZones]="_timeZones"
+		[serverErrorOccured]="_serverErrorOccured"
+		(createVirtualAssistant)="_onVirtualAssistantRequested($event)"
+	>
+		>
+	</ldsly-create-virtual-assistant>
+</ng-template>

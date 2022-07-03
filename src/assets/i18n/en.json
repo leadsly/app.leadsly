@@ -282,15 +282,20 @@
 		},
 		"profile": {
 			"title": "Profile",
-			"virtual-assistant": {
+			"virtual-assistant-overview": {
 				"panel-title": "Virtual Assistant"
 			},
-			"connected-account": {
+			"linked-account-overview": {
 				"info": "Linked Account Info",
 				"labels": {
-					"linked-account": "Linked Account",
-					"linked-in-email": "LinkedIn Email",
-					"linked-in-password": "LinkedIn Password"
+					"linked-account": "Linked Account"
+				}
+			},
+			"link-account": {
+				"labels": {
+					"two-factor-auth": "Two Factor Auth Code",
+					"email": "LinkedIn Email",
+					"password": "LinkedIn Password"
 				}
 			}
 		},
@@ -328,7 +333,8 @@
 			"add-search-url": "Add Search Url",
 			"connect-account": "Connect Account",
 			"disconnect-account": "Disconnect Account",
-			"link": "Link"
+			"link": "Link",
+			"delete": "Delete"
 		}
 	}
 }

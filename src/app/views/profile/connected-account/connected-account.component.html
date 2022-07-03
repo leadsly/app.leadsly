@@ -1,46 +1,17 @@
-<div class="connected-account__container">
-	<mat-accordion>
-		<mat-expansion-panel [disabled]="disabled">
-			<mat-expansion-panel-header>
-				<mat-panel-title>
-					{{ 'ldsly.profile.connected-account.info' | translate }}
-				</mat-panel-title>
-				<mat-panel-description>
-					<mat-icon *ngIf="!_connectedInfo?.isConnected"> priority_high </mat-icon>
-					<mat-icon *ngIf="_connectedInfo?.isConnected"> check </mat-icon>
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-
-			<div>
-				<form [formGroup]="_form" (ngSubmit)="_onSubmit()">
-					<div>
-						<mat-form-field *ngIf="_connectedInfo?.isConnected">
-							<mat-label>{{ 'ldsly.profile.connected-account.labels.linked-account' | translate }}</mat-label>
-							<input matInput [value]="_form.get('username').value['email']" formControlName="username" readonly />
-						</mat-form-field>
-						<ng-container *ngIf="!_connectedInfo?.isConnected">
-							<mat-form-field appearance="standard">
-								<mat-label>{{ 'ldsly.profile.connected-account.labels.linked-in-email' | translate }}</mat-label>
-								<input matInput formControlName="username" required />
-								<mat-error *ngIf="_form?.get('username').invalid">{{ _getErrorMessages() }}</mat-error>
-							</mat-form-field>
-
-							<mat-form-field appearance="standard">
-								<mat-label>{{ 'ldsly.profile.connected-account.labels.linked-in-password' | translate }}</mat-label>
-								<input matInput formControlName="password" type="password" required />
-								<mat-error *ngIf="_form?.get('password').invalid">{{ _getErrorMessages() }}</mat-error>
-							</mat-form-field>
-						</ng-container>
-					</div>
-					<div *ngIf="!_connectedInfo?.isConnected" class="connected-account__action-buttons">
-						<button color="primary" type="submit" [disabled]="_form?.invalid || _inProgress" mat-raised-button>
-							{{ 'ldsly.buttons.link' | translate }}
-							<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
-							</ldsly-spinner>
-						</button>
-					</div>
-				</form>
-			</div>
-		</mat-expansion-panel>
-	</mat-accordion>
+<div>
+	<form [formGroup]="_form">
+		<div>
+			<mat-form-field>
+				<mat-label>{{ 'ldsly.profile.linked-account-overview.labels.linked-account' | translate }}</mat-label>
+				<input matInput [value]="_form.get('username').value['email']" formControlName="username" readonly />
+			</mat-form-field>
+		</div>
+	</form>
+	<div class="connected-account__action-buttons">
+		<button color="warn" (click)="_onDisconnectRequested()" type="button" [disabled]="_form?.invalid || _inProgress" mat-raised-button>
+			{{ 'ldsly.buttons.disconnect-account' | translate }}
+			<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
+			</ldsly-spinner>
+		</button>
+	</div>
 </div>
