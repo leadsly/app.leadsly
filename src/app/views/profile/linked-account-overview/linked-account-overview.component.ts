@@ -6,6 +6,8 @@ import { InternalServerErrorDetails } from 'app/core/models/internal-server-erro
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
+import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { TwoFactorAuth } from './../../../core/models/profile/two-factor-auth.model';
 
 /**
  * @description Linked account overview component.
@@ -65,6 +67,16 @@ export class LinkedAccountOverviewComponent {
 	_connectLinkedInAccountResult: ConnectLinkedInAccountResult;
 
 	/**
+	 * @description Two factor auth result.
+	 */
+	@Input() set twoFactorAuthResult(value: TwoFactorAuthResult) {
+		this._log.debug('twoFactorAuthResult setter executed', this, value);
+		this._twoFactorAuthResult = value;
+	}
+
+	_twoFactorAuthResult: TwoFactorAuthResult;
+
+	/**
 	 * @description Event emitter when user clicks to link their account to virtual assistant.
 	 */
 	@Output() connect = new EventEmitter<LinkAccount>();
@@ -73,6 +85,11 @@ export class LinkedAccountOverviewComponent {
 	 * @description Event emitter when user clicks to disconnect their account from virtual assistant.
 	 */
 	@Output() disconnect = new EventEmitter<void>();
+
+	/**
+	 * @description Event emitter when user enters in their two factor auth code.
+	 */
+	@Output() twoFactorCodeEntered = new EventEmitter<TwoFactorAuth>();
 
 	/**
 	 * Creates an instance of linked account overview component.
@@ -95,5 +112,14 @@ export class LinkedAccountOverviewComponent {
 	_onDisconnectRequested(): void {
 		this._log.debug('_onDisconnectRequested event handler fired.', this);
 		this.disconnect.emit();
+	}
+
+	/**
+	 * @description Event handler when user enters in their two factor auth code
+	 * @param event
+	 */
+	_onTwoFactorAuthCodeEntered(event: TwoFactorAuth): void {
+		this._log.debug('_onTwoFactorAuthCodeEntered event handler fired.', this, event);
+		this.twoFactorCodeEntered.emit(event);
 	}
 }

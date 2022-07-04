@@ -8,10 +8,11 @@ import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
-
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
-
+import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
 import { Observable, shareReplay, tap } from 'rxjs';
@@ -114,5 +115,31 @@ export class ProfileSandboxService {
 			.pipe(
 				tap((resp) => this._store.dispatch(new Leadsly.SetIsConnected({ isConnected: !resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured })))
 			);
+	}
+
+	/**
+	 * @description Enters two factor auth code.
+	 * @param model
+	 * @returns two factor auth$
+	 */
+	enterTwoFactorAuth$(model: TwoFactorAuth): Observable<TwoFactorAuthResult> {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		return this._leadslyService
+			.enterTwoFactorAuth$(userId, model)
+			.pipe(
+				tap((resp) => this._store.dispatch(new Leadsly.SetIsConnected({ isConnected: !resp.invalidOrExpiredCode && !resp.unexpectedErrorOccured })))
+			);
+	}
+
+	/**
+	 * @description Deletes virtual assistant.
+	 * @returns virtual assistant$
+	 */
+	deleteVirtualAssistant(): void {
+		const virtualAssistantId = this._store.selectSnapshot(LeadslyState.selectVirtualAssistantId);
+		this._leadslyService
+			.deleteVirtualAssistant$(virtualAssistantId)
+			.pipe(tap((_) => this._store.dispatch(new Leadsly.DeleteVirtualAssistant())))
+			.subscribe();
 	}
 }

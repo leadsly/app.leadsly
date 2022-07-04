@@ -1,7 +1,8 @@
 module.exports = {
 	env: {
 		browser: true,
-		node: true
+		node: true,
+		es6: true
 	},
 	extends: [
 		'eslint:recommended',
@@ -63,6 +64,7 @@ module.exports = {
 		'@typescript-eslint/no-empty-function': ['error', { allow: ['constructors', 'methods'] }],
 		'@typescript-eslint/no-explicit-any': ['off'],
 		'@typescript-eslint/no-unused-vars': ['error', { vars: 'all' }],
-		'@typescript-eslint/no-unnecessary-type-assertion': ['error', { typesToIgnore: ['FormArray'] }]
+		'@typescript-eslint/no-unnecessary-type-assertion': ['error', { typesToIgnore: ['FormArray'] }],
+		'@typescript-eslint/member-ordering': ['warn', { default: ['public-decorated-method', 'protected-decorated-method', 'private-decorated-method'] }]
 	}
 };

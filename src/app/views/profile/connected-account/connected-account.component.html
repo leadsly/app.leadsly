@@ -8,7 +8,7 @@
 		</div>
 	</form>
 	<div class="connected-account__action-buttons">
-		<button color="warn" (click)="_onDisconnectRequested()" type="button" [disabled]="_form?.invalid || _inProgress" mat-raised-button>
+		<button color="warn" (click)="_onDisconnectRequested()" type="button" [disabled]="true || _form?.invalid || _inProgress" mat-raised-button>
 			{{ 'ldsly.buttons.disconnect-account' | translate }}
 			<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
 			</ldsly-spinner>

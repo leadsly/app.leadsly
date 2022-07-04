@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { DeleteVirtualAssistantResult } from 'app/core/models/profile/delete-virtual-assistant-result.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../../api-url-injection-token';
@@ -38,6 +39,18 @@ export class VirtualAssistantAsyncService {
 		return this._http.post<VirtualAssistant>(`${this._apiUrl}/virtual-assistant`, JSON.stringify(model), {
 			headers: this._headers
 		});
+	}
+
+	/**
+	 * @description Delete$s virtual assistant async service
+	 * @returns delete$
+	 */
+	delete$(virtualAssistantId: string): Observable<DeleteVirtualAssistantResult> {
+		const options = {
+			headers: this._headers,
+			body: JSON.stringify(virtualAssistantId)
+		};
+		return this._http.delete<DeleteVirtualAssistantResult>(`${this._apiUrl}/virtual-assistant`, options);
 	}
 
 	/**

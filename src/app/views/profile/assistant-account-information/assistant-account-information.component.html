@@ -20,6 +20,8 @@
 			[connectLinkedInAccountResult]="_connectLinkedInAccountResult$ | async"
 			(connect)="_onConnectToVirtualAssistant($event)"
 			(disconnect)="_onDisconnectRequested()"
+			(twoFactorCodeEntered)="_onTwoFactorAuthCodeEntered($event)"
+			[twoFactorAuthResult]="_twoFactorAuthResult$ | async"
 		>
 		</ldsly-linked-account-overview>
 	</div>

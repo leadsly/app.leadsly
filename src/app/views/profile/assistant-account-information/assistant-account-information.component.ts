@@ -8,6 +8,8 @@ import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
+import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
@@ -62,12 +64,17 @@ export class AssistantAccountInformationComponent implements OnInit {
 	/**
 	 * @description Whether the link account expansion panel is disabled or not. Should only be enabled once user has successfully created virtual assistant.
 	 */
-	_isLinkAccountDisabled = false;
+	_isLinkAccountDisabled = true;
 
 	/**
 	 * @description Connect user's linked in account to virtual assistant result.
 	 */
 	_connectLinkedInAccountResult$: Observable<ConnectLinkedInAccountResult>;
+
+	/**
+	 * @description Result of the two factor auth operation.
+	 */
+	_twoFactorAuthResult$: Observable<TwoFactorAuthResult>;
 
 	/**
 	 * Emitted when server responds with 40X error.
@@ -120,21 +127,20 @@ export class AssistantAccountInformationComponent implements OnInit {
 	}
 
 	/**
-	 * @description Creates two factor auth control.
-	 * @param resp
-	 */
-	private _createTwoFactorAuthForm(resp: ConnectLinkedInAccountResult): void {
-		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
-			this._connectForm.addControl('twoFactorAuthCode', this._fb.control('', LdslyValidators.required));
-		}
-	}
-
-	/**
 	 * @description Event handler when user requests to disconnect from virtual assistant.
 	 */
 	_onDisconnectRequested(): void {
 		this._log.debug('_onDisconnectRequested event handler fired', this);
-		// this._sb.disconnectLinkedInAccount();
+		this._log.warn('Disconnecting account is not yet implemented!', this);
+	}
+
+	/**
+	 * @description Event handler when user enters two factor auth code.
+	 * @param event
+	 */
+	_onTwoFactorAuthCodeEntered(event: TwoFactorAuth): void {
+		this._log.debug('_onTwoFactorAuthCodeEntered event handler fired', this);
+		this._twoFactorAuthResult$ = this._sb.enterTwoFactorAuth$(event);
 	}
 
 	/**
@@ -142,6 +148,17 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	_onDeleteVirtualAssistantRequested(): void {
 		this._log.debug('_onDeleteVirtualAssistantRequested', this);
+		this._sb.deleteVirtualAssistant();
+	}
+
+	/**
+	 * @description Creates two factor auth control.
+	 * @param resp
+	 */
+	private _createTwoFactorAuthForm(resp: ConnectLinkedInAccountResult): void {
+		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
+			this._connectForm.addControl('twoFactorAuthCode', this._fb.control('', LdslyValidators.required));
+		}
 	}
 
 	/**

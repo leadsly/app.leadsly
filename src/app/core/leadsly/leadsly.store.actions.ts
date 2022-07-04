@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { ConnectedInfo } from '../models/connected-info.model';
 import { VirtualAssistantInfo } from '../models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
@@ -82,4 +83,14 @@ export class SetIsConnected {
 	 * @param payload
 	 */
 	constructor(public payload: { isConnected: boolean }) {}
+}
+
+/**
+ * @description Delete virtual assistant.
+ */
+export class DeleteVirtualAssistant {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Leadsly] Delete Virtual Assistant';
 }

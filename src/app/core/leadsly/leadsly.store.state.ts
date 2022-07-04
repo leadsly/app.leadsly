@@ -62,6 +62,16 @@ export class LeadslyState {
 	}
 
 	/**
+	 * @description Selects virtual assistant id.
+	 * @param state
+	 * @returns virtual assistant id
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectVirtualAssistantId(state: LeadslyStateModel): string {
+		return state.virtualAssistantInfo.assistant.virtualAssistantId;
+	}
+
+	/**
 	 * Creates an instance of leadsly state.
 	 * @param _log
 	 */
@@ -143,6 +153,25 @@ export class LeadslyState {
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
 				draft.connectedInfo.isConnected = action.payload.isConnected;
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Deletes virtual assistant.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.DeleteVirtualAssistant)
+	deleteVirtualAssistant(ctx: StateContext<LeadslyStateModel>, action: Leadsly.DeleteVirtualAssistant): void {
+		this._log.info('deleteVirtualAssistant action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.virtualAssistantInfo.created = false;
+				draft.virtualAssistantInfo.assistant = {};
+				draft.connectedInfo.isConnected = false;
+				draft.connectedInfo.connectedAccount = {};
 				return draft;
 			})
 		);

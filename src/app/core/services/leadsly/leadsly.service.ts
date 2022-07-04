@@ -9,6 +9,9 @@ import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-
 import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.model';
 import { Observable } from 'rxjs';
 
+import { DeleteVirtualAssistantResult } from 'app/core/models/profile/delete-virtual-assistant-result.model';
+import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { LogService } from '../../logger/log.service';
 import { NewCampaign } from '../../models/campaigns/new-campaign';
 import { LinkedInAccountAsyncService } from './linkedin-account-async.service';
@@ -70,6 +73,15 @@ export class LeadslyService {
 	}
 
 	/**
+	 * @description Deletes virtual assistant$
+	 * @param virtualAssistantId
+	 * @returns virtual assistant$
+	 */
+	deleteVirtualAssistant$(virtualAssistantId: string): Observable<DeleteVirtualAssistantResult> {
+		return this._virtualAssistantAsyncService.delete$(virtualAssistantId);
+	}
+
+	/**
 	 * @description Gets virtual assistant info.
 	 * @returns virtual assistant info$
 	 */
@@ -93,5 +105,15 @@ export class LeadslyService {
 	 */
 	connectLinkedInAccount$(userId: string, model: LinkAccount): Observable<ConnectLinkedInAccountResult> {
 		return this._linkedInAccountAsyncService.connect$(userId, model);
+	}
+
+	/**
+	 * @description Enters two factor auth code.
+	 * @param userId
+	 * @param model
+	 * @returns two factor auth$
+	 */
+	enterTwoFactorAuth$(userId: string, model: TwoFactorAuth): Observable<TwoFactorAuthResult> {
+		return this._linkedInAccountAsyncService.enterTwoFactorAuth$(userId, model);
 	}
 }

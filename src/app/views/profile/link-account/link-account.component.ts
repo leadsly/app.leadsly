@@ -5,6 +5,8 @@ import { InternalServerErrorDetails } from 'app/core/models/internal-server-erro
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
+import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 
 /**
@@ -36,11 +38,27 @@ export class LinkAccountComponent {
 	_form: FormGroup;
 
 	/**
+	 * @description Two factor auth result
+	 */
+	@Input() set twoFactorAuthResult(value: TwoFactorAuthResult) {
+		this._log.debug('twoFacotAuthResult setter executed', this, value);
+		this._twoFactorAuthResult = value;
+		if (value && (!value.invalidOrExpiredCode || !value.unexpectedErrorOccured)) {
+			this._inProgress = false;
+		}
+	}
+
+	_twoFactorAuthResult: TwoFactorAuthResult;
+
+	/**
 	 * @description Sets connect linked in account result.
 	 */
 	@Input() set connectLinkedInAccountResult(value: ConnectLinkedInAccountResult) {
 		this._log.debug('connectLinkedInAccountResult setter executed', this, value);
 		this._connectLinkedInAccountResult = value;
+		if (value && (value.twoFactorAuthRequired || value.unexpectedErrorOccured)) {
+			this._inProgress = false;
+		}
 	}
 
 	_connectLinkedInAccountResult: ConnectLinkedInAccountResult;
@@ -60,6 +78,11 @@ export class LinkAccountComponent {
 	 * @description Event emitter when user clicks to link their account to virtual assistant.
 	 */
 	@Output() connect = new EventEmitter<LinkAccount>();
+
+	/**
+	 * @description Event emitter when user enters in their two factor auth code.
+	 */
+	@Output() twoFactorCodeEntered = new EventEmitter<TwoFactorAuth>();
 
 	/**
 	 * Button spinner diameter.

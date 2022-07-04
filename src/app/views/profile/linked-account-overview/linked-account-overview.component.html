@@ -27,6 +27,8 @@
 		[serverErrorOccured]="_serverErrorOccured"
 		[connectLinkedInAccountResult]="_connectLinkedInAccountResult"
 		(connect)="_onConnectToVirtualAssistant($event)"
+		(twoFactorCodeEntered)="_onTwoFactorAuthCodeEntered($event)"
+		[twoFactorAuthResult]="_twoFactorAuthResult"
 	>
 	</ldsly-link-account>
 </ng-template>
