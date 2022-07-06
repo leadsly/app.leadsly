@@ -20,8 +20,8 @@
 				<div *ngIf="_isTwoFactorAuthRequired">
 					<mat-form-field appearance="standard">
 						<mat-label>{{ 'ldsly.profile.link-account.labels.two-factor-auth' | translate }}</mat-label>
-						<input matInput formControlName="twoFactorAuthCode" required />
-						<mat-error *ngIf="_form?.get('twoFactorAuthCode').invalid">{{ _getErrorMessages() }}</mat-error>
+						<input matInput formControlName="code" required />
+						<mat-error *ngIf="_form?.get('code').invalid">{{ _getTwoFactorAuthErrorMessages() }}</mat-error>
 					</mat-form-field>
 				</div>
 			</div>

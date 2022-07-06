@@ -1,5 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { ConnectedInfo } from '../models/connected-info.model';
+import { ConnectLinkedInAccountResult } from '../models/profile/connect-linked-in-account-result.model';
+import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { VirtualAssistantInfo } from '../models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
 import { TimeZone } from '../models/time-zone.model';
@@ -37,6 +39,38 @@ export class SetVirtualAssistantInfo {
 }
 
 /**
+ * @description Set connect linked in account result.
+ */
+export class SetConnectLinkedInAccountResult {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Leadsly] Set Connect LinkedIn Account Result';
+
+	/**
+	 * Creates an instance of connect linked in account result.
+	 * @param payload
+	 */
+	constructor(public payload: { connectLinkedInAccountResult: ConnectLinkedInAccountResult }) {}
+}
+
+/**
+ * @description Set two factor auth result.
+ */
+export class SetTwoFactorAuthResult {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Leadsly] Set Two Factor Auth Result';
+
+	/**
+	 * Creates an instance of set two factor auth result.
+	 * @param payload
+	 */
+	constructor(public payload: { twoFactorAuthResult: TwoFactorAuthResult }) {}
+}
+
+/**
  * @description Create virtual assistant.
  */
 export class CreateVirtualAssistant {
@@ -69,21 +103,21 @@ export class SetConnectedInfo {
 	constructor(public payload: { connectedInfo: ConnectedInfo }) {}
 }
 
-/**
- * @description Sets if user's LinkedIn account is connected with virtual assistant.
- */
-export class SetIsConnected {
-	/**
-	 * @description Type of action.
-	 */
-	static readonly type = '[Leadsly] Set Is Connected';
+// /**
+//  * @description Sets if user's LinkedIn account is connected with virtual assistant.
+//  */
+// export class SetIsConnected {
+// 	/**
+// 	 * @description Type of action.
+// 	 */
+// 	static readonly type = '[Leadsly] Set Is Connected';
 
-	/**
-	 * Whether user's LinkedIn account is connected with virtual assistant.
-	 * @param payload
-	 */
-	constructor(public payload: { isConnected: boolean }) {}
-}
+// 	/**
+// 	 * Whether user's LinkedIn account is connected with virtual assistant.
+// 	 * @param payload
+// 	 */
+// 	constructor(public payload: { isConnected: boolean }) {}
+// }
 
 /**
  * @description Delete virtual assistant.

@@ -1,6 +1,6 @@
 <div class="connected-account__container">
 	<mat-accordion>
-		<mat-expansion-panel [disabled]="disabled">
+		<mat-expansion-panel [expanded]="!_disabled" [disabled]="_disabled">
 			<mat-expansion-panel-header>
 				<mat-panel-title>
 					{{ 'ldsly.profile.linked-account-overview.info' | translate }}

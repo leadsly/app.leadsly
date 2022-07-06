@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
+import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import produce from 'immer';
 import { ConnectedInfo } from './../models/connected-info.model';
 import { VirtualAssistantInfo } from './../models/profile/virtual-assistant-info.model';
 
+import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { TimeZone } from '../models/time-zone.model';
 import { LogService } from './../logger/log.service';
 import { LeadslyStateModel } from './leadsly-state-model';
@@ -72,6 +74,26 @@ export class LeadslyState {
 	}
 
 	/**
+	 * @description Selects connect linked in account result.
+	 * @param state
+	 * @returns connect linked in account result
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectConnectLinkedInAccountResult(state: LeadslyStateModel): ConnectLinkedInAccountResult {
+		return state.connectLinkedInAccountResult;
+	}
+
+	/**
+	 * @description Selects two factor auth result.
+	 * @param state
+	 * @returns two factor auth result
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectTwoFactorAuthResult(state: LeadslyStateModel): TwoFactorAuthResult {
+		return state.twoFactorAuthResult;
+	}
+
+	/**
 	 * Creates an instance of leadsly state.
 	 * @param _log
 	 */
@@ -110,6 +132,38 @@ export class LeadslyState {
 	}
 
 	/**
+	 * @description Event handler when user connects linked in account.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.SetConnectLinkedInAccountResult)
+	setConnectLinkedInAccountResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetConnectLinkedInAccountResult): void {
+		this._log.info('setConnectLinkedInAccountResult action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.connectLinkedInAccountResult = action.payload.connectLinkedInAccountResult;
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Event handler when user enters two factor auth code.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.SetTwoFactorAuthResult)
+	setTwoFactorAuthResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetTwoFactorAuthResult): void {
+		this._log.info('setTwoFactorAuthResult action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.twoFactorAuthResult = action.payload.twoFactorAuthResult;
+				return draft;
+			})
+		);
+	}
+
+	/**
 	 * @description Creates new virtual assistant.
 	 * @param ctx
 	 * @param action
@@ -137,22 +191,6 @@ export class LeadslyState {
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
 				draft = { ...draft, ...action.payload };
-				return draft;
-			})
-		);
-	}
-
-	/**
-	 * @description Sets users LinkedIn connection status.
-	 * @param ctx
-	 * @param action
-	 */
-	@Action(Leadsly.SetIsConnected)
-	setIsConnected(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetIsConnected): void {
-		this._log.info('setIsConnected action handler fired.', this, action);
-		ctx.setState(
-			produce((draft: LeadslyStateModel) => {
-				draft.connectedInfo.isConnected = action.payload.isConnected;
 				return draft;
 			})
 		);

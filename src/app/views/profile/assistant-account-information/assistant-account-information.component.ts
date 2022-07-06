@@ -10,7 +10,6 @@ import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
 import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
-
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
 import { filter, map, merge, Observable, tap } from 'rxjs';
@@ -64,7 +63,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	/**
 	 * @description Whether the link account expansion panel is disabled or not. Should only be enabled once user has successfully created virtual assistant.
 	 */
-	_isLinkAccountDisabled = true;
+	_isLinkAccountDisabled: VirtualAssistantInfo;
 
 	/**
 	 * @description Connect user's linked in account to virtual assistant result.
@@ -91,8 +90,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * @param _sb
 	 */
 	constructor(private _log: LogService, private _sb: ProfileSandboxService, private _fb: FormBuilder) {
-		this._problemDetails$ = this._sb.problemDetails$;
-		this._internalServerErrorDetails$ = this._sb.internalServerErrorDetails$;
+		this._problemDetails$ = _sb.problemDetails$;
+		this._internalServerErrorDetails$ = _sb.internalServerErrorDetails$;
 	}
 
 	/**
@@ -105,6 +104,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 		this._serverErrorOccured$ = this._hasServerErrorOccured$();
 		this._sb.getConnectedInfo$();
 		this._sb.getVirtualAssistantInfo$();
+		this._setConnectLinkedInAccountResultStream();
+		this._setTwoFactorAuthResultStream();
 		this._initForms();
 	}
 
@@ -123,7 +124,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	_onConnectToVirtualAssistant(event: LinkAccount): void {
 		this._log.debug('_onConnectToVirtualAssistant', this, event);
-		this._connectLinkedInAccountResult$ = this._sb.connectLinkedInAccount$(event).pipe(tap((resp) => this._createTwoFactorAuthForm(resp)));
+		this._sb.connectLinkedInAccount(event);
 	}
 
 	/**
@@ -139,8 +140,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * @param event
 	 */
 	_onTwoFactorAuthCodeEntered(event: TwoFactorAuth): void {
-		this._log.debug('_onTwoFactorAuthCodeEntered event handler fired', this);
-		this._twoFactorAuthResult$ = this._sb.enterTwoFactorAuth$(event);
+		this._log.debug('_onTwoFactorAuthCodeEntered event handler fired', this, event);
+		this._sb.enterTwoFactorAuth(event);
 	}
 
 	/**
@@ -152,12 +153,64 @@ export class AssistantAccountInformationComponent implements OnInit {
 	}
 
 	/**
-	 * @description Creates two factor auth control.
+	 * @description Sets two factor auth result stream.
+	 */
+	private _setTwoFactorAuthResultStream(): void {
+		this._log.debug('_setTwoFactorAuthResultStream', this);
+		this._twoFactorAuthResult$ = this._sb.twoFactorAuthResult$.pipe(
+			filter((resp) => {
+				this._log.debug('_setTwoFactorAuthResultStream filter', this, resp);
+				return !!resp;
+			}),
+			tap((resp) => this._updateFormAfterTwoFactorAuth(resp))
+		);
+	}
+
+	/**
+	 * @description Sets connect linked in account result stream.
+	 */
+	private _setConnectLinkedInAccountResultStream(): void {
+		this._log.debug('_setConnectLinkedInAccountResultStream', this);
+		this._connectLinkedInAccountResult$ = this._sb.connectLinkedInAccountResult$.pipe(
+			filter((resp) => {
+				this._log.debug('_setConnectLinkedInAccountResultStream', this, resp);
+				return !!resp;
+			}),
+			tap((resp) => this._updateFormAfterConnect(resp))
+		);
+	}
+
+	/**
+	 * @description Updates form after link account operation.
 	 * @param resp
 	 */
-	private _createTwoFactorAuthForm(resp: ConnectLinkedInAccountResult): void {
+	private _updateFormAfterConnect(resp: ConnectLinkedInAccountResult): void {
+		this._log.debug('_updateFormAfterConnect', this, resp);
 		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
-			this._connectForm.addControl('twoFactorAuthCode', this._fb.control('', LdslyValidators.required));
+			this._connectForm.addControl('code', this._fb.control('', LdslyValidators.required));
+		}
+
+		if (resp.invalidCredentials && !resp.unexpectedErrorOccured) {
+			this._connectForm.get('username').setErrors({
+				invalidCredentials: true
+			});
+
+			this._connectForm.get('password').setErrors({
+				invalidCredentials: true
+			});
+		}
+	}
+
+	/**
+	 * @description Updates form after two factor auth operation.
+	 * @param resp
+	 */
+	private _updateFormAfterTwoFactorAuth(resp: TwoFactorAuthResult): void {
+		this._log.debug('_updateFormAfterTwoFactorAuth', this, resp);
+		if (resp.invalidOrExpiredCode) {
+			this._connectForm.get('code').setErrors({
+				invalidOrExpiredCode: true
+			});
 		}
 	}
 
@@ -178,7 +231,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * @param virtualAssistantInfo
 	 */
 	private _linkAccountDisabled(virtualAssistantInfo: VirtualAssistantInfo): void {
-		this._isLinkAccountDisabled = virtualAssistantInfo?.assistant === null;
+		this._log.debug('_linkAccountDisabled', this, virtualAssistantInfo);
+		this._isLinkAccountDisabled = virtualAssistantInfo;
 	}
 
 	/**
@@ -216,9 +270,9 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * @description Creates connect form.
 	 * @returns connect form
 	 */
-	private _createConnectForm(email?: string): FormGroup {
+	private _createConnectForm(): FormGroup {
 		return this._fb.group({
-			username: this._fb.control(email ? email : '', [LdslyValidators.required, LdslyValidators.email]),
+			username: this._fb.control('', [LdslyValidators.required, LdslyValidators.email]),
 			password: this._fb.control('', [LdslyValidators.required])
 		});
 	}

@@ -11,4 +11,9 @@ export interface TwoFactorAuthResult {
 	 * @description Whether an unexpected error has occured.
 	 */
 	unexpectedErrorOccured: boolean;
+
+	/**
+	 * @description Whether hal failed to enter two factor auth code.
+	 */
+	failedToEnterCode: boolean;
 }

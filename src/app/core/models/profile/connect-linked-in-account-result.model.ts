@@ -3,6 +3,10 @@
  */
 export interface ConnectLinkedInAccountResult {
 	/**
+	 * @description Whether user has entered invalid credentials.
+	 */
+	invalidCredentials: boolean;
+	/**
 	 * @description Whether two factor auth is required.
 	 */
 	twoFactorAuthRequired: boolean;

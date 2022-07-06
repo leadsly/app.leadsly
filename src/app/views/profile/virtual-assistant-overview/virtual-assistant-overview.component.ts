@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';

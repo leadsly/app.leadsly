@@ -27,6 +27,7 @@ export class ConnectedAccountComponent {
 	 * @description Sets link account form.
 	 */
 	@Input() set form(value: FormGroup) {
+		this._log.debug('form setter executed', this, value);
 		this._form = value;
 	}
 
@@ -57,6 +58,10 @@ export class ConnectedAccountComponent {
 	 * @param _log
 	 */
 	constructor(private _log: LogService) {}
+
+	ngOnInit(): void {
+		this._log.debug('OnInit', this, this._form);
+	}
 
 	/**
 	 * @description Event handler when user requests to disconnect from virtual assistant

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+
 import { LogService } from 'app/core/logger/log.service';
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -7,6 +8,7 @@ import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
+import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TwoFactorAuth } from './../../../core/models/profile/two-factor-auth.model';
 
 /**
@@ -35,12 +37,18 @@ export class LinkedAccountOverviewComponent {
 	/**
 	 * @description Whether this expansion panel is disabled.
 	 */
-	@Input() disabled = true;
+	@Input() set disabled(value: VirtualAssistantInfo) {
+		this._log.debug('disabled setter executed', this, value);
+		this._disabled = Object.keys(value?.assistant || {}).length === 0;
+	}
+
+	_disabled = true;
 
 	/**
 	 * @description Sets account value.
 	 */
 	@Input() set connectedInfo(value: ConnectedInfo) {
+		this._log.debug('connectedInfo setter executed', this, value);
 		this._connectedInfo = value;
 	}
 

@@ -7,10 +7,10 @@ export interface ConnectedInfo {
 	/**
 	 * @description Whether this user is connected to virtual assistant.
 	 */
-	isConnected: boolean;
+	isConnected?: boolean;
 
 	/**
 	 * @description User's connected account information.
 	 */
-	connectedAccount: ConnectedAccount;
+	connectedAccount?: ConnectedAccount;
 }

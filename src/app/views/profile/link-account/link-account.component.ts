@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -18,7 +18,7 @@ import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from '
 	styleUrls: ['./link-account.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LinkAccountComponent {
+export class LinkAccountComponent implements OnDestroy {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
@@ -43,7 +43,7 @@ export class LinkAccountComponent {
 	@Input() set twoFactorAuthResult(value: TwoFactorAuthResult) {
 		this._log.debug('twoFacotAuthResult setter executed', this, value);
 		this._twoFactorAuthResult = value;
-		if (value && (!value.invalidOrExpiredCode || !value.unexpectedErrorOccured)) {
+		if (value) {
 			this._inProgress = false;
 		}
 	}
@@ -56,7 +56,7 @@ export class LinkAccountComponent {
 	@Input() set connectLinkedInAccountResult(value: ConnectLinkedInAccountResult) {
 		this._log.debug('connectLinkedInAccountResult setter executed', this, value);
 		this._connectLinkedInAccountResult = value;
-		if (value && (value.twoFactorAuthRequired || value.unexpectedErrorOccured)) {
+		if (value) {
 			this._inProgress = false;
 		}
 	}
@@ -106,6 +106,17 @@ export class LinkAccountComponent {
 	constructor(private _log: LogService) {}
 
 	/**
+	 * @description NgOnDestroy life cycle.
+	 */
+	ngOnDestroy(): void {
+		this._log.debug('Destroying', this);
+		this._form.clearValidators();
+		this._form.markAsUntouched();
+		this._form.markAsPristine();
+		this._form.updateValueAndValidity();
+	}
+
+	/**
 	 * @description Event handler when user clicks to link their account to virtual assistant.
 	 */
 	_onSubmit(): void {
@@ -120,6 +131,10 @@ export class LinkAccountComponent {
 	_onSubmitTwoAuthCode(): void {
 		this._log.debug('_onSubmitTwoAuthCode', this, this._form.value);
 		this._inProgress = true;
+		const code: TwoFactorAuth = {
+			code: this._form.get('code').value as string
+		};
+		this.twoFactorCodeEntered.emit(code);
 	}
 
 	/**
@@ -127,14 +142,31 @@ export class LinkAccountComponent {
 	 * @returns error messages
 	 */
 	_getErrorMessages(): string {
-		if (
-			this._form.get('username').hasError('required') ||
-			this._form.get('password').hasError('required') ||
-			this._form.get('twoFactorAuthCode').hasError('required')
-		) {
-			return 'You must enter a value';
+		const mustHaveValue = 'You must enter a value';
+		if (this._form.get('password').dirty && this._form.get('password').hasError('required')) {
+			return mustHaveValue;
+		}
+		if (this._form.get('username').dirty && this._form.get('username').hasError('required')) {
+			return mustHaveValue;
 		}
 
-		return this._form.get('username').hasError('email') ? 'Not a valid email' : '';
+		if (this._form.get('username').hasError('invalidCredentials') || this._form.get('password').hasError('invalidCredentials')) {
+			return 'Invalid LinkedIn Credentials';
+		}
+
+		return this._form.get('username').dirty && this._form.get('username').hasError('email') ? 'Not a valid email' : '';
+	}
+
+	/**
+	 * @description Gets two factor auth error messages.
+	 * @returns two factor auth error messages
+	 */
+	_getTwoFactorAuthErrorMessages(): string {
+		if (this._form.get('code').dirty && this._form.get('code').hasError('required')) {
+			return 'You must enter a value';
+		}
+		if (this._form.get('code').hasError('invalidOrExpiredCode')) {
+			return 'Invalid or expired code';
+		}
 	}
 }
