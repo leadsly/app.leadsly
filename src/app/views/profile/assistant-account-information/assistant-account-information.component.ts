@@ -190,13 +190,15 @@ export class AssistantAccountInformationComponent implements OnInit {
 			this._connectForm.addControl('code', this._fb.control('', LdslyValidators.required));
 		}
 
-		if (resp.invalidCredentials && !resp.unexpectedErrorOccured) {
+		if (resp.invalidEmail && !resp.unexpectedErrorOccured) {
 			this._connectForm.get('username').setErrors({
-				invalidCredentials: true
+				invalidLinkedInEmail: true
 			});
+		}
 
+		if (resp.invalidPassword && !resp.unexpectedErrorOccured) {
 			this._connectForm.get('password').setErrors({
-				invalidCredentials: true
+				invalidLinkedInPassword: true
 			});
 		}
 	}
@@ -221,7 +223,6 @@ export class AssistantAccountInformationComponent implements OnInit {
 	private _getVirtualAssistantInfo$(): Observable<VirtualAssistantInfo> {
 		return this._sb.virtualAssistantInfo$.pipe(
 			tap((resp) => this._linkAccountDisabled(resp)),
-			filter((resp) => resp?.assistant !== null),
 			tap((resp) => this._virtualAssistantSetupForm.get('timezoneId').setValue(resp?.assistant?.timezoneId))
 		);
 	}
@@ -241,8 +242,10 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _getConnectedInfo$(): Observable<ConnectedInfo> {
 		return this._sb.connectedInfo$.pipe(
-			filter((resp) => resp?.connectedAccount !== null),
-			tap((resp) => this._connectForm.get('username').setValue(resp?.connectedAccount?.email))
+			tap((resp) => {
+				this._log.debug('_getConnectedInfo$', this, resp);
+				this._connectForm.get('username').setValue(resp?.connectedAccount?.email);
+			})
 		);
 	}
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -14,7 +14,7 @@ import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from '
 	styleUrls: ['./connected-account.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnectedAccountComponent {
+export class ConnectedAccountComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
@@ -59,8 +59,18 @@ export class ConnectedAccountComponent {
 	 */
 	constructor(private _log: LogService) {}
 
+	/**
+	 * @description NgOnInit lifecycle hook.
+	 */
 	ngOnInit(): void {
 		this._log.debug('OnInit', this, this._form);
+	}
+
+	/**
+	 * @description NgOnDestroy lifecycle hook.
+	 */
+	ngOnDestroy(): void {
+		this._log.debug('OnDestroy', this);
 	}
 
 	/**

@@ -108,7 +108,10 @@ export class LeadslyService {
 	 */
 	checkConnectLinkedInAccountResult$(userId: string, result: ConnectLinkedInAccountResult): Observable<ConnectLinkedInAccountResult> {
 		this._log.debug('checkConnectLinkedInAccountResult$', this, result);
-		if ((result.twoFactorAuthRequired === true || result.invalidCredentials === true) && result.unexpectedErrorOccured === false) {
+		if (
+			(result.twoFactorAuthRequired === true || result.invalidEmail === true || result.invalidPassword === true) &&
+			result.unexpectedErrorOccured === false
+		) {
 			this._log.debug('checkConnectLinkedInAccountResult$. Returning result: ', this, result);
 			return of(result);
 		} else {

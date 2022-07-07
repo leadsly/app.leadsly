@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -16,7 +16,7 @@ import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from '
 	styleUrls: ['./create-virtual-assistant.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateVirtualAssistantComponent {
+export class CreateVirtualAssistantComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
@@ -69,6 +69,20 @@ export class CreateVirtualAssistantComponent {
 	 * @param _log
 	 */
 	constructor(private _log: LogService) {}
+
+	/**
+	 * @description NgOnInit lifecycle hook.
+	 */
+	ngOnInit(): void {
+		this._log.trace('Initialized', this);
+	}
+
+	/**
+	 * @description NgOnDestroy life cycle hook.
+	 */
+	ngOnDestroy(): void {
+		this._log.trace('Destroyed', this);
+	}
 
 	/**
 	 * @description Event handler when user submits a form.

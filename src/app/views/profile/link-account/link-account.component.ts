@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -18,7 +18,7 @@ import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from '
 	styleUrls: ['./link-account.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LinkAccountComponent implements OnDestroy {
+export class LinkAccountComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Sets in progress flag to false on error.
 	 */
@@ -106,14 +106,18 @@ export class LinkAccountComponent implements OnDestroy {
 	constructor(private _log: LogService) {}
 
 	/**
+	 * @description NgOnInit lifecycle hook.
+	 */
+	ngOnInit(): void {
+		this._log.trace('Initialized', this);
+	}
+
+	/**
 	 * @description NgOnDestroy life cycle.
 	 */
 	ngOnDestroy(): void {
-		this._log.debug('Destroying', this);
-		this._form.clearValidators();
-		this._form.markAsUntouched();
-		this._form.markAsPristine();
-		this._form.updateValueAndValidity();
+		this._log.debug('Destroyed', this);
+		this._form.reset();
 	}
 
 	/**
@@ -132,7 +136,8 @@ export class LinkAccountComponent implements OnDestroy {
 		this._log.debug('_onSubmitTwoAuthCode', this, this._form.value);
 		this._inProgress = true;
 		const code: TwoFactorAuth = {
-			code: this._form.get('code').value as string
+			code: this._form.get('code').value as string,
+			username: this._form.get('username').value as string
 		};
 		this.twoFactorCodeEntered.emit(code);
 	}
@@ -150,8 +155,12 @@ export class LinkAccountComponent implements OnDestroy {
 			return mustHaveValue;
 		}
 
-		if (this._form.get('username').hasError('invalidCredentials') || this._form.get('password').hasError('invalidCredentials')) {
-			return 'Invalid LinkedIn Credentials';
+		if (this._form.get('username').hasError('invalidLinkedInEmail')) {
+			return 'Invalid LinkedIn email';
+		}
+
+		if (this._form.get('password').hasError('invalidLinkedInPassword')) {
+			return 'Invalid LinkedIn password';
 		}
 
 		return this._form.get('username').dirty && this._form.get('username').hasError('email') ? 'Not a valid email' : '';

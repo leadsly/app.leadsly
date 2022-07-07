@@ -47,6 +47,7 @@ import { ServerErrorService } from './error-handler/server-error.service';
 import { HttpAccessTokenInterceptor } from './http-interceptors/http-access-token.interceptor';
 import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 import { HttpStatusInterceptor } from './http-interceptors/http-status.interceptor';
+import { LinkedInAuthAttemptCountInterceptor } from './http-interceptors/linked-in-auth-attempt-count.interceptor';
 import { LeadslyState } from './leadsly/leadsly.store.state';
 import { LocalStorageService } from './local-storage/local-storage.service';
 import { LogService } from './logger/log.service';
@@ -119,6 +120,7 @@ export {
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpStatusInterceptor, multi: true, deps: [LogService, ServerErrorService] },
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpAccessTokenInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: LinkedInAuthAttemptCountInterceptor, multi: true },
 		{ provide: ErrorHandler, useClass: AppErrorHandler },
 		{ provide: RouterStateSerializer, useClass: CustomSerializer },
 		// { provide: NGXS_PLUGINS, useValue: initStateFromLocalStorage, multi: true },
