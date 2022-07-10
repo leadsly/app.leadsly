@@ -1,13 +1,13 @@
 <form [formGroup]="_form">
 	<div>
-		<mat-form-field appearance="standard">
+		<mat-form-field appearance="outline">
 			<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.name' | translate }}</mat-label>
 			<input matInput [placeholder]="'ldsly.campaigns.new-campaign.placeholders.name' | translate" formControlName="name" required />
 		</mat-form-field>
 	</div>
 
 	<div formGroupName="primaryProspectList">
-		<mat-form-field appearance="standard">
+		<mat-form-field appearance="outline">
 			<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.primary-prospect-list' | translate }}</mat-label>
 			<input type="text" matInput formControlName="name" [matAutocomplete]="auto" />
 			<mat-autocomplete #auto="matAutocomplete" [displayWith]="_displayFn">
@@ -19,8 +19,8 @@
 		<div></div>
 		<ng-container formArrayName="searchUrls">
 			<div>
-				<ng-container *ngFor="let searchUrlControl of _form.get('primaryProspectList').get('searchUrls')['controls']">
-					<mat-form-field appearance="standard">
+				<ng-container *ngFor="let searchUrlControl of _form.get('primaryProspectList').get('searchUrls')['controls']; let i = index; let last = last">
+					<mat-form-field appearance="outline">
 						<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.search-url' | translate }}</mat-label>
 						<input
 							matInput
@@ -29,6 +29,11 @@
 							required
 						/>
 					</mat-form-field>
+					<div class="details-container__remove-search-url-btn">
+						<mat-icon *ngIf="i > 0 && last" (click)="_onRemoveSearchUrlClicked()" aria-hidden="false" aria-label="Remove search url icon"
+							>remove
+						</mat-icon>
+					</div>
 				</ng-container>
 			</div>
 			<div class="details-container__add-search-url-btn">
@@ -40,7 +45,7 @@
 	</div>
 
 	<div>
-		<mat-form-field appearance="standard">
+		<mat-form-field appearance="outline">
 			<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.type' | translate }}</mat-label>
 			<mat-select formControlName="campaignType" required>
 				<mat-option>--</mat-option>
@@ -50,7 +55,7 @@
 	</div>
 
 	<div>
-		<mat-form-field appearance="standard">
+		<mat-form-field appearance="outline">
 			<mat-label>{{ 'ldsly.campaigns.new-campaign.details.labels.invite-limit' | translate }}</mat-label>
 			<input
 				type="number"

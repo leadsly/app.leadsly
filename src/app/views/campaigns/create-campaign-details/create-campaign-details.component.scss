@@ -1,3 +1,10 @@
 mat-form-field {
 	width: 100%;
 }
+
+.details-container__remove-search-url-btn {
+	display: flex;
+	mat-icon {
+		margin-left: auto;
+	}
+}

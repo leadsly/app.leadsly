@@ -15,7 +15,7 @@ import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.mode
 import { map, Observable, of, tap } from 'rxjs';
 import * as Leadsly from '../../leadsly/leadsly.store.actions';
 import { LogService } from '../../logger/log.service';
-import { NewCampaign } from '../../models/campaigns/new-campaign';
+
 import { LinkedInAccountAsyncService } from './linkedin-account-async.service';
 import { VirtualAssistantAsyncService } from './virtual-assistant-async.service';
 
@@ -39,32 +39,6 @@ export class LeadslyService {
 		private _linkedInAccountAsyncService: LinkedInAccountAsyncService,
 		private _notificationService: NotificationService
 	) {}
-
-	/**
-	 * @description Creates new campaign with all of the necessary properties.
-	 * @param campaign
-	 * @returns new campaign
-	 */
-	createNewCampaign(campaign: NewCampaign): NewCampaign {
-		return {} as NewCampaign;
-		// const connectedAccount = this._store.selectSnapshot(LeadslyState.selectConnectedAccount);
-		// const halId = this._store.selectSnapshot(LeadslyState.selectHalId);
-		// return {
-		// 	campaignDetails: {
-		// 		...campaign.campaignDetails,
-		// 		warmUp: false,
-		// 		primaryProspectList: {
-		// 			...campaign.campaignDetails.primaryProspectList
-		// 		}
-		// 	},
-		// 	messages: campaign.messages.map((msg, i) => {
-		// 		msg.order = i + 1;
-		// 		return msg;
-		// 	}),
-		// 	connectedAccount: connectedAccount,
-		// 	halId: halId
-		// };
-	}
 
 	/**
 	 * @description Creates virtual assistant.

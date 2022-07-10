@@ -64,6 +64,26 @@ export class LeadslyState {
 	}
 
 	/**
+	 * @description Selects connected user's email address.
+	 * @param state
+	 * @returns connected email
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectConnectedEmail(state: LeadslyStateModel): string {
+		return state.connectedInfo?.connectedAccount?.email || '';
+	}
+
+	/**
+	 * @description Selects hal id.
+	 * @param state
+	 * @returns hal id
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectHalId(state: LeadslyStateModel): string {
+		return state.virtualAssistantInfo?.assistant?.halId || '';
+	}
+
+	/**
 	 * @description Selects virtual assistant id.
 	 * @param state
 	 * @returns virtual assistant id

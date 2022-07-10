@@ -10,7 +10,7 @@ import { BACKEND_API_URL } from '../api-url-injection-token';
 import { AccountGeneralDetails } from '../models/account/general/account-general-details.model';
 import { AccountSecurityDetails } from '../models/account/security/account-security-details.model';
 import { PasswordReset } from '../models/auth/password-reset.model';
-import { Campaigns } from '../models/campaigns/campaigns.model';
+
 import { CampaignsReport } from './../models/reports/campaigns-report.model';
 
 /**
@@ -33,15 +33,6 @@ export class UsersAsyncService {
 	 * @param _http
 	 */
 	constructor(@Inject(BACKEND_API_URL) private _apiUrl: string, private _http: HttpClient) {}
-
-	/**
-	 * @description Gets user's campaigns
-	 * @param userId
-	 * @returns campaigns
-	 */
-	getCampaigns$(userId: string): Observable<Campaigns> {
-		return this._http.get<Campaigns>(`${this._apiUrl}/users/${userId}/campaigns`);
-	}
 
 	/**
 	 * @description Gets users campaigns effectiveness report

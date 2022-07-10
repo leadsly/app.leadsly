@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
+import { CampaignsHelperService } from 'app/core/services/campaigns/campaigns-helper.service';
 import { SharedModule } from '../../shared/shared.module';
 import { CampaignItemComponent } from './campaign-item/campaign-item.component';
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
@@ -29,6 +30,6 @@ import { NotesComponent } from './notes/notes.component';
 		CampaignWizardContainerComponent
 	],
 	imports: [CommonModule, SharedModule, CampaignsRoutingModule, NgxsModule.forFeature([CampaignsState])],
-	providers: [CampaignsSandboxService]
+	providers: [CampaignsSandboxService, CampaignsHelperService]
 })
 export class CampaignsModule {}

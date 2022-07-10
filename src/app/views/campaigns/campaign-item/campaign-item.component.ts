@@ -2,6 +2,7 @@ import { BreakpointState } from '@angular/cdk/layout';
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/animations/route.animations';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
@@ -25,6 +26,11 @@ import {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampaignItemComponent implements OnInit, AfterViewInit {
+	/**
+	 * Route animations.
+	 */
+	readonly _routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+
 	/**
 	 * Currently displaying campaign.
 	 */

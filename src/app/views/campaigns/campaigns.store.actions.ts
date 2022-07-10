@@ -11,7 +11,7 @@ export class SetUserCampaigns {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Campaigns] Sets User`s Active Campaigns';
+	static readonly type = '[Campaigns] Sets User`s Campaigns';
 
 	/**
 	 * Creates an instance of set user campaigns.

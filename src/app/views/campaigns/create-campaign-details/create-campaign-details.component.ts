@@ -54,6 +54,11 @@ export class CreateCampaignDetailsComponent {
 	@Output() searchUrlControllAdded: EventEmitter<void> = new EventEmitter<void>();
 
 	/**
+	 * @description Event emitter when user clicks to remove new search url control.
+	 */
+	@Output() searchUrlControllRemoved: EventEmitter<void> = new EventEmitter<void>();
+
+	/**
 	 * @description Filtered primary prospect lists for autocomplete.
 	 */
 	_filteredPrimaryProspectLists$: Observable<PrimaryProspectList[]>;
@@ -65,11 +70,19 @@ export class CreateCampaignDetailsComponent {
 	constructor(private _log: LogService) {}
 
 	/**
-	 * @description Event handler fired when user clicks to add new search url control
+	 * @description Event handler fired when user clicks to add new search url control.
 	 */
 	_onAddSearchUrlClicked(): void {
 		this._log.trace('[_onAddSearchUrlClicked]: User clicked to add new search url control');
 		this.searchUrlControllAdded.emit();
+	}
+
+	/**
+	 * @description Event handler when user clicks to remove search url control.
+	 */
+	_onRemoveSearchUrlClicked(): void {
+		this._log.trace('[_onRemoveSearchUrlClicked]: User clicked to remove search url control');
+		this.searchUrlControllRemoved.emit();
 	}
 
 	/**

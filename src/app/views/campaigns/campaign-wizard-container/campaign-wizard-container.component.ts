@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ROUTE_ANIMATIONS_ELEMENTS } from 'app/core/animations/route.animations';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { Observable } from 'rxjs';
@@ -15,7 +16,7 @@ import { NewCampaign } from './../../../core/models/campaigns/new-campaign';
 	styleUrls: ['./campaign-wizard-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CampaignWizardContainerComponent implements OnInit {
+export class CampaignWizardContainerComponent implements OnInit, OnDestroy {
 	/**
 	 * @description The available campaign types.
 	 */
@@ -25,6 +26,11 @@ export class CampaignWizardContainerComponent implements OnInit {
 	 * @description User's prospect lists.
 	 */
 	_prospectLists$: Observable<PrimaryProspectList[]>;
+
+	/**
+	 * Route animations.
+	 */
+	readonly _routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
 	/**
 	 * Creates an instance of campaign wizard container component.
@@ -40,7 +46,15 @@ export class CampaignWizardContainerComponent implements OnInit {
 	 * @description OnInit life cycle.
 	 */
 	ngOnInit(): void {
+		this._log.trace('Initialized', this);
 		this._sb.getUsersProspectLists();
+	}
+
+	/**
+	 * @description OnDestroy life cycle.
+	 */
+	ngOnDestroy(): void {
+		this._log.trace('Destroyed', this);
 	}
 
 	/**

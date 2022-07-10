@@ -1,4 +1,4 @@
-<div class="campaign__container">
+<div class="campaign__container" [ngClass]="_routeAnimationsElements">
 	<mat-accordion [hideToggle]="_verticalDivider">
 		<ng-container *ngIf="!_verticalDivider; else campaignsDesktop">
 			<mat-expansion-panel [@.disabled]="_disableExpansionOnInitLoad" [disabled]="_verticalDivider" [expanded]="_viewNotes">
@@ -179,16 +179,17 @@
 							class="campaign__stat-title"
 							>{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</span
 						>
-						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats"
-							><ng-container [formGroup]="_campaignForm">
+						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">
+							<ng-container [formGroup]="_campaignForm">
 								<input
 									matInput
 									formControlName="connectionsSentDaily"
 									(blur)="_onUpdateCampaignClicked()"
 									(keyup.enter)="_onUpdateCampaignClicked()"
 									[value]="_campaignForm?.get('connectionsSentDaily')?.value"
-								/> </ng-container
-						></span>
+								/>
+							</ng-container>
+						</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
 					<div class="campaign-item__container">
@@ -228,21 +229,15 @@
 					</div>
 					<div class="campaign-item__container">
 						<span>
-							<mat-icon
-								[matTooltip]="'ldsly.campaigns.tooltips.delete' | translate"
-								matTooltipPosition="below"
-								(click)="_onDeleteCampaignClicked()"
-								>{{ _removeCampaignIcon }}</mat-icon
+							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.delete' | translate" matTooltipPosition="below" (click)="_onDeleteCampaignClicked()">
+								{{ _removeCampaignIcon }}</mat-icon
 							>
 						</span>
 					</div>
 				</mat-card>
 			</mat-panel-description>
 		</mat-expansion-panel-header>
-		<ldsly-notes
-			[campaignForm]="_campaignForm"
-			(notesUpdated)="_onUpdateCampaignClicked()"
-			(notesClosedAutoSave)="_onNotesClosedAutoSave()"
-		></ldsly-notes>
+		<ldsly-notes [campaignForm]="_campaignForm" (notesUpdated)="_onUpdateCampaignClicked()" (notesClosedAutoSave)="_onNotesClosedAutoSave()">
+		</ldsly-notes>
 	</mat-expansion-panel>
 </ng-template>

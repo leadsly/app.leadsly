@@ -10,16 +10,47 @@
 			</button>
 		</div>
 	</div>
-	<div class="campaigns__container" [ngClass]="_routeAnimationsElements">
-		<div *ngFor="let campaign of _campaigns$ | async" class="campaigns__item">
-			<ldsly-campaign-item
-				[campaign]="campaign"
-				[breakpointState]="_breakpointStateScreenMatcher$ | async"
-				(toggleCampaign)="_onToggleCampaign($event)"
-				(deleteCampaign)="_onDeleteCampaign($event)"
-				(updateCampaign)="_onUpdateCampaign($event)"
-				(cloneCampaign)="_cloneCampaign($event, campaign)"
-			></ldsly-campaign-item>
-		</div>
+	<div class="campaigns__container">
+		<ng-container *ngIf="_campaigns$ | async as campaigns">
+			<ng-container *ngIf="!_loading; else loadingState">
+				<ng-container *ngIf="campaigns?.length === 0">
+					<p><i>You do not have any campaigns</i></p>
+				</ng-container>
+				<ng-container *ngIf="campaigns?.length > 0">
+					<div *ngFor="let campaign of campaigns" class="campaigns__item">
+						<ldsly-campaign-item
+							[campaign]="campaign"
+							[breakpointState]="_breakpointStateScreenMatcher$ | async"
+							(toggleCampaign)="_onToggleCampaign($event)"
+							(deleteCampaign)="_onDeleteCampaign($event)"
+							(updateCampaign)="_onUpdateCampaign($event)"
+							(cloneCampaign)="_cloneCampaign($event, campaign)"
+						>
+						</ldsly-campaign-item>
+					</div>
+				</ng-container>
+			</ng-container>
+		</ng-container>
 	</div>
 </div>
+
+<ng-template #loadingState>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+	<div class="campaign-list__ghost-loading-state">
+		<ldsly-ghost-block></ldsly-ghost-block>
+	</div>
+</ng-template>

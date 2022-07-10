@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from 'app/core/auth/auth.store.state';
-
+import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
+import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
+import { LeadslyState } from 'app/core/leadsly/leadsly.store.state';
 import { LogService } from 'app/core/logger/log.service';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
 import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
-import { CampaignsService } from 'app/core/services/campaigns.service';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { CampaignsHelperService } from 'app/core/services/campaigns/campaigns-helper.service';
 import { ProspectListAsyncService } from 'app/core/services/prospect-list-async.service';
-import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { CampaignsAsyncService } from '../../core/services/campaigns/campaigns-async.service';
 import { Campaign } from './../../core/models/campaigns/campaign.model';
 import { DeleteCampaign } from './../../core/models/campaigns/delete-campaign.model';
 import { NewCampaign } from './../../core/models/campaigns/new-campaign';
-import { CampaignsAsyncService } from './../../core/services/campaigns-async.service';
 import * as CampaignsActions from './campaigns.store.actions';
 import { CampaignsState } from './campaigns.store.state';
 
@@ -25,6 +28,14 @@ import { CampaignsState } from './campaigns.store.state';
  */
 @Injectable()
 export class CampaignsSandboxService {
+	/**
+	 * Problem details error for account module.
+	 */
+	@ProblemDetailsError() problemDetails$: Observable<ProblemDetails>;
+	/**
+	 * Internal server error for account model.
+	 */
+	@InternalServerError() internalServerErrorDetails$: Observable<InternalServerErrorDetails>;
 	/**
 	 * Selects user's campaigns.
 	 */
@@ -45,7 +56,8 @@ export class CampaignsSandboxService {
 	 * @param _log
 	 * @param _store
 	 * @param _campaignAsyncService
-	 * @param _userAsyncService
+	 * @param _prospectListAsyncService
+	 * @param _campaignsHelperService
 	 * @param router
 	 */
 	constructor(
@@ -53,20 +65,26 @@ export class CampaignsSandboxService {
 		private _store: Store,
 		private _campaignAsyncService: CampaignsAsyncService,
 		private _prospectListAsyncService: ProspectListAsyncService,
-		private _userAsyncService: UsersAsyncService,
-		private _campaignsService: CampaignsService,
+		private _campaignsHelperService: CampaignsHelperService,
 		public router: Router
 	) {}
 
 	/**
 	 * @description Gets user campaigns.
 	 */
-	getUserCampaigns(): void {
+	// getUserCampaigns(): void {
+	// 	const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+	// 	this._campaignAsyncService
+	// 		.getCampaigns$(userId)
+	// 		.pipe(tap((campaigns) => this._store.dispatch(new CampaignsActions.SetUserCampaigns(campaigns))))
+	// 		.subscribe();
+	// }
+	getUserCampaigns$(): Observable<Campaign[]> {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		this._userAsyncService
-			.getCampaigns$(userId)
-			.pipe(tap((campaigns) => this._store.dispatch(new CampaignsActions.SetUserCampaigns(campaigns))))
-			.subscribe();
+		return this._campaignAsyncService.getCampaigns$(userId).pipe(
+			tap((resp) => this._store.dispatch(new CampaignsActions.SetUserCampaigns(resp))),
+			map((resp) => resp?.items)
+		);
 	}
 
 	/**
@@ -127,7 +145,9 @@ export class CampaignsSandboxService {
 	 * @param newCampaign
 	 */
 	launchNewCampaign(newCampaign: NewCampaign): void {
-		const launchCampaign = this._campaignsService.newCampaign(newCampaign);
+		const connectedAccount = this._store.selectSnapshot(LeadslyState.selectConnectedEmail);
+		const halId = this._store.selectSnapshot(LeadslyState.selectHalId);
+		const launchCampaign = this._campaignsHelperService.newCampaign(newCampaign, connectedAccount, halId);
 		this._log.debug('launchNewCampaign', this, launchCampaign);
 		this._campaignAsyncService
 			.createCampaign$(launchCampaign)

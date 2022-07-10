@@ -9,7 +9,7 @@ import { Campaign } from '../models/campaigns/campaign.model';
 import { GetCampaigns } from '../models/campaigns/get-campaigns-model';
 import { CampaignsReport } from '../models/reports/campaigns-report.model';
 import { GetCampaign } from './../models/campaigns/get-campaign.model';
-import { CampaignsAsyncService } from './campaigns-async.service';
+import { CampaignsAsyncService } from './campaigns/campaigns-async.service';
 import { UsersAsyncService } from './users-async.service';
 
 /**

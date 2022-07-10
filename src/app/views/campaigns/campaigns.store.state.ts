@@ -69,9 +69,11 @@ export class CampaignsState {
 	 */
 	@Action(Campaigns.SetUserCampaigns)
 	initializeCampaigns(ctx: StateContext<CampaignsStateModel>, action: Campaigns.SetUserCampaigns): void {
-		this._log.info('Initializing campaigns state.', this);
+		this._log.info('Initializing campaigns state.', this, action);
 		const normalizedData = normalize(action.payload.items, [campaignsSchema]);
-		const campaigns = normalizedData.entities['campaigns'];
+		this._log.debug('Normalized data is: ', this, normalizedData);
+		const campaigns = normalizedData.entities['campaigns'] || {};
+		this._log.debug('Normalized campaigns', this, campaigns);
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
 				draft.entities = campaigns;

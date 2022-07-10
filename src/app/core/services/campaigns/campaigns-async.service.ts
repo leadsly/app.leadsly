@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Campaigns } from 'app/core/models/campaigns/campaigns.model';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../api-url-injection-token';
-import { CloneCampaign } from '../models/campaigns/clone-campaign.model';
-import { GetCampaign } from '../models/campaigns/get-campaign.model';
-import { NewCampaign } from '../models/campaigns/new-campaign';
-import { ToggleCampaignStatus } from '../models/campaigns/toggle-campaign-status.model';
-import { Campaign } from './../models/campaigns/campaign.model';
-import { DeleteCampaign } from './../models/campaigns/delete-campaign.model';
-import { OperationResponse } from './../models/operation-response.model';
+import { BACKEND_API_URL } from '../../api-url-injection-token';
+import { Campaign } from '../../models/campaigns/campaign.model';
+import { CloneCampaign } from '../../models/campaigns/clone-campaign.model';
+import { DeleteCampaign } from '../../models/campaigns/delete-campaign.model';
+import { GetCampaign } from '../../models/campaigns/get-campaign.model';
+import { NewCampaign } from '../../models/campaigns/new-campaign';
+import { ToggleCampaignStatus } from '../../models/campaigns/toggle-campaign-status.model';
+import { OperationResponse } from '../../models/operation-response.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,6 +25,15 @@ export class CampaignsAsyncService {
 	 * @param _http
 	 */
 	constructor(@Inject(BACKEND_API_URL) private _apiUrl: string, private _http: HttpClient) {}
+
+	/**
+	 * @description Gets user's campaigns
+	 * @param userId
+	 * @returns campaigns
+	 */
+	getCampaigns$(userId: string): Observable<Campaigns> {
+		return this._http.get<Campaigns>(`${this._apiUrl}/users/${userId}/campaigns`);
+	}
 
 	/**
 	 * @description Update campaign.

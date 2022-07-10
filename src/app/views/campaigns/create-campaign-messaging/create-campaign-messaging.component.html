@@ -4,7 +4,7 @@
 			<ng-container [formGroupName]="i">
 				<div class="messaging-details__unit">
 					<div>
-						<mat-form-field appearance="standard">
+						<mat-form-field appearance="outline">
 							<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.invitation-message' | translate }}</mat-label>
 							<textarea
 								matInput
@@ -18,14 +18,14 @@
 
 					<div formGroupName="delay">
 						<div>
-							<mat-form-field appearance="standard">
+							<mat-form-field appearance="outline">
 								<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.wait-value' | translate }}</mat-label>
 								<input matInput type="number" [placeholder]="'5'" formControlName="value" />
 							</mat-form-field>
 						</div>
 
 						<div>
-							<mat-form-field appearance="standard">
+							<mat-form-field appearance="outline">
 								<mat-label>{{ 'ldsly.campaigns.new-campaign.messaging.labels.wait-unit' | translate }}</mat-label>
 								<mat-select formControlName="unit" required>
 									<mat-option>--</mat-option>

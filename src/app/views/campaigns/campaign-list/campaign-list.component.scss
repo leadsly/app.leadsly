@@ -1,6 +1,14 @@
 @import '../../../../styles-variables';
 
 .campaigns__container {
+	text-align: center;
+
+	.campaign-list__ghost-loading-state {
+		height: 56px;
+		padding: 8px 0;
+		width: 100%;
+	}
+
 	.campaigns__item {
 		margin: 10px 0;
 	}

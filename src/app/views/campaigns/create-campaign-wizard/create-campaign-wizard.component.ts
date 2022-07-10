@@ -119,6 +119,14 @@ export class CreateCampaignWizardComponent implements OnInit {
 	}
 
 	/**
+	 * @description Event handler when user clicks to remove search url control.
+	 */
+	_onSearchUrlControlRemoved(): void {
+		const formArray = this._detailsForm.get('primaryProspectList').get('searchUrls') as FormArray;
+		formArray.removeAt(formArray.length - 1);
+	}
+
+	/**
 	 * @description Inits forms.
 	 */
 	private _initForms(): void {
