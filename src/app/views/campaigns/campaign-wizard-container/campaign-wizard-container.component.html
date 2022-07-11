@@ -3,6 +3,7 @@
 		[campaignTypes]="_campaignTypes$ | async"
 		[prospectLists]="_prospectLists$ | async"
 		(launchCampaignClicked)="_onLaunchNewCampaign($event)"
+		[serverErrorOccured]="_serverErrorOccured$ | async"
 	>
 	</ldsly-create-campaign-wizard>
 </div>

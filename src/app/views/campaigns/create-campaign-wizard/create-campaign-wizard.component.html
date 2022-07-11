@@ -11,15 +11,24 @@
 	</mat-step>
 	<mat-step [stepControl]="_detailsForm">
 		<ng-template matStepLabel>{{ 'ldsly.campaigns.new-campaign.messaging.labels.step-title' | translate }}</ng-template>
-		<ldsly-create-campaign-messaging [form]="_messagingForm" [delayUnits]="_delayUnits" (addNewMessageClicked)="_onAddNewMessageClicked()">
+		<ldsly-create-campaign-messaging
+			[form]="_messagingForm"
+			[delayUnits]="_delayUnits"
+			(addNewMessageClicked)="_onAddNewMessageClicked()"
+			(removeNewMessageClicked)="_onRemoveNewMessageClicked()"
+		>
 		</ldsly-create-campaign-messaging>
 	</mat-step>
 	<mat-step>
 		<ng-template matStepLabel>Done</ng-template>
 		<p>{{ 'ldsly.campaigns.new-campaign.launch.labels.review-and-launch' | translate }}</p>
 		<div class="action-buttons">
-			<button mat-raised-button matStepperPrevious>{{ 'ldsly.buttons.back' | translate }}</button>
-			<button color="primary" mat-raised-button (click)="_onLaunchCampaignClicked()">{{ 'ldsly.buttons.launch-campaign' | translate }}</button>
+			<button class="action-buttons--back-btn" mat-raised-button matStepperPrevious>{{ 'ldsly.buttons.back' | translate }}</button>
+			<button color="primary" mat-raised-button [disabled]="_inProgress" (click)="_onLaunchCampaignClicked()">
+				{{ 'ldsly.buttons.launch-campaign' | translate }}
+				<ldsly-spinner *ngIf="_inProgress" [type]="'button'" color="accent" [diameter]="_spinnerDiameter" [strokeWidth]="_spinnerStrokeWidth">
+				</ldsly-spinner>
+			</button>
 		</div>
 	</mat-step>
 </mat-stepper>

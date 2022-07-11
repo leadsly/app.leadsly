@@ -17,8 +17,8 @@ import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.mode
 import { TimeZone } from 'app/core/models/time-zone.model';
 import { filter, Observable, shareReplay, startWith, tap } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { LeadslyService } from '../../core/leadsly/leadsly.service';
 import * as Leadsly from '../../core/leadsly/leadsly.store.actions';
-import { LeadslyService } from '../../core/services/leadsly/leadsly.service';
 import { LeadslyState } from './../../core/leadsly/leadsly.store.state';
 import { ConnectedInfo } from './../../core/models/connected-info.model';
 import { TimezonesAsyncService } from './../../core/services/time-zones-async.service';
@@ -118,10 +118,7 @@ export class ProfileSandboxService {
 	 */
 	getConnectedInfo$(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		this._leadslyService
-			.getConnectedAccountInfo$(userId)
-			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))))
-			.subscribe();
+		this._leadslyService.getConnectedAccountInfo$(userId).subscribe();
 	}
 
 	/**

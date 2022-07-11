@@ -1,6 +1,6 @@
 <form [formGroup]="_form">
 	<ng-container formArrayName="messages">
-		<ng-container *ngFor="let messageFormGroup of _form.get('messages')['controls']; let i = index">
+		<ng-container *ngFor="let messageFormGroup of _form.get('messages')['controls']; let i = index; let last = last">
 			<ng-container [formGroupName]="i">
 				<div class="messaging-details__unit">
 					<div>
@@ -40,6 +40,15 @@
 	</ng-container>
 
 	<div class="messaging-container__new-message-btn">
+		<div class="messaging-container__remove-new-message-btn">
+			<mat-icon
+				*ngIf="_form.get('messages')['controls']?.length > 1"
+				(click)="_onRemoveNewMessageClicked()"
+				aria-hidden="false"
+				aria-label="Remove search url icon"
+				>remove
+			</mat-icon>
+		</div>
 		<button color="accent" mat-button type="button" (click)="_onAddNewMessageClicked()">
 			<mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>{{ 'ldsly.buttons.add-new-message' | translate }}
 		</button>

@@ -38,8 +38,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 	 */
 	_loading = false;
 
-	_test = { value: false };
-
 	/**
 	 * @description Error stream.
 	 */
@@ -75,7 +73,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 		this._log.trace('[CampaignListComponent] Initialized.', this);
 		this.error$ = this._setErrorStream$();
 		this._listenForServerErrors();
-
 		this._campaigns$ = this._getUserCampaigns$();
 	}
 
@@ -149,7 +146,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 	 */
 	private _getUserCampaigns$(): Observable<Campaign[]> {
 		this._loading = true;
-		this._test = { value: true };
 		return merge(this._sb.campaigns$, this._sb.getUserCampaigns$().pipe(tap((_) => (this._loading = false))));
 	}
 

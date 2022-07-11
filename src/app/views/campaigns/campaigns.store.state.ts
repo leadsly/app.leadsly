@@ -103,11 +103,11 @@ export class CampaignsState {
 	 * @param action
 	 */
 	@Action(Campaigns.Create)
-	create(ctx: StateContext<CampaignsStateModel>, action: Campaigns.Update): void {
-		this._log.info('[CampaignsStore] Creating a new campaign.', this);
+	create(ctx: StateContext<CampaignsStateModel>, action: Campaigns.Create): void {
+		this._log.info('[CampaignsStore] Creating a new campaign.', this, action);
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
-				draft.entities[action.payload.id] = action.payload;
+				draft.entities[action.payload.campaign.id] = action.payload.campaign;
 			})
 		);
 	}

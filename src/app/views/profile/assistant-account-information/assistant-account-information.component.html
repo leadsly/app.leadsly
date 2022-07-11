@@ -13,7 +13,8 @@
 
 	<div class="assistant-information__account-overview">
 		<ldsly-linked-account-overview
-			[form]="_connectForm"
+			[connectForm]="_connectForm"
+			[connectedForm]="_connectedForm"
 			[serverErrorOccured]="_serverErrorOccured$ | async"
 			[disabled]="_isLinkAccountDisabled"
 			[connectedInfo]="_connectedInfo$ | async"

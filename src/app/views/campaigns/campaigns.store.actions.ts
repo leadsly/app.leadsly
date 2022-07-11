@@ -33,7 +33,7 @@ export class Create {
 	 * Creates an instance of create campaign.
 	 * @param payload
 	 */
-	constructor(public payload: Campaign) {}
+	constructor(public payload: { campaign: Campaign }) {}
 }
 
 /**

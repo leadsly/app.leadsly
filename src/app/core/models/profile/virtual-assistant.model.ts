@@ -6,6 +6,7 @@ export interface VirtualAssistant {
 	 * @description Virtual assistant id.
 	 */
 	virtualAssistantId?: string;
+
 	/**
 	 * @description Virtual assistant hal id.
 	 */

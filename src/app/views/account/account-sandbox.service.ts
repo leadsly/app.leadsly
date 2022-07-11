@@ -9,6 +9,7 @@ import { NotificationService } from 'app/core/core.module';
 import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
 import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
 import { AsyncValidatorsService } from 'app/core/form-validators/validators-async.service';
+import { LeadslyService } from 'app/core/leadsly/leadsly.service';
 import { LogService } from 'app/core/logger/log.service';
 import { AccountGeneralDetails } from 'app/core/models/account/general/account-general-details.model';
 import { AccountSecurityDetails } from 'app/core/models/account/security/account-security-details.model';
@@ -19,7 +20,6 @@ import { ChangeEmailRequest } from 'app/core/models/auth/change-email-request.mo
 import { PasswordChange } from 'app/core/models/auth/password-change.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { LeadslyService } from 'app/core/services/leadsly/leadsly.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
 import { Observable } from 'rxjs';

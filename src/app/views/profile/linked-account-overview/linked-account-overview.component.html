@@ -13,7 +13,7 @@
 
 			<div>
 				<ng-container *ngIf="_connectedInfo?.isConnected; else linkAccount">
-					<ldsly-connected-account [serverErrorOccured]="_serverErrorOccured" [form]="_form" (disconnect)="_onDisconnectRequested()">
+					<ldsly-connected-account [serverErrorOccured]="_serverErrorOccured" [form]="_connectedForm" (disconnect)="_onDisconnectRequested()">
 					</ldsly-connected-account>
 				</ng-container>
 			</div>
@@ -23,7 +23,7 @@
 
 <ng-template #linkAccount>
 	<ldsly-link-account
-		[form]="_form"
+		[form]="_connectForm"
 		[serverErrorOccured]="_serverErrorOccured"
 		[connectLinkedInAccountResult]="_connectLinkedInAccountResult"
 		(connect)="_onConnectToVirtualAssistant($event)"

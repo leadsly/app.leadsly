@@ -41,16 +41,29 @@ export class CreateCampaignMessagingComponent {
 	@Output() addNewMessageClicked: EventEmitter<void> = new EventEmitter<void>();
 
 	/**
+	 * @description Event emitter when user wants to remove new message.
+	 */
+	@Output() removeNewMessageClicked: EventEmitter<void> = new EventEmitter<void>();
+
+	/**
 	 * Creates an instance of create campaign messaging component.
 	 * @param _log
 	 */
 	constructor(private _log: LogService) {}
 
 	/**
-	 * @description Event emitter when user wants to add new message
+	 * @description Event handler when user wants to add new message
 	 */
 	_onAddNewMessageClicked(): void {
 		this._log.trace('[_onAddNewMessageClicked] event handler executed.', this);
 		this.addNewMessageClicked.emit();
+	}
+
+	/**
+	 * @description event handler when user clicks to remove a message.
+	 */
+	_onRemoveNewMessageClicked(): void {
+		this._log.trace('[_onRemoveNewMessageClicked] event handler executed.', this);
+		this.removeNewMessageClicked.emit();
 	}
 }

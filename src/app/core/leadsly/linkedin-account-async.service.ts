@@ -5,8 +5,8 @@ import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
 import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../../api-url-injection-token';
-import { ConnectedInfo } from '../../models/connected-info.model';
+import { BACKEND_API_URL } from '../api-url-injection-token';
+import { ConnectedInfo } from '../models/connected-info.model';
 
 /**
  * @description LinkedIn account async service.

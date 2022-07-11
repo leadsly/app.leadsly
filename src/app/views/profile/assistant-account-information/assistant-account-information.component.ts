@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LdslyValidators } from 'app/core/form-validators/ldsly-validators';
 import { LogService } from 'app/core/logger/log.service';
@@ -51,9 +51,14 @@ export class AssistantAccountInformationComponent implements OnInit {
 	_virtualAssistantSetupForm: FormGroup;
 
 	/**
-	 * @description Connect to virtual assistant form.
+	 * @description Connect LinkedIn account to virtual assistant form.
 	 */
 	_connectForm: FormGroup;
+
+	/**
+	 * @description Connected LinkedIn account.
+	 */
+	_connectedForm: FormGroup;
 
 	/**
 	 * @description Whether any server errors occured.
@@ -89,7 +94,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * Creates an instance of assistant account information component.
 	 * @param _sb
 	 */
-	constructor(private _log: LogService, private _sb: ProfileSandboxService, private _fb: FormBuilder) {
+	constructor(private _log: LogService, private _sb: ProfileSandboxService, private _fb: FormBuilder, private _cd: ChangeDetectorRef) {
 		this._problemDetails$ = _sb.problemDetails$;
 		this._internalServerErrorDetails$ = _sb.internalServerErrorDetails$;
 	}
@@ -242,9 +247,10 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _getConnectedInfo$(): Observable<ConnectedInfo> {
 		return this._sb.connectedInfo$.pipe(
+			filter((resp) => !!resp),
 			tap((resp) => {
 				this._log.debug('_getConnectedInfo$', this, resp);
-				this._connectForm.get('username').setValue(resp?.connectedAccount?.email);
+				this._connectedForm.get('username').setValue(resp?.connectedAccount?.email || '');
 			})
 		);
 	}
@@ -266,7 +272,18 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _initForms(): void {
 		this._connectForm = this._createConnectForm();
+		this._connectedForm = this._createConnectedForm();
 		this._virtualAssistantSetupForm = this._createVirtualAssistantSetupForm();
+	}
+
+	/**
+	 * @description Creates connected form.
+	 * @returns connected form
+	 */
+	private _createConnectedForm(): FormGroup {
+		return this._fb.group({
+			username: this._fb.control('')
+		});
 	}
 
 	/**

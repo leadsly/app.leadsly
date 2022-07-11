@@ -10,3 +10,11 @@ mat-form-field {
 .messaging-container__new-message-btn {
 	margin: 16px 0;
 }
+
+.messaging-container__remove-new-message-btn {
+	display: flex;
+
+	mat-icon {
+		margin-left: auto;
+	}
+}

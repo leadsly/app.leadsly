@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-
 import { NotificationService } from 'app/core/core.module';
-
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { DeleteVirtualAssistantResult } from 'app/core/models/profile/delete-virtual-assistant-result.model';
@@ -13,9 +11,8 @@ import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.model';
 import { map, Observable, of, tap } from 'rxjs';
-import * as Leadsly from '../../leadsly/leadsly.store.actions';
-import { LogService } from '../../logger/log.service';
-
+import { LogService } from '../logger/log.service';
+import * as Leadsly from './leadsly.store.actions';
 import { LinkedInAccountAsyncService } from './linkedin-account-async.service';
 import { VirtualAssistantAsyncService } from './virtual-assistant-async.service';
 
@@ -50,6 +47,14 @@ export class LeadslyService {
 	}
 
 	/**
+	 * @description Gets virtual assistant info and sets it to store.
+	 * @returns virtual assistant info$
+	 */
+	getVirtualAssistantInfo$(): Observable<VirtualAssistantInfo> {
+		return this._virtualAssistantAsyncService.getInfo$();
+	}
+
+	/**
 	 * @description Deletes virtual assistant$
 	 * @param virtualAssistantId
 	 * @returns virtual assistant$
@@ -59,19 +64,13 @@ export class LeadslyService {
 	}
 
 	/**
-	 * @description Gets virtual assistant info.
-	 * @returns virtual assistant info$
-	 */
-	getVirtualAssistantInfo$(): Observable<VirtualAssistantInfo> {
-		return this._virtualAssistantAsyncService.getInfo$();
-	}
-
-	/**
 	 * @description Gets connected account info.
 	 * @returns connected account info$
 	 */
 	getConnectedAccountInfo$(userId: string): Observable<ConnectedInfo> {
-		return this._linkedInAccountAsyncService.getInfo$(userId);
+		return this._linkedInAccountAsyncService
+			.getInfo$(userId)
+			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))));
 	}
 
 	/**

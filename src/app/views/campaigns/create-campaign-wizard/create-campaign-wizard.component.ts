@@ -6,6 +6,9 @@ import { CampaignDetails } from 'app/core/models/campaigns/campaign-details';
 import { CampaignMessage } from 'app/core/models/campaigns/campaign-message';
 import { DelayUnit } from 'app/core/models/campaigns/delay-unit.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
+import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
+import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { LDSLY_SMALL_SPINNER_DIAMETER, LDSLY_SMALL_SPINNER_STROKE_WIDTH } from 'app/shared/global-settings/mat-spinner-settings';
 import { CampaignType } from '../../../core/models/campaigns/campaign-type';
 import { NewCampaign } from './../../../core/models/campaigns/new-campaign';
 
@@ -40,6 +43,21 @@ export class CreateCampaignWizardComponent implements OnInit {
 	private _initialNumberOfMessages = 1;
 
 	/**
+	 * Button spinner diameter.
+	 */
+	readonly _spinnerDiameter = LDSLY_SMALL_SPINNER_DIAMETER;
+
+	/**
+	 * Button spinner stroke width.
+	 */
+	readonly _spinnerStrokeWidth = LDSLY_SMALL_SPINNER_STROKE_WIDTH;
+
+	/**
+	 * @description Whether request is currently in progress.
+	 */
+	_inProgress = false;
+
+	/**
 	 * @description Delay units for automated messages.
 	 */
 	_delayUnits: DelayUnit[] = [
@@ -47,6 +65,14 @@ export class CreateCampaignWizardComponent implements OnInit {
 		{ unit: 'hours', viewData: 'Hours' },
 		{ unit: 'days', viewData: 'Days' }
 	];
+
+	/**
+	 * @description Sets in progress flag to false on error.
+	 */
+	@Input() set serverErrorOccured(value: ProblemDetails | InternalServerErrorDetails) {
+		this._log.debug('serverErrorOccured setter executed', this, value);
+		this._inProgress = false;
+	}
 
 	/**
 	 * @description Setter for triggering details form initialization.
@@ -78,26 +104,11 @@ export class CreateCampaignWizardComponent implements OnInit {
 	}
 
 	/**
-	 * @description Event handler when user wants to add new message.
-	 */
-	_onAddNewMessageClicked(): void {
-		this._log.trace('[_onAddNewMessageClicked]: event handler executed.', this);
-		const messages = this._messagingForm.get('messages')['controls'] as FormArray;
-		messages.push(this._addMessageFormGroup());
-	}
-
-	/**
-	 * @description Event handler when user wants to remove a message.
-	 */
-	_onDeleteMessageClicked(): void {
-		this._log.error('NOT IMPLEMENTED');
-	}
-
-	/**
 	 * @description Event handler for launching user campaign.
 	 */
 	_onLaunchCampaignClicked(): void {
 		this._log.trace('[_onLaunchCampaignClicked] event handler executed');
+		this._inProgress = true;
 		this._messagingForm.get('messages').updateValueAndValidity();
 		this._detailsForm.get('primaryProspectList').get('searchUrls').updateValueAndValidity();
 		const campaignDetails = this._detailsForm.value as CampaignDetails;
@@ -111,9 +122,35 @@ export class CreateCampaignWizardComponent implements OnInit {
 	}
 
 	/**
+	 * @description Event handler when user wants to add new message.
+	 */
+	_onAddNewMessageClicked(): void {
+		this._log.trace('[_onAddNewMessageClicked]: event handler executed.', this);
+		const messages = this._messagingForm.get('messages')['controls'] as FormArray;
+		messages.push(this._addMessageFormGroup());
+	}
+
+	/**
+	 * @description Event handler when user clicks to remove new message.
+	 */
+	_onRemoveNewMessageClicked(): void {
+		this._log.trace('[_onRemoveNewMessageClicked]: event handler executed.', this);
+		const messages = this._messagingForm.get('messages') as FormArray;
+		messages.removeAt(messages.length - 1);
+	}
+
+	/**
+	 * @description Event handler when user wants to remove a message.
+	 */
+	_onDeleteMessageClicked(): void {
+		this._log.error('NOT IMPLEMENTED');
+	}
+
+	/**
 	 * @description Event handler when user clicks to add new search url control
 	 */
 	_onSearchUrlControlAdded(): void {
+		this._log.trace('[_onSearchUrlControlAdded]: event handler executed.', this);
 		const formArray = this._detailsForm.get('primaryProspectList').get('searchUrls')['controls'] as FormArray;
 		formArray.push(this._createSearchUrlControl());
 	}
@@ -122,6 +159,7 @@ export class CreateCampaignWizardComponent implements OnInit {
 	 * @description Event handler when user clicks to remove search url control.
 	 */
 	_onSearchUrlControlRemoved(): void {
+		this._log.trace('[_onSearchUrlControlRemoved]: event handler executed.', this);
 		const formArray = this._detailsForm.get('primaryProspectList').get('searchUrls') as FormArray;
 		formArray.removeAt(formArray.length - 1);
 	}

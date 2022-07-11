@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 
+import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import * as Auth from '../auth/auth.store.actions';
 import { AuthState } from '../auth/auth.store.state';
+import { LeadslyService } from '../leadsly/leadsly.service';
 import { LogService } from '../logger/log.service';
-import { LeadslyService } from '../services/leadsly/leadsly.service';
 
 /**
  * App initializer service.
@@ -52,11 +53,12 @@ export class AppInitializerService {
 						.toPromise()
 						.then(async () => {
 							this._log.debug('[initUserSession] User is authenticated. Starting monitoring session activity.', this);
-							void this._authService.monitorSessionActivity$().toPromise();
+							void lastValueFrom(this._authService.monitorSessionActivity$());
 							this._log.debug('[initUserSession] monitorSessionActivity$ executed.', this);
 
-							// void lastValueFrom(this._leadslyService.getVirtualAssistantInfo$());
-							// void lastValueFrom(this._leadslyService.getConnectedAccountInfo$());
+							const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+							this._log.debug('[initUserSession] Fetching connected account info for user', this, userId);
+							void lastValueFrom(this._leadslyService.getConnectedAccountInfo$(userId));
 						});
 				}
 				if (result.error) {

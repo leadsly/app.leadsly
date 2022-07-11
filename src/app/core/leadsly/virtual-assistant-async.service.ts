@@ -3,9 +3,9 @@ import { Inject, Injectable } from '@angular/core';
 import { DeleteVirtualAssistantResult } from 'app/core/models/profile/delete-virtual-assistant-result.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { Observable } from 'rxjs';
-import { BACKEND_API_URL } from '../../api-url-injection-token';
-import { SetupVirtualAssistant } from '../../models/profile/setup-virtual-assistant.model';
-import { VirtualAssistant } from '../../models/profile/virtual-assistant.model';
+import { BACKEND_API_URL } from '../api-url-injection-token';
+import { SetupVirtualAssistant } from '../models/profile/setup-virtual-assistant.model';
+import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
 
 /**
  * @description Virtual assistant async service.

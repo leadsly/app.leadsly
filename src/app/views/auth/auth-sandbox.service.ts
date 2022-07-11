@@ -21,16 +21,14 @@ import { PasswordReset } from 'app/core/models/auth/password-reset.model';
 import { SigninUser } from 'app/core/models/auth/signin-user.model';
 import { SignupUser } from 'app/core/models/auth/signup-user.model';
 import { TwoFactorRecoveryCode } from 'app/core/models/auth/two-factor-recovery-code.model';
-import { ConnectedInfo } from 'app/core/models/connected-info.model';
+
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 
 import { ProblemDetails } from 'app/core/models/problem-details.model';
-import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
-import { LeadslyService } from 'app/core/services/leadsly/leadsly.service';
 
 import { UsersAsyncService } from 'app/core/services/users-async.service';
 import { TranslateValidationErrorsService } from 'app/shared/services/translate-validation-errors.service';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../../core/auth/auth.service';
 import * as Auth from '../../core/auth/auth.store.actions';
@@ -168,7 +166,6 @@ export class AuthSandboxService {
 		private _jwtService: JsonWebTokenService,
 		private _notificationService: NotificationService,
 		private _translationService: TranslateService,
-		private _leadslyService: LeadslyService,
 		public translateValidationErrorService: TranslateValidationErrorsService,
 		public log: LogService,
 		public router: Router,
@@ -275,16 +272,6 @@ export class AuthSandboxService {
 				)
 			)
 			.subscribe();
-	}
-
-	/**
-	 * @description Gets user leadsly info. This is used to determine if user has already been connected with leadsly
-	 * and if they have a virtual assistant created.
-	 * @returns user's status of leadsly setup. If they have a virtual assistant and if they are connected.
-	 */
-	getUserLeadslyDetails$(): Observable<[ConnectedInfo, VirtualAssistantInfo]> {
-		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		return forkJoin([this._leadslyService.getConnectedAccountInfo$(userId), this._leadslyService.getVirtualAssistantInfo$()]);
 	}
 
 	/**

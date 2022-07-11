@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from 'app/core/core.module';
+import { LeadslyConnectedGuard } from 'app/core/leadsly/leadsly-connected.guard';
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { CampaignWizardContainerComponent } from './campaign-wizard-container/campaign-wizard-container.component';
 import { CampaignsContainerComponent } from './campaigns-container/campaigns-container.component';
@@ -19,7 +20,8 @@ const routes: Routes = [
 			},
 			{
 				path: 'create',
-				component: CampaignWizardContainerComponent
+				component: CampaignWizardContainerComponent,
+				canActivate: [LeadslyConnectedGuard]
 			}
 		]
 	}

@@ -103,22 +103,6 @@ export class SetConnectedInfo {
 	constructor(public payload: { connectedInfo: ConnectedInfo }) {}
 }
 
-// /**
-//  * @description Sets if user's LinkedIn account is connected with virtual assistant.
-//  */
-// export class SetIsConnected {
-// 	/**
-// 	 * @description Type of action.
-// 	 */
-// 	static readonly type = '[Leadsly] Set Is Connected';
-
-// 	/**
-// 	 * Whether user's LinkedIn account is connected with virtual assistant.
-// 	 * @param payload
-// 	 */
-// 	constructor(public payload: { isConnected: boolean }) {}
-// }
-
 /**
  * @description Delete virtual assistant.
  */

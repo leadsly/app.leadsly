@@ -9,7 +9,6 @@ import { DeleteCampaign } from '../../models/campaigns/delete-campaign.model';
 import { GetCampaign } from '../../models/campaigns/get-campaign.model';
 import { NewCampaign } from '../../models/campaigns/new-campaign';
 import { ToggleCampaignStatus } from '../../models/campaigns/toggle-campaign-status.model';
-import { OperationResponse } from '../../models/operation-response.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -67,8 +66,8 @@ export class CampaignsAsyncService {
 	 * @param campaign
 	 * @returns campaign$
 	 */
-	createCampaign$(campaign: NewCampaign): Observable<OperationResponse> {
-		return this._http.post<OperationResponse>(`${this._apiUrl}/campaigns`, JSON.stringify(campaign), { headers: this._headers });
+	createCampaign$(campaign: NewCampaign, userId: string): Observable<Campaign> {
+		return this._http.post<Campaign>(`${this._apiUrl}/users/${userId}/campaigns`, JSON.stringify(campaign), { headers: this._headers });
 	}
 
 	/**

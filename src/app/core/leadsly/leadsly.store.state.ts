@@ -94,6 +94,16 @@ export class LeadslyState {
 	}
 
 	/**
+	 * @description Selects whether user is connected to virtual assistant.
+	 * @param state
+	 * @returns true if is user connected
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectIsUserConnected(state: LeadslyStateModel): boolean {
+		return state.connectedInfo.isConnected;
+	}
+
+	/**
 	 * @description Selects connect linked in account result.
 	 * @param state
 	 * @returns connect linked in account result

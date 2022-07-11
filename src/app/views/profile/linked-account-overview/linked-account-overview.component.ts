@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
 import { LogService } from 'app/core/logger/log.service';
 import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
@@ -57,12 +56,22 @@ export class LinkedAccountOverviewComponent {
 	/**
 	 * @description Sets link account form.
 	 */
-	@Input() set form(value: FormGroup) {
+	@Input() set connectedForm(value: FormGroup) {
 		this._log.debug('form setter executed', this, value);
-		this._form = value;
+		this._connectedForm = value;
 	}
 
-	_form: FormGroup;
+	_connectedForm: FormGroup;
+
+	/**
+	 * @description Sets link account form.
+	 */
+	@Input() set connectForm(value: FormGroup) {
+		this._log.debug('form setter executed', this, value);
+		this._connectForm = value;
+	}
+
+	_connectForm: FormGroup;
 
 	/**
 	 * @description Sets connect linked in account result.
