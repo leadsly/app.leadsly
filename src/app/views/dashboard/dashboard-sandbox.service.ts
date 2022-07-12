@@ -5,15 +5,16 @@ import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { GetCampaign } from 'app/core/models/campaigns/get-campaign.model';
+
 import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
+import { CampaignsReport } from 'app/core/models/reports/campaigns-report.model';
 import { SelectedCampaign } from 'app/core/models/reports/selected-campaign.model';
-import { DashboardAsyncService } from 'app/core/services/dashboard-async.service';
+import { ReportsAsyncService } from 'app/core/services/reports/report-async.service';
 import { UsersAsyncService } from 'app/core/services/users-async.service';
-import { Observable, tap } from 'rxjs';
+import { filter, forkJoin, iif, Observable, of, switchMap, tap } from 'rxjs';
 import { CampaignsAsyncService } from '../../core/services/campaigns/campaigns-async.service';
 import * as CampaignsActions from '../campaigns/campaigns.store.actions';
 import { CampaignsState } from '../campaigns/campaigns.store.state';
-import { GetCampaigns } from './../../core/models/campaigns/get-campaigns-model';
 import { CacheService } from './../../core/services/cache.service';
 import * as Dashboard from './dashboard.store.actions.ts';
 import { DashboardState } from './dashboard.store.state.ts';
@@ -28,7 +29,7 @@ export class DashboardSandboxService {
 	/**
 	 * @description Gets campaigns effectiveness report.
 	 */
-	@Select(DashboardState.getCampaignsIdsUsedForReport) campaignsIdsUsedForReport$: Observable<string[]>;
+	// @Select(DashboardState.getCampaignsIdsUsedForReport) campaignsIdsUsedForReport$: Observable<string[]>;
 
 	/**
 	 * @description Selects id for the selected campaign effectiveness report.
@@ -38,7 +39,7 @@ export class DashboardSandboxService {
 	/**
 	 * @description Gets campaigns effectiveness by id.
 	 */
-	@Select(DashboardState.getEffectivenessReportByCampaignId) getEffectivenessReportByCampaignId$: Observable<
+	@Select(DashboardState.selectGeneralReportByCampaignId) selectGeneralReportByCampaignId$: Observable<
 		(id: string) => {
 			chartOptionsApex: ChartOptionsApex;
 		}
@@ -47,7 +48,7 @@ export class DashboardSandboxService {
 	/**
 	 * @description Gets users campaigns.
 	 */
-	@Select(CampaignsState.getCampaigns) campaigns$: Observable<Campaign[]>;
+	@Select(CampaignsState.selectCampaigns) campaigns$: Observable<Campaign[]>;
 
 	/**
 	 * @description Gets campaign by its id.
@@ -65,21 +66,47 @@ export class DashboardSandboxService {
 	constructor(
 		private _log: LogService,
 		private _store: Store,
-		private _dashboardAsyncService: DashboardAsyncService,
 		private _campaignAsyncService: CampaignsAsyncService,
 		private _userAsyncService: UsersAsyncService,
+		private _reportAsyncService: ReportsAsyncService,
 		private _cacheService: CacheService,
 		public router: Router
 	) {}
 
 	/**
-	 * @description Gets user's campaigns effectiveness report
+	 * @description Gets users general report
 	 */
-	getUserCampaignsEffectivenessReport(): void {
+	getGeneralReport(): void {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		this._cacheService
-			.getCampaignsEffectivenessReportsData$(userId)
-			.pipe(tap((options) => this._store.dispatch(new Dashboard.InitializeCampaignsEffectivenessReport(options))))
+		// check if we have already fetched the general report
+		this._store
+			.selectOnce(DashboardState.selectCampaignGeneralReport)
+			.pipe(
+				switchMap((report) => {
+					return iif(
+						// if the report object has no keys
+						() => Object.keys(report).length === 0,
+						// fetch the general report
+						this._reportAsyncService.getGeneralReport$().pipe(
+							filter((resp) => resp.items.length !== 0),
+							// cache the general report
+							tap((report: CampaignsReport) => this._store.dispatch(new Dashboard.SetCampaignsGeneralReport(report))),
+							switchMap((report) =>
+								forkJoin(
+									// grab all of the campaign ids and fetch the campaigns
+									report.items.map((x) =>
+										this._campaignAsyncService
+											.getById$(x.campaignId, userId)
+											.pipe(tap((campaign) => this._store.dispatch(new CampaignsActions.Create({ campaign: campaign }))))
+									)
+								)
+							),
+							switchMap((_) => this._store.selectOnce(DashboardState.selectCampaignGeneralReport))
+						),
+						of(report)
+					);
+				})
+			)
 			.subscribe();
 	}
 
@@ -96,9 +123,9 @@ export class DashboardSandboxService {
 	 * @description Handles dispatching action for currently selected campaign for effectiveness report.
 	 * @param selected
 	 */
-	updateSelectedCampaignEffectivenessReport(selected: SelectedCampaign): void {
-		this._log.trace('[DashboardSandboxService] updateSelectedCampaignEffectivenessReport executing with id', this, selected.id);
-		this._store.dispatch(new Dashboard.UpdateSelectedCampaignEffectivenessReport(selected));
+	updateSelectedGeneralReport(selected: SelectedCampaign): void {
+		this._log.trace('[DashboardSandboxService] updateSelectedGeneralReport executing with id', this, selected.id);
+		this._store.dispatch(new Dashboard.UpdateSelectedGeneralReport(selected));
 	}
 
 	/**
@@ -117,11 +144,11 @@ export class DashboardSandboxService {
 	 * @description Gets campaigns by ids.
 	 * @param campaigns
 	 */
-	getCampaignsByIds(campaigns: GetCampaigns): void {
-		this._log.trace('[DashboardSandboxService] getCampaignById executing');
-		this._cacheService
-			.getCampaignByIds$(campaigns)
-			.pipe(tap((camps) => this._store.dispatch(new CampaignsActions.SetUserCampaigns(camps))))
-			.subscribe();
-	}
+	// getCampaignsByIds(campaigns: GetCampaigns): void {
+	// 	this._log.trace('[DashboardSandboxService] getCampaignById executing');
+	// 	this._cacheService
+	// 		.getCampaignByIds$(campaigns)
+	// 		.pipe(tap((camps) => this._store.dispatch(new CampaignsActions.SetUserCampaigns(camps))))
+	// 		.subscribe();
+	// }
 }

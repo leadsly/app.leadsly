@@ -7,11 +7,11 @@ import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { UpdateOperation } from 'app/core/models/update-operation.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { map, merge, Observable, Subscription, tap } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { CampaignsSandboxService } from '../campaigns-sandbox.service';
-import { ToggleCampaignStatus } from './../../../core/models/campaigns/toggle-campaign-status.model';
 
 /**
  * Campaigns list component.
@@ -86,26 +86,27 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Create campaign event handler.
 	 */
-	_onCreateCampaignClicked(): void {
+	_onCreateClicked(): void {
 		void this._sb.router.navigate(['create'], { relativeTo: this._route.parent });
 	}
 
 	/**
-	 * Event handler when user toggles campaign from active to deactivated.
+	 * @description Updates campaign.
 	 * @param event
+	 * @param campaignId
 	 */
-	_onToggleCampaign(event: ToggleCampaignStatus): void {
-		this._log.trace('[CampaignListComponent] _onToggleCampaign event handler fired.', this);
-		this._sb.toggleCampaign(event);
+	_onUpdate(event: UpdateOperation[], campaignId: string): void {
+		this._log.trace('[CampaignListComponent] _onUpdate event handler fired.', this);
+		this._sb.update(event, campaignId);
 	}
 
 	/**
 	 * Event handler when user deletes a campaign.
 	 * @param event
 	 */
-	_onDeleteCampaign(event: DeleteCampaign): void {
-		this._log.trace('[CampaignListComponent] _onDeleteCampaign event handler fired.', this);
-		this._sb.deleteCampaign(event);
+	_onDelete(event: DeleteCampaign): void {
+		this._log.trace('[CampaignListComponent] _onDelete event handler fired.', this);
+		this._sb.delete(event);
 	}
 
 	/**
@@ -113,7 +114,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 	 * @param event
 	 * @param campaign
 	 */
-	_cloneCampaign(event: CloneCampaign, campaign: Campaign): void {
+	_onClone(event: CloneCampaign, campaign: Campaign): void {
 		this._log.trace('[CampaignListComponent] _cloneCampaign event handler fired.', this);
 		const clonedCampaign: Campaign = {
 			id: uuidv4(),
@@ -128,16 +129,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 			totalConnectionsSent: campaign.totalConnectionsSent
 		};
 
-		this._sb.cloneCampaign(event, clonedCampaign);
-	}
-
-	/**
-	 * Event handler when user wants to updated campaign.
-	 * @param event
-	 */
-	_onUpdateCampaign(event: Campaign): void {
-		this._log.trace('[CampaignListComponent] _onUpdateCampaign event handler fired.', this);
-		this._sb.updateCampaign(event);
+		this._sb.clone(event, clonedCampaign);
 	}
 
 	/**

@@ -5,15 +5,15 @@ import { AuthState } from 'app/core/auth/auth.store.state';
 import { NotificationService } from 'app/core/core.module';
 import { InternalServerError } from 'app/core/error-handler/internal-server-error.decorator';
 import { ProblemDetailsError } from 'app/core/error-handler/problem-details-error.decorator';
-
 import { LeadslyState } from 'app/core/leadsly/leadsly.store.state';
 import { LogService } from 'app/core/logger/log.service';
 import { CampaignType } from 'app/core/models/campaigns/campaign-type';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
-import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
+
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
+import { UpdateOperation } from 'app/core/models/update-operation.model';
 import { CampaignsHelperService } from 'app/core/services/campaigns/campaigns-helper.service';
 import { ProspectListAsyncService } from 'app/core/services/prospect-list-async.service';
 import { iif, Observable, of } from 'rxjs';
@@ -41,7 +41,7 @@ export class CampaignsSandboxService {
 	/**
 	 * Selects user's campaigns.
 	 */
-	@Select(CampaignsState.getCampaigns) campaigns$: Observable<Campaign[]>;
+	@Select(CampaignsState.selectCampaigns) campaigns$: Observable<Campaign[]>;
 
 	/**
 	 * @description Available campaign types.
@@ -83,7 +83,7 @@ export class CampaignsSandboxService {
 	 */
 	getUserCampaigns$(): Observable<Campaign[]> {
 		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		return this._store.selectOnce(CampaignsState.getCampaigns).pipe(
+		return this._store.selectOnce(CampaignsState.selectCampaigns).pipe(
 			switchMap((campaigns) => {
 				return iif(
 					() => campaigns.length === 0,
@@ -101,22 +101,11 @@ export class CampaignsSandboxService {
 	 * @description Updates campaign.
 	 * @param campaign
 	 */
-	updateCampaign(campaign: Campaign): void {
+	update(updateOperations: UpdateOperation[], campaignId: string): void {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		this._campaignAsyncService
-			.updateCampaign$(campaign)
+			.update$(updateOperations, userId, campaignId)
 			.pipe(tap((campaign) => this._store.dispatch(new CampaignsActions.Update(campaign))))
-			.subscribe();
-	}
-
-	/**
-	 * @description Toggle's campaign active status.
-	 * @param campaign
-	 */
-	toggleCampaign(campaign: ToggleCampaignStatus): void {
-		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
-		this._store
-			.dispatch(new CampaignsActions.ToggleStatus(campaign))
-			.pipe(switchMap(() => this._campaignAsyncService.toggleActiveCampaign$(campaign)))
 			.subscribe();
 	}
 
@@ -124,11 +113,12 @@ export class CampaignsSandboxService {
 	 * @description Deletes campaign.
 	 * @param campaign
 	 */
-	deleteCampaign(campaign: DeleteCampaign): void {
+	delete(campaign: DeleteCampaign): void {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
 		this._store
 			.dispatch(new CampaignsActions.Delete(campaign))
-			.pipe(switchMap(() => this._campaignAsyncService.deleteCampaign$(campaign)))
+			.pipe(switchMap(() => this._campaignAsyncService.delete$(campaign.id, userId)))
 			.subscribe();
 	}
 
@@ -137,12 +127,14 @@ export class CampaignsSandboxService {
 	 * @param cloneCampaign
 	 * @param clonedCampaign
 	 */
-	cloneCampaign(cloneCampaign: CloneCampaign, clonedCampaign: Campaign): void {
+	clone(cloneCampaign: CloneCampaign, clonedCampaign: Campaign): void {
+		throw new Error('Method not implemented.');
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		// TODO add catchError incase server is down to roll back changes locally because were doing optimistic updates here
 		this._store
 			.dispatch(new CampaignsActions.Create({ campaign: clonedCampaign }))
 			.pipe(
-				switchMap(() => this._campaignAsyncService.cloneCampaign$(cloneCampaign)),
+				switchMap(() => this._campaignAsyncService.clone$(cloneCampaign.id, userId)),
 				tap((updatedId) =>
 					this._store.dispatch(new CampaignsActions.UpdateClonedCampaignId({ clonedCampaign: updatedId, tempId: clonedCampaign.id }))
 				)
@@ -161,7 +153,7 @@ export class CampaignsSandboxService {
 		const launchCampaign = this._campaignsHelperService.newCampaign(newCampaign, connectedAccount, halId);
 		this._log.debug('launchNewCampaign', this, launchCampaign);
 		this._campaignAsyncService
-			.createCampaign$(launchCampaign, userId)
+			.create$(launchCampaign, userId)
 			.pipe(
 				tap((resp) => this._store.dispatch(new CampaignsActions.Create({ campaign: resp }))),
 				tap((_) => this._notificationService.success('Campaign created successfully'))

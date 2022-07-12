@@ -106,10 +106,7 @@ export class ProfileSandboxService {
 	 * @returns virtual assistant
 	 */
 	getVirtualAssistantInfo$(): void {
-		this._leadslyService
-			.getVirtualAssistantInfo$()
-			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistantInfo({ virtualAssistantInfo: resp }))))
-			.subscribe();
+		this._leadslyService.getVirtualAssistantInfo$().subscribe();
 	}
 
 	/**

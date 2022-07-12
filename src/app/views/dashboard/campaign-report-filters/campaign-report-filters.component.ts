@@ -18,6 +18,7 @@ export class CampaignReportFiltersComponent implements OnInit {
 	 * @description Users campaigns.
 	 */
 	@Input() set campaigns(value: Campaign[]) {
+		this._log.debug('Campaigns setter.', this, value);
 		if (value) {
 			this._campaigns = value;
 		}
@@ -77,7 +78,7 @@ export class CampaignReportFiltersComponent implements OnInit {
 	 * @param event
 	 */
 	_onSelectionChange(event: MatSelectChange): void {
-		this._log.trace('[CampaignEffectivenessReportComponent] _onSelectionChange fired.', this, event);
+		this._log.trace('[CampaignReportFiltersComponent] _onSelectionChange fired.', this, event);
 		this.campaignSelectionChanged.emit(event.value);
 	}
 }

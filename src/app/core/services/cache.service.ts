@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Campaigns } from 'app/core/models/campaigns/campaigns.model';
 import { CampaignsState } from 'app/views/campaigns/campaigns.store.state';
-import { DashboardState } from 'app/views/dashboard/dashboard.store.state.ts';
+
 import { forkJoin, map, Observable, of } from 'rxjs';
+import { AuthState } from '../auth/auth.store.state';
 import { LogService } from '../logger/log.service';
 import { Campaign } from '../models/campaigns/campaign.model';
 import { GetCampaigns } from '../models/campaigns/get-campaigns-model';
-import { CampaignsReport } from '../models/reports/campaigns-report.model';
+
 import { GetCampaign } from './../models/campaigns/get-campaign.model';
 import { CampaignsAsyncService } from './campaigns/campaigns-async.service';
 import { UsersAsyncService } from './users-async.service';
@@ -39,9 +40,10 @@ export class CacheService {
 	 * @returns campaign by id$
 	 */
 	getCampaignById$(campaign: GetCampaign): Observable<Campaign> {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 		const getCampaignById = this._store.selectSnapshot(CampaignsState.getCampaignById);
 		const cachedCampaign = getCampaignById(campaign.campaignId);
-		return cachedCampaign ? of(cachedCampaign) : this._campaignAsyncService.getCampaignById$(campaign);
+		return cachedCampaign ? of(cachedCampaign) : this._campaignAsyncService.getById$(campaign.campaignId, userId);
 	}
 
 	/**
@@ -65,19 +67,19 @@ export class CacheService {
 	 * @param userId
 	 * @returns campaigns effectiveness reports data$
 	 */
-	getCampaignsEffectivenessReportsData$(userId: string): Observable<CampaignsReport> {
-		const chartData = this._store.selectSnapshot(DashboardState.getCampaignEffectivenessReportData);
-		console.log(chartData);
-		if (JSON.stringify(chartData) === '{}') {
-			this._log.debug('[CacheService] getCampaignsEffectivenessReportsData item chart data not found in store. Fetching from server.');
-			return this._userAsyncService.getCampaignsEffectivenessReportsData$(userId);
-		}
-		this._log.debug('[CacheService] getCampaignsEffectivenessReportsData item chart data found in store. Returning cached values.');
-		const selectedCampaignId = this._store.selectSnapshot(DashboardState.getSelectedCampaignId);
-		const campaignsReportCached: CampaignsReport = {
-			items: Object.values(chartData),
-			selectedCampaignId
-		};
-		return of(campaignsReportCached);
-	}
+	// getCampaignsEffectivenessReportsData$(userId: string): Observable<CampaignsReport> {
+	// 	const chartData = this._store.selectSnapshot(DashboardState.getCampaignEffectivenessReportData);
+	// 	console.log(chartData);
+	// 	if (JSON.stringify(chartData) === '{}') {
+	// 		this._log.debug('[CacheService] getCampaignsEffectivenessReportsData item chart data not found in store. Fetching from server.');
+	// 		return this._userAsyncService.getCampaignsEffectivenessReportsData$(userId);
+	// 	}
+	// 	this._log.debug('[CacheService] getCampaignsEffectivenessReportsData item chart data found in store. Returning cached values.');
+	// 	const selectedCampaignId = this._store.selectSnapshot(DashboardState.getSelectedCampaignId);
+	// 	const campaignsReportCached: CampaignsReport = {
+	// 		items: Object.values(chartData),
+	// 		selectedCampaignId
+	// 	};
+	// 	return of(campaignsReportCached);
+	// }
 }

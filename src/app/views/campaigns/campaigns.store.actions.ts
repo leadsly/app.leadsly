@@ -2,7 +2,6 @@ import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { Campaigns } from 'app/core/models/campaigns/campaigns.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
 import { PrimaryProspectList } from 'app/core/models/campaigns/primary-prospect-list';
-import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
 
 /**
  * Sets user's active campaigns.
@@ -34,22 +33,6 @@ export class Create {
 	 * @param payload
 	 */
 	constructor(public payload: { campaign: Campaign }) {}
-}
-
-/**
- * Toggle's campaign status.
- */
-export class ToggleStatus {
-	/**
-	 * Type of action.
-	 */
-	static readonly type = '[Campaigns] Toggles Campaign Status';
-
-	/**
-	 * Creates an instance of deactivate campaign.
-	 * @param payload
-	 */
-	constructor(public payload: ToggleCampaignStatus) {}
 }
 
 /**

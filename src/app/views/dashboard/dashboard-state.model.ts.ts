@@ -5,7 +5,7 @@ import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-opti
  * Dashboard state model.
  */
 export interface DashboardStateModel {
-	campaignEffectivenessReports: {
+	generalReport: {
 		/**
 		 * @description Chart options.
 		 */

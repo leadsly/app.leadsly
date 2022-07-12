@@ -30,7 +30,7 @@ export class CampaignsState {
 	 * @returns campaigns
 	 */
 	@Selector([CAMPAIGNS_STATE_TOKEN])
-	static getCampaigns(state: CampaignsStateModel): Campaign[] {
+	static selectCampaigns(state: CampaignsStateModel): Campaign[] {
 		return Object.values(state.entities);
 	}
 
@@ -123,21 +123,6 @@ export class CampaignsState {
 		ctx.setState(
 			produce((draft: CampaignsStateModel) => {
 				delete draft.entities[action.payload.id];
-			})
-		);
-	}
-
-	/**
-	 * @description Deactivates a campaign
-	 * @param ctx
-	 * @param action
-	 */
-	@Action(Campaigns.ToggleStatus)
-	deactivate(ctx: StateContext<CampaignsStateModel>, action: Campaigns.ToggleStatus): void {
-		this._log.info(`[CampaignsStore] Deactivating campaign with id: ${action.payload.id}.`, this);
-		ctx.setState(
-			produce((draft: CampaignsStateModel) => {
-				draft.entities[action.payload.id].active = false;
 			})
 		);
 	}

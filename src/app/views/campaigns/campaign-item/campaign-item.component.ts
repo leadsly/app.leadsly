@@ -7,7 +7,7 @@ import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { CloneCampaign } from 'app/core/models/campaigns/clone-campaign.model';
 import { DeleteCampaign } from 'app/core/models/campaigns/delete-campaign.model';
-import { ToggleCampaignStatus } from 'app/core/models/campaigns/toggle-campaign-status.model';
+import { UpdateOperation } from 'app/core/models/update-operation.model';
 import {
 	CAMPAIGN_DESCRIPTION_MOBILE_FONT,
 	CAMPAIGN_ITEM_STAT_TITLE_FONT,
@@ -60,19 +60,17 @@ export class CampaignItemComponent implements OnInit, AfterViewInit {
 	/**
 	 * Emitted when campaign status changes from active to deactivated.
 	 */
-	@Output() toggleCampaign = new EventEmitter<ToggleCampaignStatus>();
+	@Output() update = new EventEmitter<UpdateOperation[]>();
 
 	/**
 	 * Emitted when request is made to delete campaign.
 	 */
-	@Output() deleteCampaign = new EventEmitter<DeleteCampaign>();
+	@Output() delete = new EventEmitter<DeleteCampaign>();
 
 	/**
-	 * Emitted when user updates campaign.
+	 * @description Emitted when user clones campaign.
 	 */
-	@Output() updateCampaign = new EventEmitter<Campaign>();
-
-	@Output() cloneCampaign = new EventEmitter<CloneCampaign>();
+	@Output() clone = new EventEmitter<CloneCampaign>();
 
 	/**
 	 * Campaign's small grey font.
@@ -153,6 +151,9 @@ export class CampaignItemComponent implements OnInit, AfterViewInit {
 		this._log.trace(`[CampaignItem] Initialized for: ${this._campaign?.id}`);
 	}
 
+	/**
+	 * @description NgAfterViewInit life cycle.
+	 */
 	ngAfterViewInit(): void {
 		// we only care to disable this on initial load after that enable it
 		this._disableExpansionOnInitLoad = false;
@@ -204,21 +205,62 @@ export class CampaignItemComponent implements OnInit, AfterViewInit {
 	/**
 	 * Toggle for activating and deactivating user's campaign
 	 */
-	_onToggleCampaignClicked(event: MatSlideToggleChange): void {
+	_onUpdateActiveClicked(event: MatSlideToggleChange): void {
 		this._log.trace('[CampaignItemComponent] _onToggleCampaignClicked event handler fired.');
-		const toggleCampaign: ToggleCampaignStatus = {
-			id: this._campaign.id
-		};
-		this.toggleCampaign.emit(toggleCampaign);
+		const updateOperation: UpdateOperation[] = [
+			{
+				op: 'replace',
+				path: '/active',
+				value: event.checked
+			}
+		];
+		this.update.emit(updateOperation);
 	}
 
+	/**
+	 * @description Event handler when user updates daily sent connections.
+	 */
+	_onUpdateCampaignSentConnections(): void {
+		this._log.trace(
+			'[CampaignItemComponent] _onUpdateCampaignSentConnections event handler fired.',
+			this,
+			this._campaignForm.get('connectionsSentDaily').value
+		);
+		const updateOperation: UpdateOperation[] = [
+			{
+				op: 'replace',
+				path: '/dailyInvites',
+				value: this._campaignForm.get('connectionsSentDaily').value
+			}
+		];
+		this.update.emit(updateOperation);
+	}
+
+	/**
+	 * @description Event handler when user clicks to update campaign notes.
+	 */
+	_onUpdateCampaignNotes(): void {
+		this._log.trace('[CampaignItemComponent] _onUpdateCampaignNotes event handler fired.', this, this._campaignForm.get('notes').value);
+		const updateOperation: UpdateOperation[] = [
+			{
+				op: 'replace',
+				path: '/notes',
+				value: this._campaignForm.get('notes').value
+			}
+		];
+		this.update.emit(updateOperation);
+	}
+
+	/**
+	 * @description Event handler when user wants to clone a campaign.
+	 */
 	_onCloneCampaignClicked(): void {
 		this._log.trace('[CampaignItemComponent] _onCloneCampaignClicked event handler fired.');
 		const cloneCampaign: CloneCampaign = {
 			id: this._campaign.id
 		};
 
-		this.cloneCampaign.emit(cloneCampaign);
+		this.clone.emit(cloneCampaign);
 	}
 
 	/**
@@ -229,17 +271,7 @@ export class CampaignItemComponent implements OnInit, AfterViewInit {
 		const deleteCampaign: DeleteCampaign = {
 			id: this._campaign.id
 		};
-		this.deleteCampaign.emit(deleteCampaign);
-	}
-
-	/**
-	 * Event handler fired when user clicks to update campaign.
-	 */
-	_onUpdateCampaignClicked(): void {
-		this._log.trace('[CampaignItemComponent] _onUpdateCampaignClicked event handler fired.');
-		const updatedCampaign = this._campaignForm.value as Campaign;
-		this._log.trace('campaign value is', updatedCampaign);
-		this.updateCampaign.emit(updatedCampaign);
+		this.delete.emit(deleteCampaign);
 	}
 
 	/**
@@ -250,7 +282,7 @@ export class CampaignItemComponent implements OnInit, AfterViewInit {
 		this._viewNotesMobile = false;
 		if (this._campaignForm.dirty && !this._campaignForm.pristine && this._campaignForm.touched) {
 			this._log.debug('[CampaignItem] New notes detected. Updating campaign.');
-			this._onUpdateCampaignClicked();
+			this._onUpdateCampaignNotes();
 		}
 	}
 }

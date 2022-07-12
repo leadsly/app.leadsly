@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
-import { Observable } from 'rxjs';
-import { DashboardSandboxService } from '../dashboard-sandbox.service';
 
 /**
  * @description Dashboard component.
@@ -14,25 +12,16 @@ import { DashboardSandboxService } from '../dashboard-sandbox.service';
 })
 export class DashboardComponent implements OnInit {
 	/**
-	 * @description Campaigns effectiveness report ids.
-	 */
-	_campaignsIdsUsedForReport$: Observable<string[]>;
-
-	/**
 	 * Creates an instance of dashboard component.
 	 * @param _log
 	 * @param _sb
 	 */
-	constructor(private _log: LogService, private _sb: DashboardSandboxService) {
-		this._campaignsIdsUsedForReport$ = _sb.campaignsIdsUsedForReport$;
-	}
+	constructor(private _log: LogService) {}
 
 	/**
 	 * NgOnInit life cycle hook.
 	 */
 	ngOnInit(): void {
 		this._log.trace('[DashboardComponent] Initialized.');
-
-		this._sb.getUserCampaignsEffectivenessReport();
 	}
 }

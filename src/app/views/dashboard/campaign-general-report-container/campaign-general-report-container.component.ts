@@ -1,70 +1,38 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
+
 import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 import { SelectedCampaign } from 'app/core/models/reports/selected-campaign.model';
 import { MinScreenSizeQuery } from 'app/shared/screen-size-queries';
 import { combineLatestWith, map, Observable, tap } from 'rxjs';
 import { DashboardSandboxService } from '../dashboard-sandbox.service';
-import { GetCampaign } from './../../../core/models/campaigns/get-campaign.model';
 
 /**
  * @description Campaign effectiveness report containter component.
  */
 @Component({
-	selector: 'ldsly-campaign-effectiveness-report-container',
-	templateUrl: './campaign-effectiveness-report-container.component.html',
-	styleUrls: ['./campaign-effectiveness-report-container.component.scss'],
+	selector: 'ldsly-campaign-general-report-container',
+	templateUrl: './campaign-general-report-container.component.html',
+	styleUrls: ['./campaign-general-report-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CampaignEffectivenessReportContainerComponent implements OnInit, OnDestroy {
+export class CampaignGeneralReportContainerComponent implements OnInit, OnDestroy {
 	/**
-	 * @description Ids of the campaigns for which user is viewing a report for.
+	 * @description Users campaigns.
 	 */
-	@Input() set campaignsIdsUsedForReport(value: string[]) {
-		if (value && value.length > 0) {
-			this._campaignsIdsUsedForReport = value;
-			const campaigns = this._campaignsIdsUsedForReport.map((c) => {
-				return {
-					campaignId: c
-				} as GetCampaign;
-			});
-			this._log.debug('[CampaignEffectivenessReportContainerComponent] Getting users campaigns by ids.');
-			this._sb.getCampaignsByIds({
-				campaignIds: campaigns
-			});
-		}
-	}
+	_campaigns$: Observable<Campaign[]>;
 
 	/**
-	 * @description campaigns effectiviness report ids.
-	 */
-	_campaignsIdsUsedForReport: string[];
-
-	/**
-	 * @description The default selected campaign report.
+	 * @description The default selected campaign report this is set on the server.
 	 */
 	_selectedCampaignId$: Observable<string>;
-
-	/**
-	 * @description Gets effectiveness report chart data by campaign id.
-	 */
-	private _getEffectivenessReportByCampaignId$: Observable<
-		(id: string) => {
-			chartOptionsApex: ChartOptionsApex;
-		}
-	>;
 
 	/**
 	 * Whether specified screen width was matched.
 	 */
 	_breakpointStateScreenMatcher$: Observable<BreakpointState>;
-
-	/**
-	 * @description User's campaigns.
-	 */
-	_campaigns$: Observable<Campaign[]>;
 
 	/**
 	 * @description Currently selected effectiveness report chart options.
@@ -74,13 +42,22 @@ export class CampaignEffectivenessReportContainerComponent implements OnInit, On
 	}>;
 
 	/**
+	 * @description Gets effectiveness report chart data by campaign id.
+	 */
+	private _selectGeneralReportByCampaignId$: Observable<
+		(id: string) => {
+			chartOptionsApex: ChartOptionsApex;
+		}
+	>;
+
+	/**
 	 * Creates an instance of report container component.
 	 * @param _log
 	 */
 	constructor(private _log: LogService, breakpointObserver: BreakpointObserver, private _sb: DashboardSandboxService) {
 		this._breakpointStateScreenMatcher$ = breakpointObserver.observe([MinScreenSizeQuery.md]);
 		this._selectedCampaignId$ = _sb.selectedCampaignId$;
-		this._getEffectivenessReportByCampaignId$ = _sb.getEffectivenessReportByCampaignId$;
+		this._selectGeneralReportByCampaignId$ = _sb.selectGeneralReportByCampaignId$;
 		this._campaigns$ = _sb.campaigns$;
 	}
 
@@ -89,12 +66,8 @@ export class CampaignEffectivenessReportContainerComponent implements OnInit, On
 	 */
 	ngOnInit(): void {
 		this._log.trace('[ReportContainerComponent] Initialized.');
-
-		this._selectedCampaignReportChartOptions$ = this._selectedCampaignId$.pipe(
-			tap((_) => this._log.debug('[ReportContainerComponent] _selectedCampaignId changed. Fetching corresponding chart options.', this)),
-			combineLatestWith(this._getEffectivenessReportByCampaignId$),
-			map(([id, getById]) => getById(id))
-		);
+		this._sb.getGeneralReport();
+		this._selectedCampaignReportChartOptions$ = this._setSelectedGeneralReportStream$();
 	}
 
 	/**
@@ -121,6 +94,20 @@ export class CampaignEffectivenessReportContainerComponent implements OnInit, On
 		const selectedCampaign: SelectedCampaign = {
 			id: event
 		};
-		this._sb.updateSelectedCampaignEffectivenessReport(selectedCampaign);
+		this._sb.updateSelectedGeneralReport(selectedCampaign);
+	}
+
+	/**
+	 * @description Sets selected general report stream.
+	 * @returns selected general report stream$
+	 */
+	private _setSelectedGeneralReportStream$(): Observable<{
+		chartOptionsApex: ChartOptionsApex;
+	}> {
+		return this._selectedCampaignId$.pipe(
+			tap((_) => this._log.debug('[ReportContainerComponent] _selectedCampaignId changed. Fetching corresponding chart options.', this, _)),
+			combineLatestWith(this._selectGeneralReportByCampaignId$),
+			map(([id, getById]) => getById(id))
+		);
 	}
 }

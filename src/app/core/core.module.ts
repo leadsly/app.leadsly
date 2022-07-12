@@ -11,7 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGithub, faInstagram, faMediumM, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -37,6 +37,7 @@ import {
 	upDownFadeInAnimation
 } from 'app/core/animations/element.animations';
 import { I18nModule } from 'app/i18n/i18n.module';
+import { CampaignsState } from 'app/views/campaigns/campaigns.store.state';
 import { environment } from '../../environments/environment';
 import { AnimationsService } from './animations/animations.service';
 import { routeAnimations, ROUTE_ANIMATIONS_ELEMENTS } from './animations/route.animations';
@@ -98,7 +99,7 @@ export {
 		I18nModule,
 
 		// ngxs
-		NgxsModule.forRoot([SettingsState, AuthState, LeadslyState], {
+		NgxsModule.forRoot([SettingsState, AuthState, LeadslyState, CampaignsState], {
 			developmentMode: !environment.production,
 			selectorOptions: {
 				suppressErrors: false,

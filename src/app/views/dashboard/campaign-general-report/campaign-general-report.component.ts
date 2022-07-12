@@ -7,16 +7,17 @@ import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-opti
  * Campaigns effectiveness chart.
  */
 @Component({
-	selector: 'ldsly-campaign-effectiveness-report',
-	templateUrl: './campaign-effectiveness-report.component.html',
-	styleUrls: ['./campaign-effectiveness-report.component.scss'],
+	selector: 'ldsly-campaign-general-report',
+	templateUrl: './campaign-general-report.component.html',
+	styleUrls: ['./campaign-general-report.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CampaignEffectivenessReportComponent implements OnInit {
+export class CampaignGeneralReportComponent implements OnInit {
 	/**
 	 * @description Currently selected campaign effectiveness report chart options.
 	 */
 	@Input() set selectedCampaignReportChartOptions(value: { chartOptionsApex: ChartOptionsApex }) {
+		this._log.debug('Chart options setter.', this, value);
 		if (value) {
 			this._selectedCampaignReportChartOptions = value.chartOptionsApex;
 		}
@@ -61,6 +62,6 @@ export class CampaignEffectivenessReportComponent implements OnInit {
 	 * @description NgOnInit life cycle.
 	 */
 	ngOnInit(): void {
-		this._log.trace('[CampaignEffectivenessReportComponent] Initialized.');
+		this._log.trace('Initialized.', this);
 	}
 }

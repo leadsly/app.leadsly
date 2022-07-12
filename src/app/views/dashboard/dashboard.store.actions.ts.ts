@@ -5,11 +5,11 @@ import { CampaignsReport } from './../../core/models/reports/campaigns-report.mo
 /**
  * Initializes campaigns effectiveness report.
  */
-export class InitializeCampaignsEffectivenessReport {
+export class SetCampaignsGeneralReport {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Reports] Initializes Campaigns Effectiveness Reports';
+	static readonly type = '[Reports] Set Campaigns General Report';
 
 	/**
 	 * Creates an instance of users campaigns effectiveness reports.
@@ -37,11 +37,11 @@ export class UpdateCampaignsEffectivenessChartOptions {
 /**
  * Updates currently selected campaign for campaign effectiveness report.
  */
-export class UpdateSelectedCampaignEffectivenessReport {
+export class UpdateSelectedGeneralReport {
 	/**
 	 * Type of action.
 	 */
-	static readonly type = '[Reports] Update Selected Campaign Effectiveness Report';
+	static readonly type = '[Reports] Update Selected General Report';
 
 	/**
 	 * Creates an instance of users campaigns effectiveness report.

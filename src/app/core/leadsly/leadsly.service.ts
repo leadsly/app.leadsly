@@ -51,7 +51,9 @@ export class LeadslyService {
 	 * @returns virtual assistant info$
 	 */
 	getVirtualAssistantInfo$(): Observable<VirtualAssistantInfo> {
-		return this._virtualAssistantAsyncService.getInfo$();
+		return this._virtualAssistantAsyncService
+			.getInfo$()
+			.pipe(tap((resp) => this._store.dispatch(new Leadsly.SetVirtualAssistantInfo({ virtualAssistantInfo: resp }))));
 	}
 
 	/**

@@ -11,8 +11,6 @@ import { AccountGeneralDetails } from '../models/account/general/account-general
 import { AccountSecurityDetails } from '../models/account/security/account-security-details.model';
 import { PasswordReset } from '../models/auth/password-reset.model';
 
-import { CampaignsReport } from './../models/reports/campaigns-report.model';
-
 /**
  * User async service.
  */
@@ -33,15 +31,6 @@ export class UsersAsyncService {
 	 * @param _http
 	 */
 	constructor(@Inject(BACKEND_API_URL) private _apiUrl: string, private _http: HttpClient) {}
-
-	/**
-	 * @description Gets users campaigns effectiveness report
-	 * @param userId
-	 * @returns campaigns
-	 */
-	getCampaignsEffectivenessReportsData$(userId: string): Observable<CampaignsReport> {
-		return this._http.get<CampaignsReport>(`${this._apiUrl}/users/${userId}/campaigns/reports/effectiveness`);
-	}
 
 	/**
 	 * Gets user account security details.

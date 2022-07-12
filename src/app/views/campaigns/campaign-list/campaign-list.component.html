@@ -4,7 +4,7 @@
 			<span class="main-heading">{{ 'ldsly.campaigns.title' | translate }}</span>
 		</div>
 		<div class="campaign-list__create">
-			<button mat-flat-button color="accent" (click)="_onCreateCampaignClicked()">
+			<button mat-flat-button color="accent" (click)="_onCreateClicked()">
 				{{ 'ldsly.buttons.create' | translate }}
 				<mat-icon>add</mat-icon>
 			</button>
@@ -21,10 +21,9 @@
 						<ldsly-campaign-item
 							[campaign]="campaign"
 							[breakpointState]="_breakpointStateScreenMatcher$ | async"
-							(toggleCampaign)="_onToggleCampaign($event)"
-							(deleteCampaign)="_onDeleteCampaign($event)"
-							(updateCampaign)="_onUpdateCampaign($event)"
-							(cloneCampaign)="_cloneCampaign($event, campaign)"
+							(update)="_onUpdate($event, campaign?.id)"
+							(delete)="_onDelete($event)"
+							(clone)="_onClone($event, campaign)"
 						>
 						</ldsly-campaign-item>
 					</div>

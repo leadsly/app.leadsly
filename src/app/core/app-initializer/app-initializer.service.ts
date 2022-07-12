@@ -58,6 +58,7 @@ export class AppInitializerService {
 
 							const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
 							this._log.debug('[initUserSession] Fetching connected account info for user', this, userId);
+							void lastValueFrom(this._leadslyService.getVirtualAssistantInfo$());
 							void lastValueFrom(this._leadslyService.getConnectedAccountInfo$(userId));
 						});
 				}

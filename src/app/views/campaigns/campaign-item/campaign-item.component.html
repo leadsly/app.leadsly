@@ -20,7 +20,7 @@
 							[matTooltip]="'ldsly.campaigns.tooltips.toggle-status' | translate"
 							matTooltipPosition="below"
 							[checked]="_campaign?.active"
-							(change)="_onToggleCampaignClicked($event)"
+							(change)="_onUpdateActiveClicked($event)"
 						></mat-slide-toggle>
 					</div>
 					<div class="campaign__connections-title">
@@ -29,14 +29,6 @@
 					<mat-grid-list cols="2" rowHeight="85">
 						<mat-grid-tile colspan="2" rowspan="1">
 							<div class="campaign__container-mobile">
-								<!-- <span
-									[matTooltip]="'ldsly.campaigns.tooltips.edit-daily-connections' | translate"
-									matTooltipPosition="above"
-									[style.--campaign-item-stat-title-font]="_campaignItemStatTitleFont"
-									class="campaign__stat-title-mobile"
-									>{{ 'ldsly.campaigns.daily-connections-sent' | translate }}</span
-								> -->
-								<!-- <span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats"> -->
 								<ng-container [formGroup]="_campaignForm">
 									<mat-form-field
 										[style.--campaign-item-stat-font]="_campaignStatFontSize"
@@ -48,7 +40,7 @@
 										<input
 											matInput
 											formControlName="connectionsSentDaily"
-											(blur)="_onUpdateCampaignClicked()"
+											(blur)="_onUpdateCampaignSentConnections()"
 											[value]="_campaignForm?.get('connectionsSentDaily')?.value"
 										/>
 									</mat-form-field>
@@ -102,16 +94,13 @@
 
 						<mat-grid-tile colspan="2" rowspan="1">
 							<div class="campaign__action-buttons-mobile">
-								<div>
+								<!-- Currently cloning of campaigns requires more work because of primary prospect list and campaign prospect dependencies-->
+								<!-- <div>
 									<span>
-										<mat-icon
-											[matTooltip]="'ldsly.campaigns.tooltips.clone' | translate"
-											matTooltipPosition="below"
-											(click)="_onCloneCampaignClicked()"
-											>{{ _cloneCampaignIcon }}</mat-icon
-										>
+										<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.clone' | translate" matTooltipPosition="below"
+											(click)="_onCloneCampaignClicked()">{{ _cloneCampaignIcon }}</mat-icon>
 									</span>
-								</div>
+								</div> -->
 								<div>
 									<mat-icon
 										[matTooltip]="'ldsly.campaigns.tooltips.view-notes' | translate"
@@ -139,7 +128,7 @@
 								<ldsly-notes
 									[campaignForm]="_campaignForm"
 									[textAreaHeight]="'100px'"
-									(notesUpdated)="_onUpdateCampaignClicked()"
+									(notesUpdated)="_onUpdateCampaignNotes()"
 									(notesClosedAutoSave)="_onNotesClosedAutoSave()"
 								></ldsly-notes>
 							</mat-expansion-panel>
@@ -161,7 +150,7 @@
 							[matTooltip]="'ldsly.campaigns.tooltips.toggle-status' | translate"
 							matTooltipPosition="below"
 							[checked]="_campaign?.active"
-							(change)="_onToggleCampaignClicked($event)"
+							(change)="_onUpdateActiveClicked($event)"
 						></mat-slide-toggle>
 					</div>
 					<div class="campaign-item__container">
@@ -184,8 +173,8 @@
 								<input
 									matInput
 									formControlName="connectionsSentDaily"
-									(blur)="_onUpdateCampaignClicked()"
-									(keyup.enter)="_onUpdateCampaignClicked()"
+									(blur)="_onUpdateCampaignSentConnections()"
+									(keyup.enter)="_onUpdateCampaignSentConnections()"
 									[value]="_campaignForm?.get('connectionsSentDaily')?.value"
 								/>
 							</ng-container>
@@ -220,13 +209,14 @@
 						<span [style.--campaign-item-stat-font]="_campaignStatFontSize" class="campaign--stats">{{ _campaign?.profileViews }}</span>
 					</div>
 					<mat-divider [vertical]="_verticalDivider"></mat-divider>
-					<div class="campaign-item__container">
+					<!-- Currently cloning of campaigns requires more work because of primary prospect list and campaign prospect dependencies-->
+					<!-- <div class="campaign-item__container">
 						<span>
 							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.clone' | translate" matTooltipPosition="below" (click)="_onCloneCampaignClicked()">{{
 								_cloneCampaignIcon
-							}}</mat-icon>
+								}}</mat-icon>
 						</span>
-					</div>
+					</div> -->
 					<div class="campaign-item__container">
 						<span>
 							<mat-icon [matTooltip]="'ldsly.campaigns.tooltips.delete' | translate" matTooltipPosition="below" (click)="_onDeleteCampaignClicked()">
@@ -237,7 +227,7 @@
 				</mat-card>
 			</mat-panel-description>
 		</mat-expansion-panel-header>
-		<ldsly-notes [campaignForm]="_campaignForm" (notesUpdated)="_onUpdateCampaignClicked()" (notesClosedAutoSave)="_onNotesClosedAutoSave()">
+		<ldsly-notes [campaignForm]="_campaignForm" (notesUpdated)="_onUpdateCampaignNotes()" (notesClosedAutoSave)="_onNotesClosedAutoSave()">
 		</ldsly-notes>
 	</mat-expansion-panel>
 </ng-template>

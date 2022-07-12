@@ -34,7 +34,7 @@ export class LeadslyConnectedGuard implements CanActivate {
 		return this._store.selectOnce(LeadslyState.selectIsUserConnected).pipe(
 			map((isConnected) => {
 				if (isConnected === false) {
-					this._notificationService.error('You must first link your account');
+					this._notificationService.info('You must first link your account');
 				}
 				return isConnected;
 			})
