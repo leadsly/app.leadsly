@@ -5,6 +5,7 @@ import { AuthState } from 'app/core/auth/auth.store.state';
 import { LogService } from 'app/core/logger/log.service';
 import { Campaign } from 'app/core/models/campaigns/campaign.model';
 import { GetCampaign } from 'app/core/models/campaigns/get-campaign.model';
+import { ChartDataApex } from 'app/core/models/reports/apex-charts/chart-data-apex.model';
 
 import { ChartOptionsApex } from 'app/core/models/reports/apex-charts/chart-options.apex.model';
 import { CampaignsReport } from 'app/core/models/reports/campaigns-report.model';
@@ -77,37 +78,50 @@ export class DashboardSandboxService {
 	 * @description Gets users general report
 	 */
 	getGeneralReport(): void {
-		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
-		// check if we have already fetched the general report
 		this._store
 			.selectOnce(DashboardState.selectCampaignGeneralReport)
 			.pipe(
 				switchMap((report) => {
-					return iif(
-						// if the report object has no keys
-						() => Object.keys(report).length === 0,
-						// fetch the general report
-						this._reportAsyncService.getGeneralReport$().pipe(
-							filter((resp) => resp.items.length !== 0),
-							// cache the general report
-							tap((report: CampaignsReport) => this._store.dispatch(new Dashboard.SetCampaignsGeneralReport(report))),
-							switchMap((report) =>
-								forkJoin(
-									// grab all of the campaign ids and fetch the campaigns
-									report.items.map((x) =>
-										this._campaignAsyncService
-											.getById$(x.campaignId, userId)
-											.pipe(tap((campaign) => this._store.dispatch(new CampaignsActions.Create({ campaign: campaign }))))
-									)
-								)
-							),
-							switchMap((_) => this._store.selectOnce(DashboardState.selectCampaignGeneralReport))
-						),
-						of(report)
-					);
+					return iif(() => Object.keys(report).length === 0, this._getGeneralReport$(), of(report));
 				})
 			)
 			.subscribe();
+	}
+
+	/**
+	 * @description Fetches campaigns general report.
+	 * @returns general report$
+	 */
+	private _getGeneralReport$(): Observable<{ [id: string]: ChartDataApex }> {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		return this._reportAsyncService.getGeneralReport$().pipe(
+			filter((resp) => resp.items.length !== 0),
+			tap((report: CampaignsReport) => this._store.dispatch(new Dashboard.SetCampaignsGeneralReport(report))),
+			switchMap((report) =>
+				this._getCampaignsByIds$(
+					report.items.map((x) => x.campaignId),
+					userId
+				)
+			),
+			switchMap((_) => this._store.selectOnce(DashboardState.selectCampaignGeneralReport))
+		);
+	}
+
+	/**
+	 * @description Fetches campaigns by ids.
+	 * @param ids
+	 * @param userId
+	 * @returns campaigns by ids$
+	 */
+	private _getCampaignsByIds$(ids: string[], userId: string): Observable<Campaign[]> {
+		return forkJoin(
+			// grab all of the campaign ids and fetch the campaigns
+			ids.map((campaignId) =>
+				this._campaignAsyncService
+					.getById$(campaignId, userId)
+					.pipe(tap((campaign) => this._store.dispatch(new CampaignsActions.Create({ campaign: campaign }))))
+			)
+		);
 	}
 
 	/**
