@@ -3,7 +3,7 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"leadsly-ngxs-material-starter": {
+		"leadsly-app": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
@@ -18,7 +18,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/leadsly-ngxs-material-starter/browser",
+						"outputPath": "dist/leadsly-app/browser",
 						"index": "src/index-dev.html",
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
@@ -91,26 +91,26 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "leadsly-ngxs-material-starter:build",
+						"browserTarget": "leadsly-app:build",
 						"proxyConfig": "src/proxy.conf.json"
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:production"
+							"browserTarget": "leadsly-app:build:production"
 						},
 						"hmr": {
 							"hmr": true,
-							"browserTarget": "leadsly-ngxs-material-starter:build:hmr"
+							"browserTarget": "leadsly-app:build:hmr"
 						},
 						"development": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:development"
+							"browserTarget": "leadsly-app:build:development"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "leadsly-ngxs-material-starter:build"
+						"browserTarget": "leadsly-app:build"
 					}
 				},
 				"test": {
@@ -139,18 +139,18 @@
 					"builder": "@angular-devkit/build-angular:protractor",
 					"options": {
 						"protractorConfig": "e2e/protractor.conf.js",
-						"devServerTarget": "leadsly-ngxs-material-starter:serve"
+						"devServerTarget": "leadsly-app:serve"
 					},
 					"configurations": {
 						"production": {
-							"devServerTarget": "leadsly-ngxs-material-starter:serve:production"
+							"devServerTarget": "leadsly-app:serve:production"
 						}
 					}
 				},
 				"server": {
 					"builder": "@angular-devkit/build-angular:server",
 					"options": {
-						"outputPath": "dist/leadsly-ngxs-material-starter/server",
+						"outputPath": "dist/leadsly-app/server",
 						"main": "server.ts",
 						"tsConfig": "src/tsconfig.server.json"
 					},
@@ -190,12 +190,12 @@
 					"builder": "@nguniversal/builders:ssr-dev-server",
 					"configurations": {
 						"development": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:development",
-							"serverTarget": "leadsly-ngxs-material-starter:server:development"
+							"browserTarget": "leadsly-app:build:development",
+							"serverTarget": "leadsly-app:server:development"
 						},
 						"production": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:production",
-							"serverTarget": "leadsly-ngxs-material-starter:server:production"
+							"browserTarget": "leadsly-app:build:production",
+							"serverTarget": "leadsly-app:server:production"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -207,12 +207,12 @@
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:production",
-							"serverTarget": "leadsly-ngxs-material-starter:server:production"
+							"browserTarget": "leadsly-app:build:production",
+							"serverTarget": "leadsly-app:server:production"
 						},
 						"development": {
-							"browserTarget": "leadsly-ngxs-material-starter:build:development",
-							"serverTarget": "leadsly-ngxs-material-starter:server:development"
+							"browserTarget": "leadsly-app:build:development",
+							"serverTarget": "leadsly-app:server:development"
 						}
 					},
 					"defaultConfiguration": "production"
@@ -220,7 +220,7 @@
 			}
 		}
 	},
-	"defaultProject": "leadsly-ngxs-material-starter",
+	"defaultProject": "leadsly-app",
 	"cli": {
 		"analytics": false
 	}
