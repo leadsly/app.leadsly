@@ -13,7 +13,7 @@ global['localStorage'] = localStorage;
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
 	const server = express().use(cookieParser());
-	const distFolder = join(process.cwd(), 'dist/leadsly-ngxs-material-starter/browser');
+	const distFolder = join(process.cwd(), 'dist/leadsly-app/browser');
 	const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index-dev';
 
 	// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
