@@ -11,7 +11,7 @@
     "start": "npm run hash:i18n && ng serve --open --configuration hmr",
     "start:prod": "npm run build:prod && npm run server:prod",
     "build": "ng build",
-    "build:prod": "ng build --configuration production --index=src/index.html",
+    "build:prod": "ng build --configuration production --index=src/index.html",    
     "server:prod": "node ./server-prod.js",
     "lint": "ng lint",
     "test": "ng lint && ng test --configuration=test",
