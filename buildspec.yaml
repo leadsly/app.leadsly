@@ -1,27 +1,23 @@
-version: 0.1
+version: 0.2
 
 phases:
   install:
-    commands:
-      - echo installing nodejs...
-      - curl -sL https://deb.nodesource.com/setup_14.x | bash -
-      - apt-get install -y nodejs
-      - echo installing yarn...
-      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-      - apt install --no-install-recommends yarn
+    runtime-versions:
+      nodejs: 14
   pre_build:
     commands:
-      - echo installing dependencies...
-      - npm i -g @angular/cli
+      - echo Installing source NPM dependencies...
       - npm install
+      - npm install -g @angular/cli
   build:
     commands:
-      # - echo testing...
-      # - echo building...
+      - echo Build started on `date`
       - npm run build:prod
+  post_build:
+    commands:
+      - echo Build completed on `date`
 artifacts:
   files:
     - '**/*'
-  discard-paths: no
-  base-directory: dist/leadsly-app/browser
+  base-directory: 'dist/leadsly-app/browser'
+  discard-paths: yes
