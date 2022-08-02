@@ -20,4 +20,4 @@ artifacts:
   files:
     - '**/*'
   base-directory: 'dist/leadsly-app/browser'
-  discard-paths: yes
+  discard-paths: no
