@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 14arn:aws:s3:::app.leadsly
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
@@ -19,5 +19,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: 'dist/leadsly-app/browser'
+  base-directory: 'dist/leadsly-app/'
   discard-paths: yes
