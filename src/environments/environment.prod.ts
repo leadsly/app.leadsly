@@ -1,12 +1,12 @@
 const packageJson = require('../../package.json');
 
 export const environment = {
-	appName: 'Leadsly Ngxs Material Starter',
+	appName: 'Leadsly',
 	hmr: false,
 	envName: 'PROD',
 	production: true,
 	backend: {
-		apiUrl: '/api'
+		apiUrl: 'https://appserver.leadsly.io/api'
 	},
 	test: false,
 	i18nPrefix: '',
