@@ -21,4 +21,3 @@ artifacts:
     - '**/*'
   base-directory: 'dist/leadsly-app/browser'
   discard-paths: no
-  s3-prefix: leadsly
