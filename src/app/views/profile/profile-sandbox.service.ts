@@ -8,6 +8,8 @@ import { ProblemDetailsError } from 'app/core/error-handler/problem-details-erro
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { EmailChallengePinResult } from 'app/core/models/profile/email-challenge-pin-result.model';
+import { EmailChallengePin } from 'app/core/models/profile/email-challenge-pin.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
@@ -57,6 +59,11 @@ export class ProfileSandboxService {
 	 * @description Selects enter two factor auth result.
 	 */
 	@Select(LeadslyState.selectTwoFactorAuthResult) twoFactorAuthResult$: Observable<TwoFactorAuthResult>;
+
+	/**
+	 * @description Selects email challenge pin result.
+	 */
+	@Select(LeadslyState.selectEmailChallengePinResult) emailChallengePinResult$: Observable<EmailChallengePinResult>;
 
 	/**
 	 * Creates an instance of profile sandbox service.
@@ -151,6 +158,24 @@ export class ProfileSandboxService {
 				filter((val) => val !== undefined),
 				switchMap((result: TwoFactorAuthResult) => this._leadslyService.checkEnterTwoFactorAuthResult$(userId, result)),
 				tap((resp: TwoFactorAuthResult) => this._store.dispatch(new Leadsly.SetTwoFactorAuthResult({ twoFactorAuthResult: resp })))
+			)
+			.subscribe();
+	}
+
+	/**
+	 * @description Enters email challenge pin.
+	 * @param model
+	 * @returns email challenge pin
+	 */
+	enterEmailChallengePin(model: EmailChallengePin): void {
+		const userId = this._store.selectSnapshot(AuthState.selectCurrentUserId);
+		this._leadslyService
+			.enterEmailChallengePin$(userId, model)
+			.pipe(
+				startWith(this._notificationService.info('Sending Credentials. Please wait.')),
+				filter((val) => val !== undefined),
+				switchMap((result: EmailChallengePinResult) => this._leadslyService.checkEmailChallengePinResult$(userId, result)),
+				tap((resp: EmailChallengePinResult) => this._store.dispatch(new Leadsly.SetEmailChallengePinResult({ emailChallengePinResult: resp })))
 			)
 			.subscribe();
 	}

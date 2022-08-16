@@ -4,6 +4,8 @@ import { LogService } from 'app/core/logger/log.service';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { EmailChallengePinResult } from 'app/core/models/profile/email-challenge-pin-result.model';
+import { EmailPinChallenge } from 'app/core/models/profile/email-challenge-pin.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
 import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
@@ -51,6 +53,19 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	_twoFactorAuthResult: TwoFactorAuthResult;
 
 	/**
+	 * @description Email challenge pin result
+	 */
+	@Input() set emailChallengePinResult(value: EmailChallengePinResult) {
+		this._log.debug('emailChallengePinResult setter executed', this, value);
+		this._emailChallengePinResult = value;
+		if (value) {
+			this._inProgress = false;
+		}
+	}
+
+	_emailChallengePinResult: EmailChallengePinResult;
+
+	/**
 	 * @description Sets connect linked in account result.
 	 */
 	@Input() set connectLinkedInAccountResult(value: ConnectLinkedInAccountResult) {
@@ -75,6 +90,17 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	}
 
 	/**
+	 * @description Gets whether security pin is required.
+	 */
+	get _isEmailPinChallenge(): boolean {
+		return (
+			this._connectLinkedInAccountResult &&
+			this._connectLinkedInAccountResult?.emailPinChallenge &&
+			!this._connectLinkedInAccountResult?.unexpectedErrorOccured
+		);
+	}
+
+	/**
 	 * @description Event emitter when user clicks to link their account to virtual assistant.
 	 */
 	@Output() connect = new EventEmitter<LinkAccount>();
@@ -83,6 +109,11 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	 * @description Event emitter when user enters in their two factor auth code.
 	 */
 	@Output() twoFactorCodeEntered = new EventEmitter<TwoFactorAuth>();
+
+	/**
+	 * @description Event emitter when user enters in their email challenge pin.
+	 */
+	@Output() emailPinChallengeCodeEntered = new EventEmitter<EmailPinChallenge>();
 
 	/**
 	 * Button spinner diameter.
@@ -121,6 +152,19 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	}
 
 	/**
+	 * @description Determines which submit handler should be called.
+	 */
+	_onSubmitHandler(): void {
+		if (this._twoFactorAuthResult) {
+			this._onSubmitTwoAuthCode();
+		} else if (this._isEmailPinChallenge) {
+			this._onSubmitEmailChallengePin();
+		} else {
+			this._onSubmit();
+		}
+	}
+
+	/**
 	 * @description Event handler when user clicks to link their account to virtual assistant.
 	 */
 	_onSubmit(): void {
@@ -140,6 +184,19 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 			username: this._form.get('username').value as string
 		};
 		this.twoFactorCodeEntered.emit(code);
+	}
+
+	/**
+	 * @description Event handler when user clicks to submit email pin challenge code.
+	 */
+	_onSubmitEmailChallengePin(): void {
+		this._log.debug('_onSubmitEmailChallengePin', this, this._form.value);
+		this._inProgress = true;
+		const pin: EmailPinChallenge = {
+			pin: this._form.get('emailChallengePin').value as string,
+			username: this._form.get('username').value as string
+		};
+		this.emailPinChallengeCodeEntered.emit(pin);
 	}
 
 	/**
@@ -176,6 +233,19 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 		}
 		if (this._form.get('code').hasError('invalidOrExpiredCode')) {
 			return 'Invalid or expired code';
+		}
+	}
+
+	/**
+	 * @description Gets email pin challenge error messages.
+	 * @returns email pin challenge error messages
+	 */
+	_getEmailPinChallengeErrorMessages(): string {
+		if (this._form.get('emailChallengePin').dirty && this._form.get('emailChallengePin').hasError('required')) {
+			return 'You must enter a value';
+		}
+		if (this._form.get('emailChallengePin').hasError('invalidOrExpiredPin')) {
+			return 'Invalid or expired pin';
 		}
 	}
 }

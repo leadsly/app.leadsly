@@ -29,6 +29,8 @@
 		(connect)="_onConnectToVirtualAssistant($event)"
 		(twoFactorCodeEntered)="_onTwoFactorAuthCodeEntered($event)"
 		[twoFactorAuthResult]="_twoFactorAuthResult"
+		(emailPinChallengeCodeEntered)="_onEmailChallengePinEntered($event)"
+		[emailChallengePinResult]="_emailChallengePinResult"
 	>
 	</ldsly-link-account>
 </ng-template>

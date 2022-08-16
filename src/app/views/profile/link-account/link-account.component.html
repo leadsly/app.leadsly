@@ -1,6 +1,6 @@
 <div>
 	<div>
-		<form [formGroup]="_form" (ngSubmit)="_isTwoFactorAuthRequired ? _onSubmitTwoAuthCode() : _onSubmit()">
+		<form [formGroup]="_form" (ngSubmit)="_onSubmitHandler()">
 			<div>
 				<div>
 					<mat-form-field appearance="standard">
@@ -22,6 +22,14 @@
 						<mat-label>{{ 'ldsly.profile.link-account.labels.two-factor-auth' | translate }}</mat-label>
 						<input matInput formControlName="code" required />
 						<mat-error *ngIf="_form?.get('code').invalid">{{ _getTwoFactorAuthErrorMessages() }}</mat-error>
+					</mat-form-field>
+				</div>
+
+				<div *ngIf="_isEmailPinChallenge">
+					<mat-form-field appearance="standard">
+						<mat-label>{{ 'ldsly.profile.link-account.labels.two-factor-auth' | translate }}</mat-label>
+						<input matInput formControlName="emailChallengePin" required />
+						<mat-error *ngIf="_form?.get('emailChallengePin').invalid">{{ _getEmailPinChallengeErrorMessages() }}</mat-error>
 					</mat-form-field>
 				</div>
 			</div>

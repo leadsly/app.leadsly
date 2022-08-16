@@ -5,6 +5,7 @@ import produce from 'immer';
 import { ConnectedInfo } from './../models/connected-info.model';
 import { VirtualAssistantInfo } from './../models/profile/virtual-assistant-info.model';
 
+import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
 import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { TimeZone } from '../models/time-zone.model';
 import { LogService } from './../logger/log.service';
@@ -121,6 +122,16 @@ export class LeadslyState {
 	@Selector([LEADSLY_STATE_TOKEN])
 	static selectTwoFactorAuthResult(state: LeadslyStateModel): TwoFactorAuthResult {
 		return state.twoFactorAuthResult;
+	}
+
+	/**
+	 * @description Selects email challenge pin result.
+	 * @param state
+	 * @returns email challenge pin result
+	 */
+	@Selector([LEADSLY_STATE_TOKEN])
+	static selectEmailChallengePinResult(state: LeadslyStateModel): EmailChallengePinResult {
+		return state.emailChallengePinResult;
 	}
 
 	/**

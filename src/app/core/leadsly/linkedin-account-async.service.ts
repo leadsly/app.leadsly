@@ -7,6 +7,8 @@ import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { Observable } from 'rxjs';
 import { BACKEND_API_URL } from '../api-url-injection-token';
 import { ConnectedInfo } from '../models/connected-info.model';
+import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
+import { EmailChallengePin } from '../models/profile/email-challenge-pin.model';
 
 /**
  * @description LinkedIn account async service.
@@ -54,6 +56,18 @@ export class LinkedInAccountAsyncService {
 	 */
 	enterTwoFactorAuth$(userId: string, model: TwoFactorAuth): Observable<TwoFactorAuthResult> {
 		return this._http.post<TwoFactorAuthResult>(`${this._apiUrl}/linkedin-accounts/${userId}/2fa`, JSON.stringify(model), {
+			headers: this._headers
+		});
+	}
+
+	/**
+	 * @description Enters email challenge pin.
+	 * @param userId
+	 * @param model
+	 * @returns email challenge pin result
+	 */
+	enterEmailChallengePin$(userId: string, model: EmailChallengePin): Observable<EmailChallengePinResult> {
+		return this._http.post<EmailChallengePinResult>(`${this._apiUrl}/linkedin-accounts/${userId}/email-challenge-pin`, JSON.stringify(model), {
 			headers: this._headers
 		});
 	}

@@ -5,6 +5,8 @@ import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { EmailChallengePinResult } from 'app/core/models/profile/email-challenge-pin-result.model';
+import { EmailChallengePin } from 'app/core/models/profile/email-challenge-pin.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
@@ -94,6 +96,16 @@ export class LinkedAccountOverviewComponent {
 	_twoFactorAuthResult: TwoFactorAuthResult;
 
 	/**
+	 * @description Email challenge pin result.
+	 */
+	@Input() set emailChallengePinResult(value: EmailChallengePinResult) {
+		this._log.debug('emailChallengePinResult setter executed', this, value);
+		this._emailChallengePinResult = value;
+	}
+
+	_emailChallengePinResult: EmailChallengePinResult;
+
+	/**
 	 * @description Event emitter when user clicks to link their account to virtual assistant.
 	 */
 	@Output() connect = new EventEmitter<LinkAccount>();
@@ -107,6 +119,11 @@ export class LinkedAccountOverviewComponent {
 	 * @description Event emitter when user enters in their two factor auth code.
 	 */
 	@Output() twoFactorCodeEntered = new EventEmitter<TwoFactorAuth>();
+
+	/**
+	 * @description Event emitter when user enters in their email challenge pin.
+	 */
+	@Output() emailChallengePinEntered = new EventEmitter<EmailChallengePin>();
 
 	/**
 	 * Creates an instance of linked account overview component.
@@ -138,5 +155,14 @@ export class LinkedAccountOverviewComponent {
 	_onTwoFactorAuthCodeEntered(event: TwoFactorAuth): void {
 		this._log.debug('_onTwoFactorAuthCodeEntered event handler fired.', this, event);
 		this.twoFactorCodeEntered.emit(event);
+	}
+
+	/**
+	 * @description Event handler when user enters in their email challenge pin.
+	 * @param event
+	 */
+	_onEmailChallengePinEntered(event: EmailChallengePin): void {
+		this._log.debug('_onEmailChallengePinEntered event handler fired.', this, event);
+		this.emailChallengePinEntered.emit(event);
 	}
 }

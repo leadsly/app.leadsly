@@ -13,13 +13,20 @@ export interface ConnectLinkedInAccountResult {
 	invalidPassword: boolean;
 
 	/**
+	 * @description Whether user's signin attempt was challenged with security pin sent to their email.
+	 */
+	emailPinChallenge: boolean;
+
+	/**
 	 * @description Whether two factor auth is required.
 	 */
 	twoFactorAuthRequired: boolean;
+
 	/**
 	 * @description Type of two fator auth required.
 	 */
-	TwoFactorAuthType: string;
+	twoFactorAuthType: string;
+
 	/**
 	 * @description Whether an unexpected error has occured.
 	 */

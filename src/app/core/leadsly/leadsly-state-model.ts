@@ -1,5 +1,6 @@
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { ConnectedInfo } from '../models/connected-info.model';
+import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
 import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { VirtualAssistantInfo } from '../models/profile/virtual-assistant-info.model';
 import { TimeZone } from '../models/time-zone.model';
@@ -32,4 +33,9 @@ export interface LeadslyStateModel {
 	 * @description Enter two factor auth result.
 	 */
 	twoFactorAuthResult?: TwoFactorAuthResult;
+
+	/**
+	 * @description Email challenge pin result.
+	 */
+	emailChallengePinResult?: EmailChallengePinResult;
 }

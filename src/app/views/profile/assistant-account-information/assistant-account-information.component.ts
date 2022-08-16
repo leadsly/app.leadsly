@@ -6,6 +6,8 @@ import { ConnectedInfo } from 'app/core/models/connected-info.model';
 import { InternalServerErrorDetails } from 'app/core/models/internal-server-error-details.model';
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
+import { EmailChallengePinResult } from 'app/core/models/profile/email-challenge-pin-result.model';
+import { EmailChallengePin } from 'app/core/models/profile/email-challenge-pin.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { SetupVirtualAssistant } from 'app/core/models/profile/setup-virtual-assistant.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
@@ -81,6 +83,11 @@ export class AssistantAccountInformationComponent implements OnInit {
 	_twoFactorAuthResult$: Observable<TwoFactorAuthResult>;
 
 	/**
+	 * @description Result of the email challenge pin operation.
+	 */
+	_emailChallengePinResult$: Observable<EmailChallengePinResult>;
+
+	/**
 	 * Emitted when server responds with 40X error.
 	 */
 	private _problemDetails$: Observable<ProblemDetails>;
@@ -111,6 +118,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 		this._sb.getVirtualAssistantInfo$();
 		this._setConnectLinkedInAccountResultStream();
 		this._setTwoFactorAuthResultStream();
+		this._setEmailChallengePinResultStream();
 		this._initForms();
 	}
 
@@ -150,6 +158,15 @@ export class AssistantAccountInformationComponent implements OnInit {
 	}
 
 	/**
+	 * @description Event handler when user enters email challenge pin.
+	 * @param event
+	 */
+	_emailChallengePinEntered(event: EmailChallengePin): void {
+		this._log.debug('_emailChallengePinEntered event handler fired', this, event);
+		this._sb.enterTwoFactorAuth(event);
+	}
+
+	/**
 	 * @description Event handler when user requests to delete virtual assistant.
 	 */
 	_onDeleteVirtualAssistantRequested(): void {
@@ -168,6 +185,20 @@ export class AssistantAccountInformationComponent implements OnInit {
 				return !!resp;
 			}),
 			tap((resp) => this._updateFormAfterTwoFactorAuth(resp))
+		);
+	}
+
+	/**
+	 * @description Sets email challenge pin result stream.
+	 */
+	private _setEmailChallengePinResultStream(): void {
+		this._log.debug('_setEmailChallengePinResultStream', this);
+		this._emailChallengePinResult$ = this._sb.emailChallengePinResult$.pipe(
+			filter((resp) => {
+				this._log.debug('_setEmailChallengePinResultStream filter', this, resp);
+				return !!resp;
+			}),
+			tap((resp) => this._updateFormAfterEmailChallengePin(resp))
 		);
 	}
 
@@ -192,7 +223,11 @@ export class AssistantAccountInformationComponent implements OnInit {
 	private _updateFormAfterConnect(resp: ConnectLinkedInAccountResult): void {
 		this._log.debug('_updateFormAfterConnect', this, resp);
 		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
-			this._connectForm.addControl('code', this._fb.control('', LdslyValidators.required));
+			this._addCodeControl();
+		}
+
+		if (resp.emailPinChallenge && !resp.unexpectedErrorOccured) {
+			this._connectForm.addControl('emailChallengePin', this._fb.control('', LdslyValidators.required));
 		}
 
 		if (resp.invalidEmail && !resp.unexpectedErrorOccured) {
@@ -209,6 +244,13 @@ export class AssistantAccountInformationComponent implements OnInit {
 	}
 
 	/**
+	 * @description Adds code control to connectForm.
+	 */
+	private _addCodeControl(): void {
+		this._connectForm.addControl('code', this._fb.control('', LdslyValidators.required));
+	}
+
+	/**
 	 * @description Updates form after two factor auth operation.
 	 * @param resp
 	 */
@@ -218,6 +260,24 @@ export class AssistantAccountInformationComponent implements OnInit {
 			this._connectForm.get('code').setErrors({
 				invalidOrExpiredCode: true
 			});
+		}
+	}
+
+	/**
+	 * @description Updates form after email challenge pin operation.
+	 * @param resp
+	 */
+	private _updateFormAfterEmailChallengePin(resp: EmailChallengePinResult): void {
+		this._log.debug('_updateFormAfterEmailChallengePin', this, resp);
+		if (resp.invalidOrExpiredPin && !resp.unexpectedErrorOccured) {
+			this._connectForm.get('emailChallengePin').setErrors({
+				invalidOrExpiredPin: true
+			});
+		}
+
+		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
+			this._addCodeControl();
+			this._connectForm.removeControl('emailChallengePin');
 		}
 	}
 

@@ -12,6 +12,8 @@ import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-
 import { VirtualAssistant } from 'app/core/models/profile/virtual-assistant.model';
 import { map, Observable, of, tap } from 'rxjs';
 import { LogService } from '../logger/log.service';
+import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
+import { EmailChallengePin } from '../models/profile/email-challenge-pin.model';
 import * as Leadsly from './leadsly.store.actions';
 import { LinkedInAccountAsyncService } from './linkedin-account-async.service';
 import { VirtualAssistantAsyncService } from './virtual-assistant-async.service';
@@ -120,6 +122,31 @@ export class LeadslyService {
 	}
 
 	/**
+	 * @description Checks enter email challenge pin result.
+	 * @param result
+	 * @returns enter email challenge pin result
+	 */
+	checkEmailChallengePinResult$(userId: string, result: EmailChallengePinResult): Observable<EmailChallengePinResult> {
+		this._log.debug('checkEmailChallengePinResult$', this, result);
+		if (
+			result.failedToEnterPin === false &&
+			result.invalidOrExpiredPin === false &&
+			result.unexpectedErrorOccured === false &&
+			result.twoFactorAuthRequired === false
+		) {
+			this._log.debug('checkEmailChallengePinResult$. Fetching ConnectedInfo', this);
+			return this.getConnectedAccountInfo$(userId).pipe(
+				tap((resp: ConnectedInfo) => this._store.dispatch(new Leadsly.SetConnectedInfo({ connectedInfo: resp }))),
+				tap((_) => this._notificationService.success('LinkedIn account connected successfully.')),
+				map((_) => result)
+			);
+		} else {
+			this._log.debug('checkEmailChallengePinResult$. Returning result: ', this, result);
+			return of(result);
+		}
+	}
+
+	/**
 	 * @description Connects user's account to linked in.
 	 * @param userId
 	 * @param model
@@ -137,5 +164,15 @@ export class LeadslyService {
 	 */
 	enterTwoFactorAuth$(userId: string, model: TwoFactorAuth): Observable<TwoFactorAuthResult> {
 		return this._linkedInAccountAsyncService.enterTwoFactorAuth$(userId, model);
+	}
+
+	/**
+	 * @description Enters two factor auth code.
+	 * @param userId
+	 * @param model
+	 * @returns two factor auth$
+	 */
+	enterEmailChallengePin$(userId: string, model: EmailChallengePin): Observable<EmailChallengePinResult> {
+		return this._linkedInAccountAsyncService.enterEmailChallengePin$(userId, model);
 	}
 }

@@ -1,6 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { ConnectedInfo } from '../models/connected-info.model';
 import { ConnectLinkedInAccountResult } from '../models/profile/connect-linked-in-account-result.model';
+import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
 import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { VirtualAssistantInfo } from '../models/profile/virtual-assistant-info.model';
 import { VirtualAssistant } from '../models/profile/virtual-assistant.model';
@@ -68,6 +69,22 @@ export class SetTwoFactorAuthResult {
 	 * @param payload
 	 */
 	constructor(public payload: { twoFactorAuthResult: TwoFactorAuthResult }) {}
+}
+
+/**
+ * @description Set email challenge pin result.
+ */
+export class SetEmailChallengePinResult {
+	/**
+	 * @description Type of action.
+	 */
+	static readonly type = '[Leadsly] Set Email Challenge Pin Result';
+
+	/**
+	 * Creates an instance of set email challenge pin result.
+	 * @param payload
+	 */
+	constructor(public payload: { emailChallengePinResult: EmailChallengePinResult }) {}
 }
 
 /**

@@ -23,6 +23,8 @@
 			(disconnect)="_onDisconnectRequested()"
 			(twoFactorCodeEntered)="_onTwoFactorAuthCodeEntered($event)"
 			[twoFactorAuthResult]="_twoFactorAuthResult$ | async"
+			(emailChallengePinEntered)="_emailChallengePinEntered($event)"
+			[emailChallengePinResult]="_emailChallengePinResult$ | async"
 		>
 		</ldsly-linked-account-overview>
 	</div>
