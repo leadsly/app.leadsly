@@ -163,7 +163,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	_emailChallengePinEntered(event: EmailChallengePin): void {
 		this._log.debug('_emailChallengePinEntered event handler fired', this, event);
-		this._sb.enterTwoFactorAuth(event);
+		this._sb.enterEmailChallengePin(event);
 	}
 
 	/**

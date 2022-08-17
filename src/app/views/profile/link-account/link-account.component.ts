@@ -5,7 +5,7 @@ import { InternalServerErrorDetails } from 'app/core/models/internal-server-erro
 import { ProblemDetails } from 'app/core/models/problem-details.model';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import { EmailChallengePinResult } from 'app/core/models/profile/email-challenge-pin-result.model';
-import { EmailPinChallenge } from 'app/core/models/profile/email-challenge-pin.model';
+import { EmailChallengePin } from 'app/core/models/profile/email-challenge-pin.model';
 import { LinkAccount } from 'app/core/models/profile/link-account.model';
 import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-result.model';
 import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
@@ -113,7 +113,7 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	/**
 	 * @description Event emitter when user enters in their email challenge pin.
 	 */
-	@Output() emailPinChallengeCodeEntered = new EventEmitter<EmailPinChallenge>();
+	@Output() emailPinChallengeCodeEntered = new EventEmitter<EmailChallengePin>();
 
 	/**
 	 * Button spinner diameter.
@@ -192,7 +192,7 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	_onSubmitEmailChallengePin(): void {
 		this._log.debug('_onSubmitEmailChallengePin', this, this._form.value);
 		this._inProgress = true;
-		const pin: EmailPinChallenge = {
+		const pin: EmailChallengePin = {
 			pin: this._form.get('emailChallengePin').value as string,
 			username: this._form.get('username').value as string
 		};
