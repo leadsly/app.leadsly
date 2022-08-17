@@ -294,6 +294,7 @@
 			"link-account": {
 				"labels": {
 					"two-factor-auth": "Two Factor Auth Code",
+					"email-challenge-pin": "Email Challenge Pin",
 					"email": "LinkedIn Email",
 					"password": "LinkedIn Password"
 				}

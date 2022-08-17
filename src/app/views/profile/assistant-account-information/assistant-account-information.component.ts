@@ -256,7 +256,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _updateFormAfterTwoFactorAuth(resp: TwoFactorAuthResult): void {
 		this._log.debug('_updateFormAfterTwoFactorAuth', this, resp);
-		if (resp.invalidOrExpiredCode) {
+		if (resp.invalidOrExpiredCode && !resp.unexpectedErrorOccured) {
+			this._log.debug('_updateFormAfterTwoFactorAuth invalid or expired code', this);
 			this._connectForm.get('code').setErrors({
 				invalidOrExpiredCode: true
 			});
@@ -270,6 +271,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	private _updateFormAfterEmailChallengePin(resp: EmailChallengePinResult): void {
 		this._log.debug('_updateFormAfterEmailChallengePin', this, resp);
 		if (resp.invalidOrExpiredPin && !resp.unexpectedErrorOccured) {
+			this._log.debug('_updateFormAfterEmailChallengePin invalid or expired pin', this);
 			this._connectForm.get('emailChallengePin').setErrors({
 				invalidOrExpiredPin: true
 			});

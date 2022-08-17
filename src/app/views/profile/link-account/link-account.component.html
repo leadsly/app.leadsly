@@ -27,7 +27,7 @@
 
 				<div *ngIf="_isEmailPinChallenge">
 					<mat-form-field appearance="standard">
-						<mat-label>{{ 'ldsly.profile.link-account.labels.two-factor-auth' | translate }}</mat-label>
+						<mat-label>{{ 'ldsly.profile.link-account.labels.email-challenge-pin' | translate }}</mat-label>
 						<input matInput formControlName="emailChallengePin" required />
 						<mat-error *ngIf="_form?.get('emailChallengePin').invalid">{{ _getEmailPinChallengeErrorMessages() }}</mat-error>
 					</mat-form-field>
