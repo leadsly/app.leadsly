@@ -14,6 +14,7 @@ import { TwoFactorAuthResult } from 'app/core/models/profile/two-factor-auth-res
 import { TwoFactorAuth } from 'app/core/models/profile/two-factor-auth.model';
 import { VirtualAssistantInfo } from 'app/core/models/profile/virtual-assistant-info.model';
 import { TimeZone } from 'app/core/models/time-zone.model';
+import { LDSLY_GLOBAL_CONTENT_MARGIN } from 'app/shared/global-settings/global-settings';
 import { filter, map, merge, Observable, tap } from 'rxjs';
 import { ProfileSandboxService } from '../profile-sandbox.service';
 
@@ -86,6 +87,11 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 * @description Result of the email challenge pin operation.
 	 */
 	_emailChallengePinResult$: Observable<EmailChallengePinResult>;
+
+	/**
+	 * Margin at the bottom of this page
+	 */
+	readonly _contentMarginBottom = LDSLY_GLOBAL_CONTENT_MARGIN;
 
 	/**
 	 * Emitted when server responds with 40X error.
@@ -228,6 +234,8 @@ export class AssistantAccountInformationComponent implements OnInit {
 
 		if (resp.emailPinChallenge && !resp.unexpectedErrorOccured) {
 			this._connectForm.addControl('emailChallengePin', this._fb.control('', LdslyValidators.required));
+			// used to trigger message display
+			this._connectForm.get('emailChallengePin').markAsDirty();
 		}
 
 		if (resp.invalidEmail && !resp.unexpectedErrorOccured) {
@@ -248,6 +256,7 @@ export class AssistantAccountInformationComponent implements OnInit {
 	 */
 	private _addCodeControl(): void {
 		this._connectForm.addControl('code', this._fb.control('', LdslyValidators.required));
+		this._connectForm.get('code').markAsDirty();
 	}
 
 	/**
@@ -260,6 +269,20 @@ export class AssistantAccountInformationComponent implements OnInit {
 			this._log.debug('_updateFormAfterTwoFactorAuth invalid or expired code', this);
 			this._connectForm.get('code').setErrors({
 				invalidOrExpiredCode: true
+			});
+		}
+
+		if (resp.failedToEnterCode) {
+			this._log.debug('_updateFormAfterTwoFactorAuth failed to enter code', this);
+			this._connectForm.get('code').setErrors({
+				failedToEnterCode: true
+			});
+		}
+
+		if (resp.unexpectedErrorOccured) {
+			this._log.debug('_updateFormAfterTwoFactorAuth unexpected error occured', this);
+			this._connectForm.get('code').setErrors({
+				unexpectedErrorOccured: true
 			});
 		}
 	}
@@ -277,9 +300,23 @@ export class AssistantAccountInformationComponent implements OnInit {
 			});
 		}
 
+		if (resp.failedToEnterPin) {
+			this._log.debug('_updateFormAfterEmailChallengePin failed to enter pin', this);
+			this._connectForm.get('emailChallengePin').setErrors({
+				failedToEnterPin: true
+			});
+		}
+
 		if (resp.twoFactorAuthRequired && !resp.unexpectedErrorOccured) {
 			this._addCodeControl();
 			this._connectForm.removeControl('emailChallengePin');
+		}
+
+		if (resp.unexpectedErrorOccured) {
+			this._log.debug('_updateFormAfterEmailChallengePin unexpected error occured', this);
+			this._connectForm.get('emailChallengePin').setErrors({
+				unexpectedErrorOccured: true
+			});
 		}
 	}
 

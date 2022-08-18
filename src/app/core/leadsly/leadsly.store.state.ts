@@ -3,9 +3,9 @@ import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { ConnectLinkedInAccountResult } from 'app/core/models/profile/connect-linked-in-account-result.model';
 import produce from 'immer';
 import { ConnectedInfo } from './../models/connected-info.model';
+import { EmailChallengePinResult } from './../models/profile/email-challenge-pin-result.model';
 import { VirtualAssistantInfo } from './../models/profile/virtual-assistant-info.model';
 
-import { EmailChallengePinResult } from '../models/profile/email-challenge-pin-result.model';
 import { TwoFactorAuthResult } from '../models/profile/two-factor-auth-result.model';
 import { TimeZone } from '../models/time-zone.model';
 import { LogService } from './../logger/log.service';
@@ -189,7 +189,7 @@ export class LeadslyState {
 	}
 
 	/**
-	 * @description Event handler when user enters two factor auth code.
+	 * @description Event handler for the result after user enters two factor auth code.
 	 * @param ctx
 	 * @param action
 	 */
@@ -199,6 +199,22 @@ export class LeadslyState {
 		ctx.setState(
 			produce((draft: LeadslyStateModel) => {
 				draft.twoFactorAuthResult = action.payload.twoFactorAuthResult;
+				return draft;
+			})
+		);
+	}
+
+	/**
+	 * @description Event handler for the result after user enters email challenge pin.
+	 * @param ctx
+	 * @param action
+	 */
+	@Action(Leadsly.SetEmailChallengePinResult)
+	setEmailChallengePinResult(ctx: StateContext<LeadslyStateModel>, action: Leadsly.SetEmailChallengePinResult): void {
+		this._log.info('setEmailChallengePinResult action handler fired.', this, action);
+		ctx.setState(
+			produce((draft: LeadslyStateModel) => {
+				draft.emailChallengePinResult = action.payload.emailChallengePinResult;
 				return draft;
 			})
 		);

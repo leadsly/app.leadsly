@@ -62,7 +62,7 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 			this._inProgress = false;
 		}
 	}
-
+	n;
 	_emailChallengePinResult: EmailChallengePinResult;
 
 	/**
@@ -229,10 +229,18 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	 */
 	_getTwoFactorAuthErrorMessages(): string {
 		if (this._form.get('code').dirty && this._form.get('code').hasError('required')) {
-			return 'You must enter a value';
+			return 'Please provide 2FA code';
 		}
 		if (this._form.get('code').hasError('invalidOrExpiredCode')) {
 			return 'Invalid or expired code';
+		}
+
+		if (this._form.get('code').dirty && this._form.get('code').hasError('failedToEnterCode')) {
+			return 'Failed to enter 2fa code. Please try again.';
+		}
+
+		if (this._form.get('code').dirty && this._form.get('code').hasError('unexpectedErrorOccured')) {
+			return 'Something unexpected happened. Please try again.';
 		}
 	}
 
@@ -242,10 +250,19 @@ export class LinkAccountComponent implements OnInit, OnDestroy {
 	 */
 	_getEmailPinChallengeErrorMessages(): string {
 		if (this._form.get('emailChallengePin').dirty && this._form.get('emailChallengePin').hasError('required')) {
-			return 'You must enter a value';
+			return 'Please provide security pin';
 		}
-		if (this._form.get('emailChallengePin').hasError('invalidOrExpiredPin')) {
+
+		if (this._form.get('emailChallengePin').dirty && this._form.get('emailChallengePin').hasError('invalidOrExpiredPin')) {
 			return 'Invalid or expired pin';
+		}
+
+		if (this._form.get('emailChallengePin').dirty && this._form.get('emailChallengePin').hasError('failedToEnterPin')) {
+			return 'Failed to enter pin. Please try again.';
+		}
+
+		if (this._form.get('emailChallengePin').dirty && this._form.get('emailChallengePin').hasError('unexpectedErrorOccured')) {
+			return 'Something unexpected happened. Please try again.';
 		}
 	}
 }

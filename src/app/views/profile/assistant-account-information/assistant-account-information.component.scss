@@ -1,9 +1,11 @@
 .assistant-information__container {
 	display: flex;
 	flex-flow: column;
-	height: 120px;
+	height: 100%;
+	margin-bottom: var(--content-margin);
 
 	.assistant-information__assistant-overview {
+		margin-bottom: 18px;
 		flex: 1 1 auto;
 	}
 
