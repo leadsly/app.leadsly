@@ -26,7 +26,7 @@ export class CampaignsHelperService {
 				}
 			},
 			messages: campaign.messages.map((msg, i) => {
-				msg.order = i + 1;
+				msg.order = i;
 				return msg;
 			}),
 			connectedAccount: connectedAccount,
